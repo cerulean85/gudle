@@ -5,3 +5,6 @@ package net.techpda.gudle
 //    BLUE(R.string.two, R.layout.layout_two),
 //    GREEN(R.string.three, R.layout.layout_three)
 //}
+
+data class Movie(var title: String, var year: Int, var image: String, var color: Int)
+data class Model(val titleResId: Int, val layoutResId: Int)

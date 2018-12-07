@@ -11,25 +11,25 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 import android.widget.FrameLayout;
 
-public class FullscreenableChromeClient extends WebChromeClient {
+public class JCFullscreenableChromeClient extends WebChromeClient {
     private Activity mActivity = null;
 
     private View mCustomView;
     private WebChromeClient.CustomViewCallback mCustomViewCallback;
     private int mOriginalOrientation;
-
     private FrameLayout mFullscreenContainer;
-
     private static final FrameLayout.LayoutParams COVER_SCREEN_PARAMS = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-    public FullscreenableChromeClient(Activity activity) {
+    public JCFullscreenableChromeClient(Activity activity) {
         this.mActivity = activity;
     }
 
     @Override
     public void onShowCustomView(View view, CustomViewCallback callback) {
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             if (mCustomView != null) {
                 callback.onCustomViewHidden();
@@ -42,9 +42,11 @@ public class FullscreenableChromeClient extends WebChromeClient {
             mFullscreenContainer.addView(view, COVER_SCREEN_PARAMS);
             decor.addView(mFullscreenContainer, COVER_SCREEN_PARAMS);
             mCustomView = view;
-//            setFullscreen(true);
+            setFullscreen(true);
             mCustomViewCallback = callback;
-            mActivity.setRequestedOrientation(mOriginalOrientation);
+
+            //여기가 핵심! 전체화면 누르면 랜드스케이프로 변형
+            mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         }
 
@@ -63,16 +65,18 @@ public class FullscreenableChromeClient extends WebChromeClient {
             return;
         }
 
-//        setFullscreen(false);
+        setFullscreen(false);
         FrameLayout decor = (FrameLayout) mActivity.getWindow().getDecorView();
         decor.removeView(mFullscreenContainer);
         mFullscreenContainer = null;
         mCustomView = null;
         mCustomViewCallback.onCustomViewHidden();
         mActivity.setRequestedOrientation(mOriginalOrientation);
+
     }
 
     private void setFullscreen(boolean enabled) {
+
         Window win = mActivity.getWindow();
         WindowManager.LayoutParams winParams = win.getAttributes();
         final int bits = WindowManager.LayoutParams.FLAG_FULLSCREEN;
@@ -92,7 +96,6 @@ public class FullscreenableChromeClient extends WebChromeClient {
             super(ctx);
             setBackgroundColor(ContextCompat.getColor(ctx, android.R.color.black));
         }
-
         @Override
         public boolean onTouchEvent(MotionEvent evt) {
             return true;
