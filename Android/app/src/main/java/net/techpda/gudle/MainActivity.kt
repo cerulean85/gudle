@@ -18,22 +18,30 @@ import android.webkit.WebViewClient
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
+import com.github.kittinunf.fuel.core.FuelManager
+
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.android.extension.responseJson
-import com.github.kittinunf.fuel.core.FuelManager
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.google.gson.reflect.TypeToken
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.viewPager
+import org.json.JSONArray
+import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         FuelManager.instance.basePath = "http://favorite.cafe24app.com";
 
@@ -61,10 +69,16 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+
         // load the image with Picasso
 //        Picasso.get().load("http://heraldk.com/wp-content/uploads/2018/04/20180407000033_0.jpg").into(imageView)
 
+
 /* AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+
+
+        /*
 
         var pages:ArrayList<Model> = arrayListOf()
         pages.add(Model(R.string.one, R.layout.layout_one))
@@ -123,8 +137,43 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA */
 
+*/
+
+
+        val queue = Volley.newRequestQueue(this)
+        val url: String = "http://favorite.cafe24app.com/getDummyAll"
+
+        val stringReq = StringRequest(Request.Method.GET, url,
+                Response.Listener<String> { response ->
+                    var strResp = response.toString()
+                    val jsonObj: JSONObject = JSONObject(strResp)
+                    val jsonArray: JSONArray = jsonObj.getJSONArray("list")
+                    var title: String = ""
+                    var list: ArrayList<Movie> = arrayListOf()
+                    for(i in 0 until jsonArray.length()) {
+                        var jsonInner: JSONObject = jsonArray.getJSONObject(i)
+
+
+//                        list.add(Movie(jsonInner.get("title").toString(),2009, hyoUrl, Color.CYAN))
+
+
+//                         title +=
+
+                    }
+
+                    txView!!.text = jsonObj.toString()
+//                    val jsonObj: JSONObject = JSONObject(str)
+
+                },
+                Response.ErrorListener { txView!!.text = "That didn't work" }
+                                            /* !!는 강제로 느낌표가 아님을 선언 */
+        )
+
+
+        queue.add(stringReq)
 
 
 
