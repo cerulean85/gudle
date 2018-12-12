@@ -1,5 +1,6 @@
 package net.techpda.gudle
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Bitmap
@@ -15,7 +16,14 @@ import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.Toast
+import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.android.extension.responseJson
+import com.github.kittinunf.fuel.core.FuelManager
+import com.google.gson.Gson
+import com.google.gson.JsonParser
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
@@ -25,10 +33,38 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_main)
+
+        FuelManager.instance.basePath = "http://favorite.cafe24app.com";
+
+        try {
+            Fuel.get("getDummyAll").responseJson { request, response, result ->
+                txView!!.text = result.get().content
+
+                var gson = Gson()
+                val jsonStr = gson.toJson(result.get().content);
+                val typeToken = object : TypeToken<List<Md>>() {}.type
+                val gg = gson.fromJson<List<Md>>(jsonStr, typeToken)
+
+//                val m:Md =  gg.get(0)
+//                print(m.a)
+
+//                val parser = JsonParser()
+//                val rootObj = parser.parse(response.toString())
+//                        .getAsJsonObject().get("title")
+//                        .getAsJsonObject().get("contents")
+
+            }
+        } catch (e: Exception) {
+            txView!!.text = e.message
+        } finally {
+
+        }
 
         // load the image with Picasso
 //        Picasso.get().load("http://heraldk.com/wp-content/uploads/2018/04/20180407000033_0.jpg").into(imageView)
+
+/* AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
         var pages:ArrayList<Model> = arrayListOf()
         pages.add(Model(R.string.one, R.layout.layout_one))
@@ -87,7 +123,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA */
 
 
 

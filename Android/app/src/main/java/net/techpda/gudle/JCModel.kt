@@ -8,3 +8,4 @@ package net.techpda.gudle
 
 data class Movie(var title: String, var year: Int, var image: String, var color: Int)
 data class Model(val titleResId: Int, val layoutResId: Int)
+data class Md(val a:String, val b:String, val c:String)
