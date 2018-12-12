@@ -47,12 +47,31 @@ class MainActivity : AppCompatActivity() {
 
         try {
             Fuel.get("getDummyAll").responseJson { request, response, result ->
-                txView!!.text = result.get().content
+//                txView!!.text = result.get().content
+//                result
 
                 var gson = Gson()
-                val jsonStr = gson.toJson(result.get().content);
-                val typeToken = object : TypeToken<List<Md>>() {}.type
-                val gg = gson.fromJson<List<Md>>(jsonStr, typeToken)
+                val json: String  = result.get().content;
+                val s: AlbumArray = gson.fromJson(json, AlbumArray::class.java)
+
+                var str: String = "";
+                str += s.list[0].title
+                str += s.list[1].title
+                str += s.list[2].title
+                str += s.list[3].title
+                txView!!.text = str
+
+
+
+
+//                val album = gson?.fromJson(json, AlbumEntity.List::class.java)
+//                val person: Person = gson.fromJson(json, Person::class.java)
+
+//
+//
+//
+//                val typeToken = object : TypeToken<List<Person>>() {}.type
+//                val gg = gson.fromJson<List<Md>>(jsonStr, typeToken)
 
 //                val m:Md =  gg.get(0)
 //                print(m.a)
@@ -143,37 +162,37 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA */
 */
 
 
-        val queue = Volley.newRequestQueue(this)
-        val url: String = "http://favorite.cafe24app.com/getDummyAll"
-
-        val stringReq = StringRequest(Request.Method.GET, url,
-                Response.Listener<String> { response ->
-                    var strResp = response.toString()
-                    val jsonObj: JSONObject = JSONObject(strResp)
-                    val jsonArray: JSONArray = jsonObj.getJSONArray("list")
-                    var title: String = ""
-                    var list: ArrayList<Movie> = arrayListOf()
-                    for(i in 0 until jsonArray.length()) {
-                        var jsonInner: JSONObject = jsonArray.getJSONObject(i)
-
-
-//                        list.add(Movie(jsonInner.get("title").toString(),2009, hyoUrl, Color.CYAN))
-
-
-//                         title +=
-
-                    }
-
-                    txView!!.text = jsonObj.toString()
-//                    val jsonObj: JSONObject = JSONObject(str)
-
-                },
-                Response.ErrorListener { txView!!.text = "That didn't work" }
-                                            /* !!는 강제로 느낌표가 아님을 선언 */
-        )
-
-
-        queue.add(stringReq)
+//        val queue = Volley.newRequestQueue(this)
+//        val url: String = "http://favorite.cafe24app.com/getDummyAll"
+//
+//        val stringReq = StringRequest(Request.Method.GET, url,
+//                Response.Listener<String> { response ->
+//                    var strResp = response.toString()
+//                    val jsonObj: JSONObject = JSONObject(strResp)
+//                    val jsonArray: JSONArray = jsonObj.getJSONArray("list")
+//                    var title: String = ""
+//                    var list: ArrayList<Movie> = arrayListOf()
+//                    for(i in 0 until jsonArray.length()) {
+//                        var jsonInner: JSONObject = jsonArray.getJSONObject(i)
+//
+//
+////                        list.add(Movie(jsonInner.get("title").toString(),2009, hyoUrl, Color.CYAN))
+//
+//
+////                         title +=
+//
+//                    }
+//
+////                    txView!!.text = jsonObj.toString()
+////                    val jsonObj: JSONObject = JSONObject(str)
+//
+//                },
+//                Response.ErrorListener { txView!!.text = "That didn't work" }
+//                                            /* !!는 강제로 느낌표가 아님을 선언 */
+//        )
+//
+//
+//        queue.add(stringReq)
 
 
 
@@ -245,5 +264,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA */
 fun Context.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
+
+
 
 
