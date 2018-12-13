@@ -27,11 +27,19 @@
         <!--android:text="Button"/>-->
 
 
-    <TextView
-        android:id="@+id/txView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ZzZzZzZz" />
+    <!--<TextView-->
+        <!--android:id="@+id/txView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="ZzZzZzZz" />-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/imgView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:src="@drawable/p1"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/txView"/>-->
 
 
 

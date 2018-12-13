@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.view.ViewPager
@@ -29,6 +30,7 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
@@ -38,59 +40,118 @@ import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
+    public var imageArr: ImageArray? = null
+    fun getImageArr() : ImageArray? { return imageArr }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
 
+//        FuelManager.instance.basePath = "http://favorite.cafe24app.com";
+//
+//        try {
+//            Fuel.get("getDummyAll").responseJson { request, response, result ->
+//                var gson = Gson()
+//                val json: String  = result.get().content;
+//                val albumArr: AlbumArray = gson.fromJson(json, AlbumArray::class.java)
+//
+//                var str: String = "";
+//                str += albumArr.list[0].title
+//                str += albumArr.list[1].title
+//                str += albumArr.list[2].title
+//                str += albumArr.list[3].title
+//                txView!!.text = str
+//            }
+//        } catch (e: Exception) {
+//            txView!!.text = e.message
+//        } finally {
+//
+//        }
+//
+//        try {
+//            Fuel.get("getImageAll").responseJson { request, response, result ->
+//                var gson = Gson()
+//                val json: String  = result.get().content;
+//                val imageArr: ImageArray = gson.fromJson(json, ImageArray::class.java)
+//
+//                var str: String = FuelManager.instance.basePath +  "/img/" + imageArr.list[0].name;
+//                Picasso.get().load(str).into(imgView)
+//
+//            }
+//        } catch (e: Exception) {
+//
+//        } finally {
+//
+//        }
+//        var rv = recyclerView { };
+
         FuelManager.instance.basePath = "http://favorite.cafe24app.com";
 
         try {
-            Fuel.get("getDummyAll").responseJson { request, response, result ->
-//                txView!!.text = result.get().content
-//                result
-
+            Fuel.get("getImageAll").responseJson { request, response, result ->
                 var gson = Gson()
                 val json: String  = result.get().content;
-                val s: AlbumArray = gson.fromJson(json, AlbumArray::class.java)
+                imageArr = gson.fromJson(json, ImageArray::class.java)
 
-                var str: String = "";
-                str += s.list[0].title
-                str += s.list[1].title
-                str += s.list[2].title
-                str += s.list[3].title
-                txView!!.text = str
-
-
-
-
-//                val album = gson?.fromJson(json, AlbumEntity.List::class.java)
-//                val person: Person = gson.fromJson(json, Person::class.java)
-
-//
-//
-//
-//                val typeToken = object : TypeToken<List<Person>>() {}.type
-//                val gg = gson.fromJson<List<Md>>(jsonStr, typeToken)
-
-//                val m:Md =  gg.get(0)
-//                print(m.a)
-
-//                val parser = JsonParser()
-//                val rootObj = parser.parse(response.toString())
-//                        .getAsJsonObject().get("title")
-//                        .getAsJsonObject().get("contents")
+    //                var str: String = FuelManager.instance.basePath +  "/img/" + imageArr.list[0].name;
+//                Picasso.get().load(str).into(imgView)
 
             }
         } catch (e: Exception) {
-            txView!!.text = e.message
+
         } finally {
 
         }
 
+        verticalLayout {
 
-        // load the image with Picasso
-//        Picasso.get().load("http://heraldk.com/wp-content/uploads/2018/04/20180407000033_0.jpg").into(imageView)
+//            var vp = viewPager {
+//                layoutParams = LinearLayout.LayoutParams(matchParent, dip(300))
+//            }
+//            vp.adapter = CustomPagerAdapter(this@MainActivity, pages)
+//
+//            scrollView {
+//
+//
+//
+//            }
+
+            var rv = recyclerView { }
+            rv.layoutManager = LinearLayoutManager(this@MainActivity)
+            rv.addItemDecoration(DividerItemDecoration(applicationContext, LinearLayoutManager(this@MainActivity).orientation))
+
+            try {
+                Fuel.get("getDummyAll").responseJson { request, response, result ->
+                    var gson = Gson()
+                    val json: String  = result.get().content;
+                    val albumArr: AlbumArray = gson.fromJson(json, AlbumArray::class.java)
+
+                    rv.adapter = MovieAdapter(context, albumArr.list)
+
+//                var str: String = "";
+//                str += albumArr.list[0].title
+//                str += albumArr.list[1].title
+//                str += albumArr.list[2].title
+//                str += albumArr.list[3].title
+//                txView!!.text = str
+                }
+            } catch (e: Exception) {
+//            txView!!.text = e.message
+            } finally {
+
+            }
+
+
+
+
+        }
+
+
+
+
+
+
+
 
 
 /* AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
