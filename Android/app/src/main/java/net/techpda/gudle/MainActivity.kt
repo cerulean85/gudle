@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.DividerItemDecoration
@@ -40,62 +41,54 @@ import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
-    public var imageArr: ImageArray? = null
-    fun getImageArr() : ImageArray? { return imageArr }
+
+    private lateinit var viewPager: ViewPager
+    private lateinit var pagerAdapter: MoviesPagerAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        var hyoUrl: String = "http://heraldk.com/wp-content/uploads/2018/04/20180407000033_0.jpg"
+        var list: ArrayList<Movie> = arrayListOf()
+        list.add(Movie("Forrest Gump Sherlock Holmes The Shkddab1 Redemption",2009, hyoUrl, Color.CYAN))
+        list.add(Movie("The Shawshank Redemption",1994, hyoUrl, Color.LTGRAY))
+        list.add(Movie("Forrest Gump",1994, hyoUrl, Color.GREEN))
+        list.add(Movie("Titanic",1997, hyoUrl, Color.DKGRAY))
+        list.add(Movie("Taxi",1998, hyoUrl, Color.MAGENTA))
+        list.add(Movie("Inception",1994, hyoUrl, Color.WHITE))
+        list.add(Movie("The Imitation Game",2014, hyoUrl, Color.GREEN))
+        list.add(Movie("Forrest Gump Sherlock Holmes The Shkddab1 Redemption",2009, hyoUrl, Color.CYAN))
+        list.add(Movie("The Shawshank Redemption",1994, hyoUrl, Color.LTGRAY))
+        list.add(Movie("Forrest Gump",1994, hyoUrl, Color.GREEN))
+        list.add(Movie("Titanic",1997, hyoUrl, Color.DKGRAY))
+        list.add(Movie("Taxi",1998, hyoUrl, Color.MAGENTA))
+        list.add(Movie("Inception",1994, hyoUrl, Color.WHITE))
+        list.add(Movie("The Imitation Game",2014, hyoUrl, Color.GREEN))
+        list.add(Movie("Forrest Gump Sherlock Holmes The Shkddab1 Redemption",2009, hyoUrl, Color.CYAN))
+        list.add(Movie("The Shawshank Redemption",1994, hyoUrl, Color.LTGRAY))
+        list.add(Movie("Forrest Gump",1994, hyoUrl, Color.GREEN))
+        list.add(Movie("Titanic",1997, hyoUrl, Color.DKGRAY))
+        list.add(Movie("Taxi",1998, hyoUrl, Color.MAGENTA))
+        list.add(Movie("Inception",1994, hyoUrl, Color.WHITE))
+        list.add(Movie("The Imitation Game",2014, hyoUrl, Color.GREEN))
 
-//        FuelManager.instance.basePath = "http://favorite.cafe24app.com";
-//
-//        try {
-//            Fuel.get("getDummyAll").responseJson { request, response, result ->
-//                var gson = Gson()
-//                val json: String  = result.get().content;
-//                val albumArr: AlbumArray = gson.fromJson(json, AlbumArray::class.java)
-//
-//                var str: String = "";
-//                str += albumArr.list[0].title
-//                str += albumArr.list[1].title
-//                str += albumArr.list[2].title
-//                str += albumArr.list[3].title
-//                txView!!.text = str
-//            }
-//        } catch (e: Exception) {
-//            txView!!.text = e.message
-//        } finally {
-//
-//        }
-//
-//        try {
-//            Fuel.get("getImageAll").responseJson { request, response, result ->
-//                var gson = Gson()
-//                val json: String  = result.get().content;
-//                val imageArr: ImageArray = gson.fromJson(json, ImageArray::class.java)
-//
-//                var str: String = FuelManager.instance.basePath +  "/img/" + imageArr.list[0].name;
-//                Picasso.get().load(str).into(imgView)
-//
-//            }
-//        } catch (e: Exception) {
-//
-//        } finally {
-//
-//        }
-//        var rv = recyclerView { };
 
+        viewPager = findViewById<View>(R.id.pager) as ViewPager
+        pagerAdapter = MoviesPagerAdapter(supportFragmentManager, list)
+        viewPager.adapter = pagerAdapter
+
+//        val tabLayout = findViewById<View>(R.id.tablayout) as TabLayout
+//        tablayout.setupWithViewPager(viewPager)
+
+        /*
+        var imageSet: ImageArray? = null
         FuelManager.instance.basePath = "http://favorite.cafe24app.com";
 
         try {
             Fuel.get("getImageAll").responseJson { request, response, result ->
                 var gson = Gson()
                 val json: String  = result.get().content;
-                imageArr = gson.fromJson(json, ImageArray::class.java)
-
-    //                var str: String = FuelManager.instance.basePath +  "/img/" + imageArr.list[0].name;
-//                Picasso.get().load(str).into(imgView)
-
+                imageSet = gson.fromJson(json, ImageArray::class.java)
             }
         } catch (e: Exception) {
 
@@ -104,17 +97,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         verticalLayout {
-
-//            var vp = viewPager {
-//                layoutParams = LinearLayout.LayoutParams(matchParent, dip(300))
-//            }
-//            vp.adapter = CustomPagerAdapter(this@MainActivity, pages)
-//
-//            scrollView {
-//
-//
-//
-//            }
 
             var rv = recyclerView { }
             rv.layoutManager = LinearLayoutManager(this@MainActivity)
@@ -126,25 +108,13 @@ class MainActivity : AppCompatActivity() {
                     val json: String  = result.get().content;
                     val albumArr: AlbumArray = gson.fromJson(json, AlbumArray::class.java)
 
-                    rv.adapter = MovieAdapter(context, albumArr.list)
-
-//                var str: String = "";
-//                str += albumArr.list[0].title
-//                str += albumArr.list[1].title
-//                str += albumArr.list[2].title
-//                str += albumArr.list[3].title
-//                txView!!.text = str
+                    rv.adapter = AlbumAdapter(context, albumArr.list, imageSet!!.list)
                 }
             } catch (e: Exception) {
-//            txView!!.text = e.message
             } finally {
-
             }
-
-
-
-
         }
+        */
 
 
 

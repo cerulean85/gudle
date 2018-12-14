@@ -1,10 +1,13 @@
 package net.techpda.gudle
 
 import android.graphics.Color
+import android.support.v4.content.ContextCompat
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.TextView
 import org.jetbrains.anko.*
 import java.net.URL
 
@@ -59,6 +62,11 @@ class MovieUI : AnkoComponent<ViewGroup>{
                     layoutParams = LinearLayout.LayoutParams(dip(80), dip(80))
 
                 }
+            }
+        }.applyRecursively { view ->
+            when (view) {
+                is Button -> view.backgroundColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
+                is TextView -> view.textColor = ContextCompat.getColor(ctx, R.color.colorPrimaryDark)
             }
         }
     }

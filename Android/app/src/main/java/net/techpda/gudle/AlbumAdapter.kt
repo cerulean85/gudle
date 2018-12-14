@@ -11,7 +11,7 @@ import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.image
 import net.techpda.gudle.MainActivity
 
-class AlbumAdapter(val context: Context, var list: ArrayList<Album> = arrayListOf()): RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
+class AlbumAdapter(val context: Context, var list: ArrayList<Album> = arrayListOf(), var imageArr: ArrayList<Image>): RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
 
 
 
@@ -26,8 +26,15 @@ class AlbumAdapter(val context: Context, var list: ArrayList<Album> = arrayListO
 //        holder.ivThumb.setImageDrawable(movie.image)
 //        holder.ivThumb.setBackgroundColor(movie.color)
 
-        Picasso.get().load(MainActivity.i imageArr[movie.img] ).transform(BlurTransformation(context, 25)).into(holder.ivThumb)
 
+        Picasso.get()
+                .load("http://favorite.cafe24app.com/img/"+imageArr[movie.img].name)
+                .placeholder(R.drawable.p1)
+                .error(R.drawable.ic_launcher_background)
+                .transform(BlurTransformation(context, 25))
+                .into(holder.ivThumb)
+
+//        Picasso.get().load("https://post-phinf.pstatic.net/MjAxODA1MzBfNDkg/MDAxNTI3NjY3MzE3Nzc1.JGkOAHkv6UUS_4tqnD6irtAcztUHhYhmwP5xwME9H04g.SixBN61IDWoFV3gSwlgSUsSxtOtzcp2H_TQZzJmho3kg.JPEG/메인후보1.jpg?type=w1200").transform(BlurTransformation(context, 25)).into(holder.ivThumb)
         //blur도 된다 -_-;;
         //https://dwfox.tistory.com/48
         //https://github.com/hendraanggrian/pikasso/tree/master/pikasso-transformations/src/com/hendraanggrian/pikasso/transformations
