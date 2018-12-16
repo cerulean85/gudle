@@ -1,46 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    tools:context=".MainActivity">
 
-    <android.support.v7.widget.Toolbar
+    <com.nshmura.recyclertablayout.RecyclerTabLayout
+        android:id="@+id/recyclerTabLayout"
+        android:layout_height="@dimen/tabs_height"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/toolbar"
-        android:background="@color/colorPrimary"
-        android:minHeight="50dp">
+        rtl_tabIndicatorColor="@color/colorPrimaryDark"
+        rtl_tabIndicatorHeight="2dp"
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SlidingTabsUsingViewPager"
-            android:textSize="20dp"/>
+        rtl_tabSelectedTextColor="@color/colorPrimary"
+        rtl_tabMinWidth="72dp"
+        rtl_tabMaxWidth="264dp"
+        rtl_tabPaddingStart="12dp"
+        rtl_tabPaddingTop="0dp"
+        rtl_tabPaddingEnd="12dp"
+        rtl_tabPaddingBottom="0dp"
+        rtl_tabPadding="0dp"
 
-
-    </android.support.v7.widget.Toolbar>
-
-    <android.support.design.widget.TabLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tablayout"
-        android:background="@color/colorPrimary"
-        android:minHeight="50dp">
-
-    </android.support.design.widget.TabLayout>
-
+        />
+    <!--rtl_tabBackground="?attr/selectableItemBackground"-->
+    <!--rtl_tabTextAppearance="@android:style/TextAppearance.Small"-->
     <android.support.v4.view.ViewPager
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/pager">
+        android:id="@+id/viewPager"
+        android:layout_below="@id/recyclerTabLayout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />
 
-    </android.support.v4.view.ViewPager>
+</RelativeLayout>
 
-</LinearLayout>
+<!--<LinearLayout-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:orientation="vertical">-->
+
+    <!--<android.support.v4.view.ViewPager-->
+        <!--android:id="@+id/viewPager"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_width="match_parent"/>-->
+
+    <!--<android.support.design.widget.TabLayout-->
+        <!--android:id="@+id/tabLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignBottom="@id/viewPager"-->
+        <!--app:tabBackground="@drawable/tab_selector"-->
+        <!--app:tabGravity="center"-->
+        <!--app:tabIndicatorHeight="0dp"/>-->
+
+<!--</LinearLayout>-->
 
 <!--<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
     <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->

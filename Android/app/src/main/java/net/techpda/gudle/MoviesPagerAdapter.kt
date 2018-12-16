@@ -16,4 +16,8 @@ class MoviesPagerAdapter(fragmentManager: FragmentManager, private val movies: A
     override fun getCount(): Int {
         return movies.size
     }
+
+    override fun getPageTitle(position: Int): CharSequence {
+        return movies[position % movies.size].title
+    }
 }

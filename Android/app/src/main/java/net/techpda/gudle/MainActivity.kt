@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
@@ -31,8 +32,14 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.nshmura.recyclertablayout.RecyclerTabLayout
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.GlobalScope
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
+import net.techpda.gudle.R.id.async
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.viewPager
@@ -41,41 +48,93 @@ import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
+    //https://github.com/nshmura/RecyclerTabLayout
 
     private lateinit var viewPager: ViewPager
     private lateinit var pagerAdapter: MoviesPagerAdapter
+    private lateinit var tabLayout: TabLayout
+    private lateinit var recyclerTabLayout: RecyclerTabLayout
+
+    /* 스태틱으로 만들기 */
+//    companion object {
+
+//        var imageSet: ImageArray? = null
+
+//        fun baz() {
+//            // Do something
+//        }
+//    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+
+
+
+
+//        var imageSet: ImageArray? = null
+//        FuelManager.instance.basePath = "http://favorite.cafe24app.com";
+//
+//        try {
+//            Fuel.get("getImageAll").responseJson { request, response, result ->
+//                var gson = Gson()
+//                val json: String  = result.get().content;
+//                imageSet = gson.fromJson(json, ImageArray::class.java)
+//            }
+//        } catch (e: Exception) {
+//
+//        } finally {
+//
+//        }
+
+        Handler().postDelayed({
+            /* Create an Intent that will start the Menu-Activity. */
+
+        }, 3000)
+
+
+        GlobalScope.launch {
+
+        }
+
         var hyoUrl: String = "http://heraldk.com/wp-content/uploads/2018/04/20180407000033_0.jpg"
-        var list: ArrayList<Movie> = arrayListOf()
-        list.add(Movie("Forrest Gump Sherlock Holmes The Shkddab1 Redemption",2009, hyoUrl, Color.CYAN))
-        list.add(Movie("The Shawshank Redemption",1994, hyoUrl, Color.LTGRAY))
-        list.add(Movie("Forrest Gump",1994, hyoUrl, Color.GREEN))
-        list.add(Movie("Titanic",1997, hyoUrl, Color.DKGRAY))
-        list.add(Movie("Taxi",1998, hyoUrl, Color.MAGENTA))
-        list.add(Movie("Inception",1994, hyoUrl, Color.WHITE))
-        list.add(Movie("The Imitation Game",2014, hyoUrl, Color.GREEN))
-        list.add(Movie("Forrest Gump Sherlock Holmes The Shkddab1 Redemption",2009, hyoUrl, Color.CYAN))
-        list.add(Movie("The Shawshank Redemption",1994, hyoUrl, Color.LTGRAY))
-        list.add(Movie("Forrest Gump",1994, hyoUrl, Color.GREEN))
-        list.add(Movie("Titanic",1997, hyoUrl, Color.DKGRAY))
-        list.add(Movie("Taxi",1998, hyoUrl, Color.MAGENTA))
-        list.add(Movie("Inception",1994, hyoUrl, Color.WHITE))
-        list.add(Movie("The Imitation Game",2014, hyoUrl, Color.GREEN))
-        list.add(Movie("Forrest Gump Sherlock Holmes The Shkddab1 Redemption",2009, hyoUrl, Color.CYAN))
-        list.add(Movie("The Shawshank Redemption",1994, hyoUrl, Color.LTGRAY))
-        list.add(Movie("Forrest Gump",1994, hyoUrl, Color.GREEN))
-        list.add(Movie("Titanic",1997, hyoUrl, Color.DKGRAY))
-        list.add(Movie("Taxi",1998, hyoUrl, Color.MAGENTA))
-        list.add(Movie("Inception",1994, hyoUrl, Color.WHITE))
-        list.add(Movie("The Imitation Game",2014, hyoUrl, Color.GREEN))
+        var list: ArrayList<Movie> = MovieHelper.getMovies()
 
+        viewPager = findViewById(R.id.viewPager)
 
-        viewPager = findViewById<View>(R.id.pager) as ViewPager
+//        tabLayout = findViewById(R.id.tabLayout)
         pagerAdapter = MoviesPagerAdapter(supportFragmentManager, list)
         viewPager.adapter = pagerAdapter
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+
+            override fun onPageScrollStateChanged(state: Int) {
+                print("onPageScrollStateChanged")
+            }
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                print("onPageScrolled")
+            }
+            override fun onPageSelected(position: Int) {
+                print("onPageSelected")
+            }
+
+        })
+
+        recyclerTabLayout = findViewById(R.id.recyclerTabLayout)
+//        JCModel.loadImageArr(recyclerTabLayout, viewPager)
+//        JCModel.loadDummyArr(recyclerTabLayout, viewPager)
+//        recyclerTabLayout.setIndicatorColor(R.color.colorPrimary)
+//        recyclerTabLayout.setBackgroundColor(R.color.colorPrimaryDark)
+//        recyclerTabLayout.setUpWithViewPager(viewPager)
+
+
+
+
+
+//        tabLayout.setupWithViewPager(viewPager)
+
 
 //        val tabLayout = findViewById<View>(R.id.tablayout) as TabLayout
 //        tablayout.setupWithViewPager(viewPager)
