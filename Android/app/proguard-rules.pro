@@ -22,6 +22,6 @@
 
 
 
--keepclassmembernames class kotlinx.** {
-    volatile <fields>;
-}
+#-keepclassmembernames class kotlinx.** {
+#    volatile <fields>;
+#}

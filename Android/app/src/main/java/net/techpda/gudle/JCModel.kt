@@ -21,15 +21,14 @@ object JCModel {
         FuelManager.instance.basePath = "http://favorite.cafe24app.com";
     }
 
-//    companion object {
         var gson = Gson()
-        var imageSet: ImageArray? = null
-        var dummySet: AlbumArray? = null
+        var imageSet: ImageArray? = ImageArray()
+        var dummySet: AlbumArray? = AlbumArray()
 
         fun loadImageArr() {
             try {
                 Fuel.get("getImageAll").responseJson { request, response, result ->
-                    val json: String  = result.get().content;
+                    val json: String  = result.get().content
                     imageSet = gson.fromJson(json, ImageArray::class.java)
                 }
             } catch (e: Exception) {

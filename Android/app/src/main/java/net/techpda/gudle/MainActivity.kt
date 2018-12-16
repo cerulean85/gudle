@@ -9,6 +9,7 @@ import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.os.Message
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
@@ -35,10 +36,8 @@ import com.android.volley.toolbox.Volley
 import com.nshmura.recyclertablayout.RecyclerTabLayout
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.*
+//import kotlinx.coroutines.experimental.*
 import net.techpda.gudle.R.id.async
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
@@ -46,14 +45,15 @@ import org.jetbrains.anko.support.v4.viewPager
 import org.json.JSONArray
 import org.json.JSONObject
 
+
 class MainActivity : AppCompatActivity() {
 
     //https://github.com/nshmura/RecyclerTabLayout
 
-    private lateinit var viewPager: ViewPager
+    lateinit var viewPager: ViewPager
     private lateinit var pagerAdapter: MoviesPagerAdapter
     private lateinit var tabLayout: TabLayout
-    private lateinit var recyclerTabLayout: RecyclerTabLayout
+    lateinit var recyclerTabLayout: RecyclerTabLayout
 
     /* 스태틱으로 만들기 */
 //    companion object {
@@ -65,48 +65,115 @@ class MainActivity : AppCompatActivity() {
 //        }
 //    }
 
+
+    class MessageHandler(ref: MainActivity): WeakReferenceHandler<MainActivity>(ref) {
+        override fun handleMessage(mReference: MainActivity?, msg: Message) {
+            if(mReference==null) return
+            when(msg.what) {
+                0 -> {
+                    mReference.recyclerTabLayout.setUpWithViewPager(mReference.viewPager)
+
+
+                }
+
+            }
+        }
+    }
+
+    fun m() = runBlocking {
+//
+        var job = launch {
+            try {
+
+                withTimeout(3000L) {
+                    println("@@@ㅎㅎ 시작되었어요.")
+                    test()
+                }
+//
+            } catch (e: TimeoutCancellationException) {
+                println("@@@ㅎㅎ 타임아웃!.")
+            }
+        }
+
+        job.join()
+        println("@@@ㅎㅎ 작업이 정상적으로 진행되었다면 여기가 호출 되겠죠!")
+
+    }
+
+    suspend fun test() {
+        delay(500L)
+        println("@@@ㅎㅎ 테스트 중!")
+
+        try {
+            Fuel.get("getImageAll").responseJson { request, response, result ->
+                println("@@@ㅎㅎ 데이터 호출 시작!")
+                val json: String  = result.get().content;
+                JCModel.imageSet = JCModel.gson.fromJson(json, ImageArray::class.java)
+                println("@@@ㅎㅎ 데이터 호출 완료!")
+            }
+        } catch (e: Exception) {
+            println("@@@ㅎㅎ 데이터 호출 중 에러 발생!")
+        } finally {
+
+        }
+    }
+
+    fun loadDummyAll()
+    {
+        try {
+            Fuel.get("getDummyAll").responseJson { request, response, result ->
+
+                var gson = Gson()
+                val json: String  = result.get().content;
+                JCModel.dummySet = gson.fromJson(json, AlbumArray::class.java)
+                println("thread test11")
+//                recyclerTabLayout = findViewById(R.id.recyclerTabLayout)
+//                recyclerTabLayout.setUpWithViewPager(viewPager)
+//                Handler().postDelayed({
+//                    recyclerTabLayout = findViewById(R.id.recyclerTabLayout)
+//                    recyclerTabLayout.setUpWithViewPager(viewPager)
+//                }, 1000)
+//                mHandler.sendEmptyMessage(0)
+            }
+        } catch (e: Exception) {
+        } finally {
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
 
 
-
-
-
-//        var imageSet: ImageArray? = null
-//        FuelManager.instance.basePath = "http://favorite.cafe24app.com";
+        var mHandler: MessageHandler = MessageHandler(this)
+        FuelManager.instance.basePath = "http://favorite.cafe24app.com"
 //
-//        try {
-//            Fuel.get("getImageAll").responseJson { request, response, result ->
-//                var gson = Gson()
-//                val json: String  = result.get().content;
-//                imageSet = gson.fromJson(json, ImageArray::class.java)
-//            }
-//        } catch (e: Exception) {
-//
-//        } finally {
-//
-//        }
+        try {
+            Fuel.get("getImageAll").responseJson { request, response, result ->
+                println("thread test00")
+                var gson = Gson()
+                val json: String  = result.get().content
+                JCModel.imageSet = gson.fromJson(json, ImageArray::class.java)
+                loadDummyAll()
 
-        Handler().postDelayed({
-            /* Create an Intent that will start the Menu-Activity. */
-
-        }, 3000)
-
-
-        GlobalScope.launch {
+            }
+        } catch (e: Exception) {
+            println(e.toString())
+        } finally {
 
         }
 
-        var hyoUrl: String = "http://heraldk.com/wp-content/uploads/2018/04/20180407000033_0.jpg"
+
+
+        println("thread test22")
+
         var list: ArrayList<Movie> = MovieHelper.getMovies()
 
         viewPager = findViewById(R.id.viewPager)
 
-//        tabLayout = findViewById(R.id.tabLayout)
         pagerAdapter = MoviesPagerAdapter(supportFragmentManager, list)
-        viewPager.adapter = pagerAdapter
+//        viewPager.adapter = pagerAdapter
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -122,7 +189,11 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-        recyclerTabLayout = findViewById(R.id.recyclerTabLayout)
+
+
+
+
+
 //        JCModel.loadImageArr(recyclerTabLayout, viewPager)
 //        JCModel.loadDummyArr(recyclerTabLayout, viewPager)
 //        recyclerTabLayout.setIndicatorColor(R.color.colorPrimary)
@@ -345,11 +416,10 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA */
 //        }
 //    }
 
-
-
-
-
 }
+
+
+
 
 fun Context.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
