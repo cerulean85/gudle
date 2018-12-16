@@ -31,12 +31,6 @@ class MovieFragment : Fragment() {
             var rv = recyclerView { }
             rv.layoutManager = LinearLayoutManager(this.ctx)
             rv.addItemDecoration(DividerItemDecoration(this.ctx, LinearLayoutManager(this.ctx).orientation))
-
-            if(JCModel.dummySet == null)
-                println("이건 널이다!111")
-
-            if(JCModel.imageSet == null)
-                println("이건 널이다!222")
             rv.adapter = AlbumAdapter(this.ctx, JCModel.dummySet!!.list, JCModel.imageSet!!.list)
 
         }.view

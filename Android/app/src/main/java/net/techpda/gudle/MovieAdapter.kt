@@ -25,7 +25,10 @@ class MovieAdapter(val context: Context, var list: ArrayList<Movie> = arrayListO
 //        holder.ivThumb.setImageDrawable(movie.image)
         holder.ivThumb.setBackgroundColor(movie.color)
 
-        Picasso.get().load(movie.image).transform(BlurTransformation(context, 25)).into(holder.ivThumb)
+        Picasso.get()
+                .load(movie.image)
+//                .transform(BlurTransformation(context, 25))
+                .into(holder.ivThumb)
 
         //blur도 된다 -_-;;
         //https://dwfox.tistory.com/48

@@ -12,49 +12,14 @@ import com.google.gson.Gson
 //}
 
 
+object JCModel {
+    var imageSet: ImageArray? = ImageArray()
+    var dummySet: AlbumArray? = AlbumArray()
+}
 
 data class Movie(var title: String, var year: Int, var image: String, var color: Int)
 data class Model(val titleResId: Int, val layoutResId: Int)
-object JCModel {
 
-    init {
-        FuelManager.instance.basePath = "http://favorite.cafe24app.com";
-    }
-
-        var gson = Gson()
-        var imageSet: ImageArray? = ImageArray()
-        var dummySet: AlbumArray? = AlbumArray()
-
-        fun loadImageArr() {
-            try {
-                Fuel.get("getImageAll").responseJson { request, response, result ->
-                    val json: String  = result.get().content
-                    imageSet = gson.fromJson(json, ImageArray::class.java)
-                }
-            } catch (e: Exception) {
-
-            } finally {
-
-            }
-        }
-
-        fun loadDummyArr() {
-            try {
-                Fuel.get("getDummyAll").responseJson { request, response, result ->
-                    val json: String  = result.get().content
-                    dummySet = gson.fromJson(json, AlbumArray::class.java)
-                }
-            } catch (e: Exception) {
-            } finally {
-            }
-        }
-
-//    }
-
-
-
-
-}
 data class Md(val a:String, val b:String, val c:String)
 //data class Person(val list:List<Album>)
 

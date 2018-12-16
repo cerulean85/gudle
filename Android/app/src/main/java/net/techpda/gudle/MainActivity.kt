@@ -50,130 +50,32 @@ class MainActivity : AppCompatActivity() {
 
     //https://github.com/nshmura/RecyclerTabLayout
 
-    lateinit var viewPager: ViewPager
+    private lateinit var viewPager: ViewPager
     private lateinit var pagerAdapter: MoviesPagerAdapter
-    private lateinit var tabLayout: TabLayout
-    lateinit var recyclerTabLayout: RecyclerTabLayout
+    private lateinit var recyclerTabLayout: RecyclerTabLayout
 
-    /* 스태틱으로 만들기 */
-//    companion object {
+    private val dBinder = JCDataBinder
 
-//        var imageSet: ImageArray? = null
-
-//        fun baz() {
-//            // Do something
-//        }
-//    }
-
-
-    class MessageHandler(ref: MainActivity): WeakReferenceHandler<MainActivity>(ref) {
-        override fun handleMessage(mReference: MainActivity?, msg: Message) {
-            if(mReference==null) return
-            when(msg.what) {
-                0 -> {
-                    mReference.recyclerTabLayout.setUpWithViewPager(mReference.viewPager)
-
-
-                }
-
-            }
-        }
-    }
-
-    fun m() = runBlocking {
-//
-        var job = launch {
-            try {
-
-                withTimeout(3000L) {
-                    println("@@@ㅎㅎ 시작되었어요.")
-                    test()
-                }
-//
-            } catch (e: TimeoutCancellationException) {
-                println("@@@ㅎㅎ 타임아웃!.")
-            }
-        }
-
-        job.join()
-        println("@@@ㅎㅎ 작업이 정상적으로 진행되었다면 여기가 호출 되겠죠!")
-
-    }
-
-    suspend fun test() {
-        delay(500L)
-        println("@@@ㅎㅎ 테스트 중!")
-
-        try {
-            Fuel.get("getImageAll").responseJson { request, response, result ->
-                println("@@@ㅎㅎ 데이터 호출 시작!")
-                val json: String  = result.get().content;
-                JCModel.imageSet = JCModel.gson.fromJson(json, ImageArray::class.java)
-                println("@@@ㅎㅎ 데이터 호출 완료!")
-            }
-        } catch (e: Exception) {
-            println("@@@ㅎㅎ 데이터 호출 중 에러 발생!")
-        } finally {
-
-        }
-    }
-
-    fun loadDummyAll()
+    private fun setViewPagerAdapter()
     {
-        try {
-            Fuel.get("getDummyAll").responseJson { request, response, result ->
-
-                var gson = Gson()
-                val json: String  = result.get().content;
-                JCModel.dummySet = gson.fromJson(json, AlbumArray::class.java)
-                println("thread test11")
-//                recyclerTabLayout = findViewById(R.id.recyclerTabLayout)
-//                recyclerTabLayout.setUpWithViewPager(viewPager)
-//                Handler().postDelayed({
-//                    recyclerTabLayout = findViewById(R.id.recyclerTabLayout)
-//                    recyclerTabLayout.setUpWithViewPager(viewPager)
-//                }, 1000)
-//                mHandler.sendEmptyMessage(0)
-            }
-        } catch (e: Exception) {
-        } finally {
-        }
+        viewPager.adapter = pagerAdapter
+        recyclerTabLayout.setUpWithViewPager(viewPager)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        dBinder.getImageAll()
+        dBinder.getDummyAll { setViewPagerAdapter() }
+
         setContentView(R.layout.activity_main)
-
-
-
-        var mHandler: MessageHandler = MessageHandler(this)
-        FuelManager.instance.basePath = "http://favorite.cafe24app.com"
-//
-        try {
-            Fuel.get("getImageAll").responseJson { request, response, result ->
-                println("thread test00")
-                var gson = Gson()
-                val json: String  = result.get().content
-                JCModel.imageSet = gson.fromJson(json, ImageArray::class.java)
-                loadDummyAll()
-
-            }
-        } catch (e: Exception) {
-            println(e.toString())
-        } finally {
-
-        }
-
-
-
-        println("thread test22")
+        viewPager = findViewById(R.id.viewPager)
+        recyclerTabLayout = findViewById(R.id.recyclerTabLayout)
 
         var list: ArrayList<Movie> = MovieHelper.getMovies()
 
-        viewPager = findViewById(R.id.viewPager)
 
         pagerAdapter = MoviesPagerAdapter(supportFragmentManager, list)
-//        viewPager.adapter = pagerAdapter
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -188,6 +90,17 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+    }
+}
+
+//        var mHandler: MessageHandler = MessageHandler(this)   //핸들러 사용법
+
+
+//
+
+////        recyclerTabLayout.setIndicatorColor(R.color.colorPrimary)
+////        recyclerTabLayout.setBackgroundColor(R.color.colorPrimaryDark)
+
 
 
 
@@ -369,7 +282,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA */
 
 
 
-    }
+
 
 
 
@@ -416,7 +329,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA */
 //        }
 //    }
 
-}
 
 
 
@@ -427,4 +339,50 @@ fun Context.toast(message: String) {
 
 
 
+/* 스태틱으로 만들기 */
+//    companion object {
+
+//        var imageSet: ImageArray? = null
+
+//        fun baz() {
+//            // Do something
+//        }
+//    }
+
+
+class MessageHandler(ref: MainActivity): WeakReferenceHandler<MainActivity>(ref) {
+    override fun handleMessage(mReference: MainActivity?, msg: Message) {
+        if(mReference==null) return
+        when(msg.what) {
+            0 -> {
+                mReference.recyclerTabLayout.setUpWithViewPager(mReference.viewPager)
+
+
+            }
+
+        }
+    }
+}
+
+fun m() = runBlocking {
+    var job = launch {
+        try {
+
+            withTimeout(3000L) {
+                println("@@@ㅎㅎ 시작되었어요.")
+            }
+        } catch (e: TimeoutCancellationException) {
+            println("@@@ㅎㅎ 타임아웃!.")
+        }
+    }
+    job.join()
+    println("@@@ㅎㅎ 작업이 정상적으로 진행되었다면 여기가 호출 되겠죠!")
+}
+
+
+
+suspend fun test() {
+    delay(500L)
+    println("@@@ㅎㅎ 테스트 중!")
+}
 
