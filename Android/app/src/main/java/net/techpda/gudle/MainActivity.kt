@@ -50,8 +50,10 @@ class MainActivity : AppCompatActivity() {
 
     //https://github.com/nshmura/RecyclerTabLayout
 
+    private lateinit var topViewPager: ViewPager
     private lateinit var viewPager: ViewPager
     private lateinit var pagerAdapter: MoviesPagerAdapter
+    private lateinit var pagerAdapter2: MoviesPagerAdapter
     private lateinit var recyclerTabLayout: RecyclerTabLayout
 
     private val dBinder = JCDataBinder
@@ -77,6 +79,29 @@ class MainActivity : AppCompatActivity() {
 
         pagerAdapter = MoviesPagerAdapter(supportFragmentManager, list)
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+
+            override fun onPageScrollStateChanged(state: Int) {
+                print("onPageScrollStateChanged")
+            }
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                print("onPageScrolled")
+            }
+            override fun onPageSelected(position: Int) {
+                print("onPageSelected")
+            }
+
+        })
+
+        var pages:ArrayList<Model> = arrayListOf()
+        pages.add(Model(R.string.one, R.layout.layout_one))
+        pages.add(Model(R.string.two, R.layout.layout_two))
+        pages.add(Model(R.string.three, R.layout.layout_three))
+
+
+        topViewPager = findViewById(R.id.topViewPager)
+        topViewPager.adapter = CustomPagerAdapter(this, pages)
+        topViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
             override fun onPageScrollStateChanged(state: Int) {
                 print("onPageScrollStateChanged")
