@@ -45,7 +45,8 @@ public class JCFullscreenableChromeClient extends WebChromeClient {
             setFullscreen(true);
             mCustomViewCallback = callback;
 
-            //여기가 핵심! 전체화면 누르면 랜드스케이프로 변형
+            //여기가 핵심! 전체화면 누르면 랜드스케이프로 변형 (가로 길이가 더 긴 영상의 경우)
+            //세로 길이가 더 긴 영상의 경우 코드가 동작하지 않도록 분기처리 해야됨
             mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         }
