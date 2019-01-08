@@ -1,5 +1,6 @@
 package net.techpda.gudle
 
+import android.graphics.Color
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.core.FuelManager
@@ -15,9 +16,11 @@ import com.google.gson.Gson
 object JCModel {
     var imageSet: ImageArray? = ImageArray()
     var dummySet: AlbumArray? = AlbumArray()
+    var marketSet: MovieArray? = MovieArray()
 }
 
-data class Movie(var title: String, var year: Int, var image: String, var color: Int)
+data class MovieArray(val list: ArrayList<Movie> = arrayListOf())
+data class Movie(var title: String, var year: Int, var image: String, var color: Int, val layoutResId: Int = R.layout.layout_one)
 data class Model(val titleResId: Int, val layoutResId: Int)
 
 data class Md(val a:String, val b:String, val c:String)
@@ -32,7 +35,7 @@ data class Album(
         val date: String, val img   : Int,
         val bgColor: Int, val category: Int,
         val commentCount: Int, val viewCount: Int,
-        val likeCount: Int, val myComment: Int, val myLike: Int)
+        val likeCount: Int, val myComment: Int, val myLike: Int, val layoutResId: Int = R.layout.layout_one)
 
 data class ImageArray( val list: ArrayList<Image> = arrayListOf())
 data class Image( val id: Int, val width: Int, val height: Int, val name: String)

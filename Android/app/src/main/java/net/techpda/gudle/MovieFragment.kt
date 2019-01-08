@@ -31,6 +31,7 @@ class MovieFragment : Fragment() {
             var rv = recyclerView { }
             rv.layoutManager = LinearLayoutManager(this.ctx)
             rv.addItemDecoration(DividerItemDecoration(this.ctx, LinearLayoutManager(this.ctx).orientation))
+//            rv.adapter = AlbumAdapter(this.ctx, JCModel.dummySet!!.list, JCModel.imageSet!!.list)
             rv.adapter = AlbumAdapter(this.ctx, JCModel.dummySet!!.list, JCModel.imageSet!!.list)
 
         }.view

@@ -17,6 +17,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Display
 import android.view.View
+import android.view.Window
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.LinearLayout
@@ -50,8 +51,6 @@ class MainActivity : AppCompatActivity() {
 
     //https://github.com/nshmura/RecyclerTabLayout
 
-    private lateinit var topViewPager: ViewPager
-    private lateinit var viewPager: ViewPager
     private lateinit var pagerAdapter: MoviesPagerAdapter
     private lateinit var pagerAdapter2: MoviesPagerAdapter
     private lateinit var recyclerTabLayout: RecyclerTabLayout
@@ -68,94 +67,86 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        dBinder.getImageAll()
-//        dBinder.getDummyAll { setViewPagerAdapter() }
-//
-//        setContentView(R.layout.activity_main)
-//        viewPager = findViewById(R.id.viewPager)
-//        recyclerTabLayout = findViewById(R.id.recyclerTabLayout)
-//
-//        var list: ArrayList<Movie> = MovieHelper.getMovies()
-//
-//
-//        pagerAdapter = MoviesPagerAdapter(supportFragmentManager, list)
-//        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-//
-//            override fun onPageScrollStateChanged(state: Int) {
-//                print("onPageScrollStateChanged")
-//            }
-//
-//            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-//                print("onPageScrolled")
-//            }
-//            override fun onPageSelected(position: Int) {
-//                print("onPageSelected")
-//            }
-//
-//        })
-//
-//        var pages:ArrayList<Model> = arrayListOf()
-//        pages.add(Model(R.string.one, R.layout.layout_one))
-//        pages.add(Model(R.string.two, R.layout.layout_two))
-//        pages.add(Model(R.string.three, R.layout.layout_three))
-//
-//
-//        topViewPager = findViewById(R.id.topViewPager)
-//        topViewPager.adapter = CustomPagerAdapter(this, pages)
-//        topViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-//
-//            override fun onPageScrollStateChanged(state: Int) {
-//                print("onPageScrollStateChanged")
-//            }
-//
-//            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-//                print("onPageScrolled")
-//            }
-//            override fun onPageSelected(position: Int) {
-//                print("onPageSelected")
-//            }
-//
-//        })
+        //remove titlebar
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+
+        dBinder.getImageAll()
+        dBinder.getDummyAll { setViewPagerAdapter() }
+        dBinder.getMarketSet()
 
         setContentView(R.layout.activity_main)
-//        webView.loadUrl("http://220.68.94.74")
-        loadWebView("http://220.68.94.74")
+        recyclerTabLayout = findViewById(R.id.recyclerTabLayout)
+
+        var list: ArrayList<Movie> = MovieHelper.getMovies()
+        pagerAdapter = MoviesPagerAdapter(supportFragmentManager, list)
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+                print("onPageScrollStateChanged")
+            }
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                print("onPageScrolled")
+            }
+            override fun onPageSelected(position: Int) {
+                print("onPageSelected")
+            }
+
+        })
+
+//        var pages:ArrayList<Movie> = MovieHelper.getMovies()
+        marketingPager.adapter = CustomPagerAdapter(this, JCModel.marketSet!!.list)
+        marketingPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+
+            override fun onPageScrollStateChanged(state: Int) {
+                print("onPageScrollStateChanged")
+            }
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                print("onPageScrolled")
+            }
+            override fun onPageSelected(position: Int) {
+                print("onPageSelected")
+            }
+        })
+//
+//        setContentView(R.layout.activity_main)
+    //        webView.loadUrl("http://220.68.94.74")
+//        loadWebView("http://220.68.94.74")
 //        loadWebView("http://220.68.94.74/2.mp4")
     }
 
-    fun loadWebView(url: String)
-    {
-        // WebView settings
-        JCWebViewSettings(webView).setDefault()
-
-        webView.loadUrl(url)
-        webView.fitsSystemWindows = true
-
-        //  if SDK version is greater of 19 then activate hardware acceleration
-        //  otherwise activate software acceleration
-        webView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
-
-        //풀모드일 때는 이쪽으로 빠짐
-        webView.webChromeClient = object: JCFullscreenableChromeClient(this) {
-            override fun onProgressChanged(view: WebView?, newProgress: Int) {
-                print("progress: $newProgress")
-            }
-        }
-
-        //일반모드일 때.
-        webView.webViewClient = object: WebViewClient() {
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-
-
-                toast("Page loading.")
-
-            }
-
-            override fun onPageFinished(view: WebView?, url: String?) {
-                toast("Page Finished.")
-            }
-        }
-    }
+//    fun loadWebView(url: String)
+//    {
+//        // WebView settings
+//        JCWebViewSettings(webView).setDefault()
+//
+//        webView.loadUrl(url)
+//        webView.fitsSystemWindows = true
+//
+//        //  if SDK version is greater of 19 then activate hardware acceleration
+//        //  otherwise activate software acceleration
+//        webView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+//
+//        //풀모드일 때는 이쪽으로 빠짐
+//        webView.webChromeClient = object: JCFullscreenableChromeClient(this) {
+//            override fun onProgressChanged(view: WebView?, newProgress: Int) {
+//                print("progress: $newProgress")
+//            }
+//        }
+//
+//        //일반모드일 때.
+//        webView.webViewClient = object: WebViewClient() {
+//            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+//
+//
+//                toast("Page loading.")
+//
+//            }
+//
+//            override fun onPageFinished(view: WebView?, url: String?) {
+//                toast("Page Finished.")
+//            }
+//        }
+//    }
 
 }
 

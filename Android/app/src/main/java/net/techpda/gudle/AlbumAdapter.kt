@@ -27,6 +27,8 @@ class AlbumAdapter(val context: Context, var list: ArrayList<Album> = arrayListO
 //        holder.ivThumb.setBackgroundColor(movie.color)
 
 
+
+
         Picasso.get()
                 .load("http://favorite.cafe24app.com/img/"+imageArr[movie.img].name)
                 .placeholder(R.drawable.ic_launcher_foreground)

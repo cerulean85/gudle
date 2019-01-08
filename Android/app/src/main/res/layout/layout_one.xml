@@ -6,11 +6,18 @@
     android:layout_gravity="center"
     >
 
-    <android.support.v7.widget.AppCompatTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        style="@style/Base.TextAppearance.AppCompat.Subhead"
-        android:text="@string/one" />
+
+    <ImageView
+        android:id="@+id/marketingIV"
+        android:layout_height="158dp"
+        android:layout_width="match_parent"/>
+
+    <!--<android.support.v7.widget.AppCompatTextView-->
+        <!--android:id="@+id/titleTV"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center"-->
+        <!--style="@style/Base.TextAppearance.AppCompat.Subhead"-->
+        <!--android:text="@string/one" />-->
 
 </android.support.constraint.ConstraintLayout>
