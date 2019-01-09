@@ -28,13 +28,14 @@ class AlbumAdapter(val context: Context, var list: ArrayList<Album> = arrayListO
 
 
 
-
-        Picasso.get()
-                .load("http://favorite.cafe24app.com/img/"+imageArr[movie.img].name)
+        if(imageArr.size != movie.img) {
+            Picasso.get()
+                .load("http://favorite.cafe24app.com/img/" + imageArr[movie.img].name)
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .error(R.drawable.ic_launcher_background)
                 //.transform(BlurTransformation(context, 25))
                 .into(holder.ivThumb)
+        }
 
 //        Picasso.get().load("https://post-phinf.pstatic.net/MjAxODA1MzBfNDkg/MDAxNTI3NjY3MzE3Nzc1.JGkOAHkv6UUS_4tqnD6irtAcztUHhYhmwP5xwME9H04g.SixBN61IDWoFV3gSwlgSUsSxtOtzcp2H_TQZzJmho3kg.JPEG/메인후보1.jpg?type=w1200").transform(BlurTransformation(context, 25)).into(holder.ivThumb)
         //blur도 된다 -_-;;

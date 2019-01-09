@@ -1,18 +1,23 @@
 package net.techpda.gudle
 
 import android.graphics.Color
+import android.os.Handler
+import android.os.Message
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.core.FuelManager
+import com.github.kittinunf.fuel.httpPost
 import com.google.gson.Gson
 
-object JCDataBinder {
+class Binder {
 
     private var model: JCModel = JCModel
     private var gson: Gson = Gson()
 
     init {
         FuelManager.instance.basePath = "http://favorite.cafe24app.com";
+
+//        FuelManager.instance.basePath = "https://mobile01.e-koreatech.ac.kr/";
     }
 
     fun getImageAll() {
@@ -35,7 +40,7 @@ object JCDataBinder {
         try {
             Fuel.get("getDummyAll").responseJson { request, response, result ->
 
-                val json: String  = result.get().content;
+                val json: String  = result.get().content
                 model.dummySet = gson.fromJson(json, AlbumArray::class.java)
 
                 body()
@@ -58,5 +63,51 @@ object JCDataBinder {
             JCModel.marketSet!!.list.add(Movie("Forrest Gump Sherlock Holmes The Shkddab1 Redemption",2009, hyoUrl+"21.jpg", Color.CYAN))
             JCModel.marketSet!!.list.add(Movie("The Shawshank Redemption",1994, hyoUrl+"22.jpg", Color.LTGRAY))
     }
+
+    fun getSystemInfo() {
+
+//        FuelManager.instance.basePath = "https://mobile01.e-koreatech.ac.kr/"
+
+        val addr = "http://mobile01.e-koreatech.ac.kr/getSystemInfo"
+
+        var r: String = "Never...."
+        try {
+            addr.httpPost().header("Content-Type" to "application/x-www-form-urlencoded")
+            .responseJson{ request, response, result ->
+                log(result.get().content)
+
+                val json: String  = result.get().content
+
+            }
+
+//            Fuel.post("getSystemInfo").responseJson { request, response, result ->
+//
+//                val json: String  = result.get().content
+//                log.print(json)
+////                model.dummySet = gson.fromJson(json, AlbumArray::class.java)
+//
+//            }
+        } catch (e: Exception) {
+        } finally {
+
+
+        }
+
+//        cs.print(pref.getString("TEST"))
+
+//        try {
+//            Fuel.get("getDummyAll").responseJson { request, response, result ->
+//
+//                val json: String  = result.get().content;
+//                model.dummySet = gson.fromJson(json, AlbumArray::class.java)
+//
+//                body()
+//            }
+//        } catch (e: Exception) {
+//        } finally {
+//        }
+    }
+
+    private fun log(message: String) { App.log("[From Binder]  $message") }
 
 }

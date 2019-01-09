@@ -6,10 +6,8 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
+import android.os.*
 import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
-import android.os.Handler
-import android.os.Message
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
@@ -56,8 +54,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerTabLayout: RecyclerTabLayout
 
 
-    private val dBinder = JCDataBinder
-
     private fun setViewPagerAdapter()
     {
         viewPager.adapter = pagerAdapter
@@ -67,12 +63,35 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //remove titlebar
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
+//        if (BuildConfig.DEBUG) {
+//            StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder()
+//                 .permitAll()
+//                 .detectAll()
+//                 .penaltyDeath()
+//                 .penaltyDeathOnNetwork()
+//                 .penaltyDialog()
+//                 .penaltyDropBox()
+//                 .penaltyFlashScreen()
+//                 .penaltyLog()
+//                 .build())
+//        } else {
+//            var policy: StrictMode.VmPolicy.Builder = StrictMode.VmPolicy.Builder()
+//            policy.detectAll().penaltyDeath().penaltyDropBox().penaltyLog()
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) policy.penaltyDeathOnCleartextNetwork()
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) policy.penaltyDeathOnFileUriExposure()
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) policy.permitNonSdkApiUsage()
+//            StrictMode.setVmPolicy(policy.build())
+//        }
 
-        dBinder.getImageAll()
-        dBinder.getDummyAll { setViewPagerAdapter() }
-        dBinder.getMarketSet()
+
+
+        App.pref.test = "test"
+
+        App.binder.getSystemInfo()
+
+        App.binder.getImageAll()
+        App.binder.getDummyAll { setViewPagerAdapter() }
+        App.binder.getMarketSet()
 
         setContentView(R.layout.activity_main)
         recyclerTabLayout = findViewById(R.id.recyclerTabLayout)
@@ -107,12 +126,15 @@ class MainActivity : AppCompatActivity() {
                 print("onPageSelected")
             }
         })
-//
+
+
+
 //        setContentView(R.layout.activity_main)
     //        webView.loadUrl("http://220.68.94.74")
 //        loadWebView("http://220.68.94.74")
 //        loadWebView("http://220.68.94.74/2.mp4")
     }
+
 
 //    fun loadWebView(url: String)
 //    {
@@ -359,6 +381,8 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA */
 fun Context.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
+
+
 
 
 
