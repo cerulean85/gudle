@@ -1,12 +1,16 @@
 package net.techpda.gudle
 
 import android.app.ProgressDialog
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.os.*
+import android.provider.Settings
 import android.support.v7.app.AppCompatActivity
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
@@ -53,11 +57,56 @@ class MainActivity : AppCompatActivity() {
     private lateinit var pagerAdapter2: MoviesPagerAdapter
     private lateinit var recyclerTabLayout: RecyclerTabLayout
 
+    private var mBound: Boolean = false
+
 
     private fun setViewPagerAdapter()
     {
         viewPager.adapter = pagerAdapter
         recyclerTabLayout.setUpWithViewPager(viewPager)
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {   // 마시멜로우 이상일 경우
+            if (!Settings.canDrawOverlays(this)) {              // 체크
+                val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:$packageName"))
+                this.startActivityForResult(intent, 1)
+            } else {
+
+
+                bindService(Intent(this, DiagnosisService::class.java), mServiceConn, Context.BIND_AUTO_CREATE)
+//                val intent = Intent(applicationContext, MyService::class.java)
+//
+//                startService(Intent(applicationContext, MyService::class.java))
+            }
+        } else {
+            bindService(Intent(this, DiagnosisService::class.java), mServiceConn, Context.BIND_AUTO_CREATE)
+        }
+    }
+    override fun onStop() {
+        super.onStop()
+
+        if(mBound) {
+            unbindService(mServiceConn)
+            mBound = false
+        }
+
+
+    }
+
+    var mServiceConn: ServiceConnection = object : ServiceConnection {
+        override fun onServiceDisconnected(name: ComponentName?) {
+            mBound = false
+        }
+
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            val binder: DiagnosisService.DiagnosisServiceBinder = service as DiagnosisService.DiagnosisServiceBinder
+            App.mService = binder.service
+            mBound = true
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

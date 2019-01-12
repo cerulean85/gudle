@@ -7,6 +7,7 @@ class App : Application() {
     companion object {
         lateinit var pref : SharedPref
         lateinit var binder: Binder
+        lateinit var mService: DiagnosisService
 
         val DEVELOPING: Boolean = true
         fun log(message: String) {
