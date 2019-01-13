@@ -32,7 +32,7 @@ class MovieFragment : Fragment() {
             rv.layoutManager = LinearLayoutManager(this.ctx)
             rv.addItemDecoration(DividerItemDecoration(this.ctx, LinearLayoutManager(this.ctx).orientation))
 //            rv.adapter = AlbumAdapter(this.ctx, JCModel.dummySet!!.list, JCModel.imageSet!!.list)
-            rv.adapter = AlbumAdapter(this.ctx, JCModel.dummySet!!.list, JCModel.imageSet!!.list)
+            rv.adapter = AlbumAdapter(this.ctx, JCModel.dataHome.course)
 
         }.view
 
@@ -62,19 +62,19 @@ class MovieFragment : Fragment() {
     companion object {
 
         // Method for creating new instances of the fragment
-        fun newInstance(movie: Movie): MovieFragment {
+        fun newInstance(album: Album): MovieFragment {
 
             // Store the movie data in a Bundle object
             val args = Bundle()
-            args.putString(MovieHelper.KEY_TITLE, movie.title)
-            args.putInt(MovieHelper.KEY_RATING, movie.year)
-            args.putString(MovieHelper.KEY_POSTER_URI, movie.image)
-            args.putString(MovieHelper.KEY_OVERVIEW, movie.title)
+//            args.putString(MovieHelper.KEY_TITLE, album.title)
+//            args.putInt(MovieHelper.KEY_RATING, album.year)
+//            args.putString(MovieHelper.KEY_POSTER_URI, album.image)
+//            args.putString(MovieHelper.KEY_OVERVIEW, album.title)
 
             // Create a new MovieFragment and set the Bundle as the arguments
             // to be retrieved and displayed when the view is created
             val fragment = MovieFragment()
-            fragment.arguments = args
+//            fragment.arguments = args
             return fragment
         }
     }

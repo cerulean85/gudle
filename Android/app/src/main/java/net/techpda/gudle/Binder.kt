@@ -8,6 +8,9 @@ import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.fuel.httpPost
 import com.google.gson.Gson
+import com.google.gson.JsonArray
+import com.google.gson.JsonElement
+import com.google.gson.JsonParser
 
 class Binder {
 
@@ -108,6 +111,53 @@ class Binder {
 //        }
     }
 
+    fun getMain(page: String, category: String) {
+
+        val addr = "http://mobile01.e-koreatech.ac.kr/getMain"
+
+        val list: List<Pair<String, String>>? = listOf(Pair("now_page", page), Pair("category_no", category))
+
+        try {
+            addr.httpPost(list).header("Content-Type" to "application/x-www-form-urlencoded")
+                    .responseJson{ request, response, result ->
+
+                        val json:String = result.get().content
+                        var element = JsonParser().parse(json)
+
+                        model.dataHome.countBanner = element.asJsonObject.get("banner_count").asInt
+                        model.dataHome.countCourse = element.asJsonObject.get("total_course_count").asInt
+                        model.dataHome.isNewAlarm = element.asJsonObject.get("exists_new_alarm").asInt
+
+                        val d1 = element.asJsonObject.get("data_list1").asJsonArray
+                        d1.forEach {
+                            model.dataHome.course.add(Album(
+                                    noCourse = it.asJsonObject.get("course_no").asInt,
+                                    noContent = it.asJsonObject.get("course_content_no").asInt,
+                                    title = it.asJsonObject.get("service_title").asString,
+                                    nameCategory = it.asJsonObject.get("category_title").asString,
+                                    urlThumb = it.asJsonObject.get("course_image_thumbnail_url").asString,
+                                    countView = it.asJsonObject.get("view_count").asInt)) }
+
+                        val d2 = element.asJsonObject.get("data_list2").asJsonArray
+                        d2.forEach {
+                            model.dataHome.banner.add(Article(
+                                    no = it.asJsonObject.get("board_article_no").asInt,
+                                    noBoard = it.asJsonObject.get("board_no").asInt,
+                                    title = it.asJsonObject.get("title").asString,
+                                    urlThumb = it.asJsonObject.get("thumbnail_url").asString))}
+
+//                        model.dataHome = gson.fromJson(json, DataHome::class.java)
+                        log(json)
+                    }
+        } catch(e: Exception) {
+
+        } finally {
+
+        }
+
+    }
+
     private fun log(message: String) { App.log("[From Binder]  $message") }
+
 
 }

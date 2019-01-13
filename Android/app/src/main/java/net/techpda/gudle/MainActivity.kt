@@ -13,10 +13,14 @@ import android.os.*
 import android.provider.Settings
 import android.support.v7.app.AppCompatActivity
 import android.support.design.widget.TabLayout
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.util.DisplayMetrics
 import android.view.Display
 import android.view.View
 import android.view.Window
@@ -53,37 +57,39 @@ class MainActivity : AppCompatActivity() {
 
     //https://github.com/nshmura/RecyclerTabLayout
 
-    private lateinit var pagerAdapter: MoviesPagerAdapter
-    private lateinit var pagerAdapter2: MoviesPagerAdapter
-    private lateinit var recyclerTabLayout: RecyclerTabLayout
+//    private lateinit var pagerAdapter: MoviesPagerAdapter
+//    private lateinit var pagerAdapter2: MoviesPagerAdapter
+//    private lateinit var recyclerTabLayout: RecyclerTabLayout
 
     private var mBound: Boolean = false
 
 
-    private fun setViewPagerAdapter()
-    {
-        viewPager.adapter = pagerAdapter
-        recyclerTabLayout.setUpWithViewPager(viewPager)
-    }
+//    private fun setViewPagerAdapter()
+//    {
+//        viewPager.adapter = pagerAdapter
+//        recyclerTabLayout.setUpWithViewPager(viewPager)
+//    }
 
     override fun onStart() {
         super.onStart()
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {   // 마시멜로우 이상일 경우
-            if (!Settings.canDrawOverlays(this)) {              // 체크
-                val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                        Uri.parse("package:$packageName"))
-                this.startActivityForResult(intent, 1)
-            } else {
+        if(App.useDiagnois) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {   // 마시멜로우 이상일 경우
+                if (!Settings.canDrawOverlays(this)) {              // 체크
+                    val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                            Uri.parse("package:$packageName"))
+                    this.startActivityForResult(intent, 1)
+                } else {
 
 
-                bindService(Intent(this, DiagnosisService::class.java), mServiceConn, Context.BIND_AUTO_CREATE)
+                    bindService(Intent(this, DiagnosisService::class.java), mServiceConn, Context.BIND_AUTO_CREATE)
 //                val intent = Intent(applicationContext, MyService::class.java)
 //
 //                startService(Intent(applicationContext, MyService::class.java))
+                }
+            } else {
+                bindService(Intent(this, DiagnosisService::class.java), mServiceConn, Context.BIND_AUTO_CREATE)
             }
-        } else {
-            bindService(Intent(this, DiagnosisService::class.java), mServiceConn, Context.BIND_AUTO_CREATE)
         }
     }
     override fun onStop() {
@@ -109,8 +115,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private var tabLayout: TabLayout? = null
+    var viewPager: ViewPager? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        App.displayWidth = displayMetrics.widthPixels
+        App.heightHomeCourse = (App.displayWidth * (460.0f/1242.0f)).toInt()
 
 //        if (BuildConfig.DEBUG) {
 //            StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder()
@@ -136,45 +150,52 @@ class MainActivity : AppCompatActivity() {
 
         App.pref.test = "test"
 
-        App.binder.getSystemInfo()
+//        App.binder.getSystemInfo()
+//
+//        App.binder.getMain("1", "")
 
         App.binder.getImageAll()
-        App.binder.getDummyAll { setViewPagerAdapter() }
-        App.binder.getMarketSet()
+
 
         setContentView(R.layout.activity_main)
-        recyclerTabLayout = findViewById(R.id.recyclerTabLayout)
 
-        var list: ArrayList<Movie> = MovieHelper.getMovies()
-        pagerAdapter = MoviesPagerAdapter(supportFragmentManager, list)
-        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrollStateChanged(state: Int) {
-                print("onPageScrollStateChanged")
-            }
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                print("onPageScrolled")
-            }
-            override fun onPageSelected(position: Int) {
-                print("onPageSelected")
-            }
+        viewPager = findViewById(R.id.viewpager) as ViewPager
+        setupViewPager(viewPager!!)
 
-        })
+        tabLayout = findViewById(R.id.tabs) as TabLayout
+        tabLayout!!.setupWithViewPager(viewPager)
 
-//        var pages:ArrayList<Movie> = MovieHelper.getMovies()
-        marketingPager.adapter = CustomPagerAdapter(this, JCModel.marketSet!!.list)
-        marketingPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-
-            override fun onPageScrollStateChanged(state: Int) {
-                print("onPageScrollStateChanged")
-            }
-
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                print("onPageScrolled")
-            }
-            override fun onPageSelected(position: Int) {
-                print("onPageSelected")
-            }
-        })
+//        recyclerTabLayout = findViewById(R.id.recyclerTabLayout)
+//
+//        var list: ArrayList<Movie> = MovieHelper.getMovies()
+//        pagerAdapter = MoviesPagerAdapter(supportFragmentManager, list)
+//        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+//            override fun onPageScrollStateChanged(state: Int) {
+//                print("onPageScrollStateChanged")
+//            }
+//            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+//                print("onPageScrolled")
+//            }
+//            override fun onPageSelected(position: Int) {
+//                print("onPageSelected")
+//            }
+//
+//        })
+//
+//        marketingPager.adapter = CustomPagerAdapter(this, JCModel.marketSet!!.list)
+//        marketingPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+//
+//            override fun onPageScrollStateChanged(state: Int) {
+//                print("onPageScrollStateChanged")
+//            }
+//
+//            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+//                print("onPageScrolled")
+//            }
+//            override fun onPageSelected(position: Int) {
+//                print("onPageSelected")
+//            }
+//        })
 
 
 
@@ -183,6 +204,37 @@ class MainActivity : AppCompatActivity() {
 //        loadWebView("http://220.68.94.74")
 //        loadWebView("http://220.68.94.74/2.mp4")
     }
+
+    private fun setupViewPager(viewPager: ViewPager) {
+        val adapter = ViewPagerAdapter(supportFragmentManager)
+        adapter.addFragment(TabHome(), "ONE")
+//        adapter.addFragment(TwoFragment(), "TWO")
+//        adapter.addFragment(ThreeFragment(), "THREE")
+        viewPager.adapter = adapter
+    }
+
+    internal inner class ViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager) {
+        private val mFragmentList = ArrayList<Fragment>()
+        private val mFragmentTitleList = ArrayList<String>()
+
+        override fun getItem(position: Int): Fragment {
+            return mFragmentList[position]
+        }
+
+        override fun getCount(): Int {
+            return mFragmentList.size
+        }
+
+        fun addFragment(fragment: Fragment, title: String) {
+            mFragmentList.add(fragment)
+            mFragmentTitleList.add(title)
+        }
+
+        override fun getPageTitle(position: Int): CharSequence {
+            return mFragmentTitleList[position]
+        }
+    }
+
 
 
 //    fun loadWebView(url: String)

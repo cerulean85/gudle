@@ -14,6 +14,10 @@ class App : Application() {
             if(DEVELOPING)
                 println(message)
         }
+
+        val useDiagnois: Boolean = false
+        var displayWidth: Int = 0
+        var heightHomeCourse: Int = 0
     }
 
     override fun onCreate() {

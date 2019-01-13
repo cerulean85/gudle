@@ -10,7 +10,7 @@ import com.squareup.picasso.Picasso
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.image
 
-class MovieAdapter(val context: Context, var list: ArrayList<Movie> = arrayListOf()): RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
+class MovieAdapter(val context: Context, var list: ArrayList<Album> = arrayListOf()): RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
 
 
@@ -21,12 +21,12 @@ class MovieAdapter(val context: Context, var list: ArrayList<Movie> = arrayListO
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val movie = list[position]
         holder.tvTitle.text = movie.title
-        holder.tvYear.text = "${movie.year}"
+        holder.tvYear.text = "${movie.countView}"
 //        holder.ivThumb.setImageDrawable(movie.image)
-        holder.ivThumb.setBackgroundColor(movie.color)
+//        holder.ivThumb.setBackgroundColor(movie.color)
 
         Picasso.get()
-                .load(movie.image)
+                .load(movie.urlThumb)
 //                .transform(BlurTransformation(context, 25))
                 .into(holder.ivThumb)
 
@@ -48,9 +48,8 @@ class MovieAdapter(val context: Context, var list: ArrayList<Movie> = arrayListO
 
         init {
             tvTitle = itemView.findViewById(MovieUI.idTVTitle)
-            tvYear = itemView.findViewById(MovieUI.idTVDate)
+            tvYear = itemView.findViewById(MovieUI.idTVCountView)
             ivThumb = itemView.findViewById(MovieUI.idIVImage)
-
         }
 
     }
