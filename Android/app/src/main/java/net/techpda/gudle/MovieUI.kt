@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import org.jetbrains.anko.*
@@ -29,7 +30,7 @@ class MovieUI : AnkoComponent<ViewGroup>{
 
         verticalLayout {
 
-            lparams(matchParent, (App.displayWidth * (640.0f/1242.0f)).toInt())
+            lparams(matchParent, wrapContent) //(App.displayWidth * (640.0f/1242.0f)).toInt())
 
 
 
@@ -43,15 +44,16 @@ class MovieUI : AnkoComponent<ViewGroup>{
                     imageView {
                         id = idIVImage
                         image = resources.getDrawable(R.drawable.p1)
-                        layoutParams = LinearLayout.LayoutParams(matchParent, (App.displayWidth * (460.0f/1242.0f)).toInt())
+                        layoutParams = LinearLayout.LayoutParams(matchParent, wrapContent) //(App.displayWidth * (460.0f/1242.0f)).toInt())
+                        scaleType = ImageView.ScaleType.CENTER_CROP
                     }
 
                     relativeLayout {
-                        lparams(matchParent, (App.displayWidth * (180.0f/1242.0f)).toInt())
+                        lparams(matchParent, wrapContent)
 
                         textView {
                             id = idTVTitle
-                            layoutParams = LinearLayout.LayoutParams(wrapContent, (App.displayWidth * (180.0f/1242.0f)).toInt())
+                            layoutParams = LinearLayout.LayoutParams(wrapContent, wrapContent)
                             leftPadding = dip(16)
                             topPadding = dip(10)
                             maxWidth = (App.displayWidth * 0.70f).toInt()
@@ -63,12 +65,12 @@ class MovieUI : AnkoComponent<ViewGroup>{
 
                         textView {
                             id = idTVCountView
-                            layoutParams = LinearLayout.LayoutParams(wrapContent, (App.displayWidth * (180.0f/1242.0f)).toInt())
+                            layoutParams = LinearLayout.LayoutParams(wrapContent, wrapContent)
                             textSize = 12f
                             rightPadding = dip(16)
                             topPadding = dip(10)
                             textColor = R.color.gray_87
-                        }.lparams(wrapContent, dip(50)) {
+                        }.lparams(wrapContent, dip(40)) {
                             centerVertically()
                             alignParentRight()
                         }

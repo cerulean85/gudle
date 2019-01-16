@@ -62,7 +62,7 @@ class MovieFragment : Fragment() {
     companion object {
 
         // Method for creating new instances of the fragment
-        fun newInstance(album: Album): MovieFragment {
+        fun newInstance(album: Category): MovieFragment {
 
             // Store the movie data in a Bundle object
             val args = Bundle()

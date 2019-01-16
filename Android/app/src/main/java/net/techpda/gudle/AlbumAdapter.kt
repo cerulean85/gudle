@@ -14,7 +14,7 @@ import org.jetbrains.anko.image
 import net.techpda.gudle.MainActivity
 import org.jetbrains.anko.textColor
 
-class AlbumAdapter(val context: Context, var list: ArrayList<Album> = arrayListOf()): RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
+class AlbumAdapter  (val context: Context, var list: ArrayList<Album> = arrayListOf()): RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
 
 
 

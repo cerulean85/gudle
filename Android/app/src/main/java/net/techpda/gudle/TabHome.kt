@@ -37,7 +37,7 @@ class TabHome : Fragment() {
         super.onCreate(savedInstanceState)
 
         App.binder.getDummyAll { setViewPagerAdapter() }
-        App.binder.getMarketSet()
+//        App.binder.getMarketSet()
     }
 
 
@@ -55,21 +55,24 @@ class TabHome : Fragment() {
 
         var view: View = inflater.inflate(R.layout.fragment_tab_home, container, false)
 
-        var list: ArrayList<Album> = JCModel.dataHome.course
-        pagerAdapter = MoviesPagerAdapter(fragmentManager!!, list)
+        pagerAdapter = MoviesPagerAdapter(fragmentManager!!, JCModel.systemInfo.category)
         view.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
                 print("onPageScrollStateChanged")
             }
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 print("onPageScrolled")
+//                App.binder.getMain("1", "")
+
             }
             override fun onPageSelected(position: Int) {
                 print("onPageSelected")
+
+
             }
         })
 
-        view.marketingPager.adapter = CustomPagerAdapter(context!!, JCModel.marketSet!!.list)
+        view.marketingPager.adapter = CustomPagerAdapter(context!!, JCModel.dataHome.banner)
         view.marketingPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
             override fun onPageScrollStateChanged(state: Int) {

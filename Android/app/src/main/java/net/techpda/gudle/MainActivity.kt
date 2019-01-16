@@ -149,16 +149,11 @@ class MainActivity : AppCompatActivity() {
 
 
         App.pref.test = "test"
-
-//        App.binder.getSystemInfo()
-//
-//        App.binder.getMain("1", "")
-
+        App.binder.getSystemInfo()
+        App.binder.getMain("1", "")
         App.binder.getImageAll()
 
-
         setContentView(R.layout.activity_main)
-
         viewPager = findViewById(R.id.viewpager) as ViewPager
         setupViewPager(viewPager!!)
 

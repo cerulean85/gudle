@@ -16,8 +16,9 @@ import com.google.gson.Gson
 object JCModel {
     var imageSet: ImageArray? = ImageArray()
     var dummySet: AlbumArray? = AlbumArray()
-    var marketSet: MovieArray? = MovieArray()
+//    var marketSet: MovieArray? = MovieArray()
     var dataHome: DataHome = DataHome()
+    var systemInfo: SystemInfo = SystemInfo()
 }
 
 data class MovieArray(val list: ArrayList<Movie> = arrayListOf())
@@ -27,6 +28,19 @@ data class Model(val titleResId: Int, val layoutResId: Int)
 data class Md(val a:String, val b:String, val c:String)
 //data class Person(val list:List<Album>)
 
+
+data class SystemInfo(
+        var category: ArrayList<Category> = arrayListOf(),
+        var versionApp: String = "",
+        var versionMinOS: String = "",
+        var urlEvent: String = "",
+
+        var eventNoBard: Int = 0,
+        var eventNoBoardArticle: Int = 0,
+        var eventTitle: String = "",
+        var eventUrlImage: String = "",
+        var eventNoPopup: Int = 0
+)
 
 data class DataHome(
         var banner: ArrayList<Article> = arrayListOf(),
@@ -66,6 +80,11 @@ data class Album(
         var urlThumb: String = "",
         var countView: Int = 0
 
+)
+
+data class Category(
+        var noCategory: Int = 0,
+        var title: String = ""
 )
 
 data class ImageArray( val list: ArrayList<Image> = arrayListOf())

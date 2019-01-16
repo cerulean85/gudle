@@ -53,19 +53,19 @@ class Binder {
         }
     }
 
-    fun getMarketSet() {
-            var hyoUrl: String = "http://favorite.cafe24app.com/img/img0"
-
-            JCModel.marketSet!!.list.add(Movie("Forrest Gump Sherlock Holmes The Shkddab1 Redemption",2009, hyoUrl+"16.jpg", Color.CYAN))
-            JCModel.marketSet!!.list.add(Movie("The Shawshank Redemption",1994, hyoUrl+"17.jpg", Color.LTGRAY))
-            JCModel.marketSet!!.list.add(Movie("Forrest Gump",1994, hyoUrl+"17.jpg", Color.GREEN))
-            JCModel.marketSet!!.list.add(Movie("Titanic",1997, hyoUrl+"18.jpg", Color.DKGRAY))
-            JCModel.marketSet!!.list.add(Movie("Taxi",1998, hyoUrl+"18.jpg", Color.MAGENTA))
-            JCModel.marketSet!!.list.add(Movie("Inception",1994, hyoUrl+"19.jpg", Color.WHITE))
-            JCModel.marketSet!!.list.add(Movie("The Imitation Game",2014, hyoUrl+"20.jpg", Color.GREEN))
-            JCModel.marketSet!!.list.add(Movie("Forrest Gump Sherlock Holmes The Shkddab1 Redemption",2009, hyoUrl+"21.jpg", Color.CYAN))
-            JCModel.marketSet!!.list.add(Movie("The Shawshank Redemption",1994, hyoUrl+"22.jpg", Color.LTGRAY))
-    }
+//    fun getMarketSet() {
+//            var hyoUrl: String = "http://favorite.cafe24app.com/img/img0"
+//
+//            JCModel.marketSet!!.list.add(Movie("Forrest Gump Sherlock Holmes The Shkddab1 Redemption",2009, hyoUrl+"16.jpg", Color.CYAN))
+//            JCModel.marketSet!!.list.add(Movie("The Shawshank Redemption",1994, hyoUrl+"17.jpg", Color.LTGRAY))
+//            JCModel.marketSet!!.list.add(Movie("Forrest Gump",1994, hyoUrl+"17.jpg", Color.GREEN))
+//            JCModel.marketSet!!.list.add(Movie("Titanic",1997, hyoUrl+"18.jpg", Color.DKGRAY))
+//            JCModel.marketSet!!.list.add(Movie("Taxi",1998, hyoUrl+"18.jpg", Color.MAGENTA))
+//            JCModel.marketSet!!.list.add(Movie("Inception",1994, hyoUrl+"19.jpg", Color.WHITE))
+//            JCModel.marketSet!!.list.add(Movie("The Imitation Game",2014, hyoUrl+"20.jpg", Color.GREEN))
+//            JCModel.marketSet!!.list.add(Movie("Forrest Gump Sherlock Holmes The Shkddab1 Redemption",2009, hyoUrl+"21.jpg", Color.CYAN))
+//            JCModel.marketSet!!.list.add(Movie("The Shawshank Redemption",1994, hyoUrl+"22.jpg", Color.LTGRAY))
+//    }
 
     fun getSystemInfo() {
 
@@ -79,17 +79,24 @@ class Binder {
             .responseJson{ request, response, result ->
                 log(result.get().content)
 
-                val json: String  = result.get().content
+                val json:String = result.get().content
+                var element = JsonParser().parse(json)
 
+                model.systemInfo.urlEvent = element.asJsonObject.get("event_popup_url").asString
+                model.systemInfo.versionMinOS = element.asJsonObject.get("android_min_version").asString
+                model.systemInfo.eventNoBard = element.asJsonObject.get("board_no").asInt
+                model.systemInfo.eventNoBoardArticle = element.asJsonObject.get("board_article_no").asInt
+                model.systemInfo.eventTitle = element.asJsonObject.get("popup_title").asString
+                model.systemInfo.eventNoPopup = element.asJsonObject.get("popup_no").asInt
+                model.systemInfo.eventUrlImage = element.asJsonObject.get("image_url").asString
+
+                model.systemInfo.category.add(Category(0, "전체"))
+                val cate = element.asJsonObject.get("data_list").asJsonArray
+                cate.forEach {
+                    model.systemInfo.category.add(Category(
+                            noCategory = it.asJsonObject.get("category_no").asInt,
+                            title = it.asJsonObject.get("title").asString))}
             }
-
-//            Fuel.post("getSystemInfo").responseJson { request, response, result ->
-//
-//                val json: String  = result.get().content
-//                log.print(json)
-////                model.dummySet = gson.fromJson(json, AlbumArray::class.java)
-//
-//            }
         } catch (e: Exception) {
         } finally {
 
@@ -111,7 +118,7 @@ class Binder {
 //        }
     }
 
-    fun getMain(page: String, category: String) {
+    fun getMain(page: String, category: String, body:()->Unit = {}) {
 
         val addr = "http://mobile01.e-koreatech.ac.kr/getMain"
 
@@ -148,6 +155,8 @@ class Binder {
 
 //                        model.dataHome = gson.fromJson(json, DataHome::class.java)
                         log(json)
+
+                        body()
                     }
         } catch(e: Exception) {
 
