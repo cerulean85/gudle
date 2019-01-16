@@ -19,6 +19,10 @@ object JCModel {
 //    var marketSet: MovieArray? = MovieArray()
     var dataHome: DataHome = DataHome()
     var systemInfo: SystemInfo = SystemInfo()
+
+    var course2: ArrayList<Album> = arrayListOf()
+
+    var mapCourse:MutableMap<String, ArrayList<Album>> = mutableMapOf()
 }
 
 data class MovieArray(val list: ArrayList<Movie> = arrayListOf())

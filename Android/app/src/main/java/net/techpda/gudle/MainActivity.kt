@@ -150,15 +150,22 @@ class MainActivity : AppCompatActivity() {
 
         App.pref.test = "test"
         App.binder.getSystemInfo()
-        App.binder.getMain("1", "")
-        App.binder.getImageAll()
+
 
         setContentView(R.layout.activity_main)
-        viewPager = findViewById(R.id.viewpager) as ViewPager
-        setupViewPager(viewPager!!)
 
+        viewPager = findViewById(R.id.viewpager) as ViewPager
         tabLayout = findViewById(R.id.tabs) as TabLayout
-        tabLayout!!.setupWithViewPager(viewPager)
+
+//        App.binder.getMain("1", "") {
+            setupViewPager(viewPager!!)
+            tabLayout!!.setupWithViewPager(viewPager!!)
+//        }
+
+
+
+
+//        tabLayout!!.setupWithViewPager(viewPager)
 
 //        recyclerTabLayout = findViewById(R.id.recyclerTabLayout)
 //

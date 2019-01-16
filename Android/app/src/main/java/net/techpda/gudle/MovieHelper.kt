@@ -4,6 +4,8 @@ import android.graphics.Color
 
 object MovieHelper {
 
+    val KEY_NAME_CATEGORY = "전체"
+    val KEY_NO_CATEGORY = "no_category"
     val KEY_TITLE = "title"
     val KEY_RATING = "rating"
     val KEY_POSTER_URI = "posterUri"

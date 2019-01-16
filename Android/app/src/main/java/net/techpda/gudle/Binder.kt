@@ -67,7 +67,7 @@ class Binder {
 //            JCModel.marketSet!!.list.add(Movie("The Shawshank Redemption",1994, hyoUrl+"22.jpg", Color.LTGRAY))
 //    }
 
-    fun getSystemInfo() {
+    fun getSystemInfo(body:()->Unit = {}) {
 
 //        FuelManager.instance.basePath = "https://mobile01.e-koreatech.ac.kr/"
 
@@ -97,6 +97,9 @@ class Binder {
                             noCategory = it.asJsonObject.get("category_no").asInt,
                             title = it.asJsonObject.get("title").asString))}
             }
+
+            body()
+
         } catch (e: Exception) {
         } finally {
 
@@ -163,7 +166,41 @@ class Binder {
         } finally {
 
         }
+    }
 
+    fun getCourseByCategory(category: String, body:()->Unit = {}) {
+        val addr = "http://mobile01.e-koreatech.ac.kr/getMain"
+
+        val list: List<Pair<String, String>>? = listOf(Pair("now_page", "1"), Pair("category_no", category))
+
+        try {
+            addr.httpPost(list).header("Content-Type" to "application/x-www-form-urlencoded")
+                    .responseJson{ request, response, result ->
+
+                        val json:String = result.get().content
+                        var element = JsonParser().parse(json)
+
+                        var list: ArrayList<Album> = arrayListOf()
+
+                        val d1 = element.asJsonObject.get("data_list1").asJsonArray
+                        d1.forEach {
+                            list.add(Album(
+                                    noCourse = it.asJsonObject.get("course_no").asInt,
+                                    noContent = it.asJsonObject.get("course_content_no").asInt,
+                                    title = it.asJsonObject.get("service_title").asString,
+                                    nameCategory = it.asJsonObject.get("category_title").asString,
+                                    urlThumb = it.asJsonObject.get("course_image_thumbnail_url").asString,
+                                    countView = it.asJsonObject.get("view_count").asInt)) }
+
+                        model.mapCourse[category] = list
+
+                        body()
+                    }
+        } catch(e: Exception) {
+
+        } finally {
+
+        }
     }
 
     private fun log(message: String) { App.log("[From Binder]  $message") }

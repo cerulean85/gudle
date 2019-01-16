@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,25 +17,48 @@ import com.github.kittinunf.fuel.core.FuelManager
 import com.google.gson.Gson
 
 import com.squareup.picasso.Picasso
+import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.UI
+import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.verticalLayout
 
 class MovieFragment : Fragment() {
 
 
+    private lateinit var view: AnkoContext<Fragment>
+    private var rv: RecyclerView? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState:
     Bundle?): View? {
 
-        return UI {
 
-            var rv = recyclerView { }
-            rv.layoutManager = LinearLayoutManager(this.ctx)
-            rv.addItemDecoration(DividerItemDecoration(this.ctx, LinearLayoutManager(this.ctx).orientation))
+        view = UI {
+            rv = recyclerView { }
+            rv!!.layoutManager = LinearLayoutManager(this.ctx)
+            rv!!.addItemDecoration(DividerItemDecoration(this.ctx, LinearLayoutManager(this.ctx).orientation))
+        }
+
+
+        var noCategory = arguments!!.getString(MovieHelper.KEY_NO_CATEGORY)
+//        if (!noCategory.isEmpty()) {
+            App.binder.getCourseByCategory(noCategory) {
+                rv!!.adapter = AlbumAdapter(this.ctx, JCModel.mapCourse[noCategory]!!)
+            }
+//        } else {
+//            rv!!.adapter = AlbumAdapter(this.ctx, JCModel.dataHome.course)
+//        }
+
+        return view.view
+/*        return UI {
+            rv = recyclerView { }
+
+            rv!!.layoutManager = LinearLayoutManager(this.ctx)
+            rv!!.addItemDecoration(DividerItemDecoration(this.ctx, LinearLayoutManager(this.ctx).orientation))
 //            rv.adapter = AlbumAdapter(this.ctx, JCModel.dummySet!!.list, JCModel.imageSet!!.list)
-            rv.adapter = AlbumAdapter(this.ctx, JCModel.dataHome.course)
+//            rv.adapter = AlbumAdapter(this.ctx, JCModel.dataHome.course)
 
-        }.view
+        }.view*/
+
 
         // Creates the view controlled by the fragment
 //        val view = inflater.inflate(R.layout.fragment_movie, container, false)
@@ -62,10 +86,12 @@ class MovieFragment : Fragment() {
     companion object {
 
         // Method for creating new instances of the fragment
-        fun newInstance(album: Category): MovieFragment {
+        fun newInstance(category: Category): MovieFragment {
 
             // Store the movie data in a Bundle object
             val args = Bundle()
+            args.putString(MovieHelper.KEY_NO_CATEGORY, category.noCategory.toString())
+
 //            args.putString(MovieHelper.KEY_TITLE, album.title)
 //            args.putInt(MovieHelper.KEY_RATING, album.year)
 //            args.putString(MovieHelper.KEY_POSTER_URI, album.image)
@@ -74,7 +100,7 @@ class MovieFragment : Fragment() {
             // Create a new MovieFragment and set the Bundle as the arguments
             // to be retrieved and displayed when the view is created
             val fragment = MovieFragment()
-//            fragment.arguments = args
+            fragment.arguments = args
             return fragment
         }
     }
