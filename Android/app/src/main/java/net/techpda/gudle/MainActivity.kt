@@ -163,6 +163,8 @@ class MainActivity : AppCompatActivity() {
 //        }
 
 
+//        actionBar.setDisplayShowHomeEnabled(true)
+//        actionBar.setIcon(R.drawable.ic_icon_search)
 
 
 //        tabLayout!!.setupWithViewPager(viewPager)

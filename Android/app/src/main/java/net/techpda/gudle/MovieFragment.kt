@@ -39,14 +39,14 @@ class MovieFragment : Fragment() {
         }
 
 
-        var noCategory = arguments!!.getString(MovieHelper.KEY_NO_CATEGORY)
-//        if (!noCategory.isEmpty()) {
-            App.binder.getCourseByCategory(noCategory) {
-                rv!!.adapter = AlbumAdapter(this.ctx, JCModel.mapCourse[noCategory]!!)
+        var noCategory = arguments!!.getInt(MovieHelper.KEY_NO_CATEGORY)
+        if (noCategory > 0) {
+            App.binder.getCourseByCategory(noCategory.toString()) {
+                rv!!.adapter = AlbumAdapter(this.ctx, JCModel.mapCourse[noCategory.toString()]!!)
             }
-//        } else {
-//            rv!!.adapter = AlbumAdapter(this.ctx, JCModel.dataHome.course)
-//        }
+        } else {
+            rv!!.adapter = AlbumAdapter(this.ctx, JCModel.dataHome.course)
+        }
 
         return view.view
 /*        return UI {
@@ -90,7 +90,9 @@ class MovieFragment : Fragment() {
 
             // Store the movie data in a Bundle object
             val args = Bundle()
-            args.putString(MovieHelper.KEY_NO_CATEGORY, category.noCategory.toString())
+            val noCategory: Int = category.noCategory?: 0
+            args.putInt(MovieHelper.KEY_NO_CATEGORY, noCategory)
+            args.putString(MovieHelper.KEY_NAME_CATEGORY, category.title)
 
 //            args.putString(MovieHelper.KEY_TITLE, album.title)
 //            args.putInt(MovieHelper.KEY_RATING, album.year)

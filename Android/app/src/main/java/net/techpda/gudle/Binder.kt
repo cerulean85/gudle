@@ -82,13 +82,15 @@ class Binder {
                 val json:String = result.get().content
                 var element = JsonParser().parse(json)
 
-                model.systemInfo.urlEvent = element.asJsonObject.get("event_popup_url").asString
-                model.systemInfo.versionMinOS = element.asJsonObject.get("android_min_version").asString
-                model.systemInfo.eventNoBard = element.asJsonObject.get("board_no").asInt
-                model.systemInfo.eventNoBoardArticle = element.asJsonObject.get("board_article_no").asInt
-                model.systemInfo.eventTitle = element.asJsonObject.get("popup_title").asString
-                model.systemInfo.eventNoPopup = element.asJsonObject.get("popup_no").asInt
-                model.systemInfo.eventUrlImage = element.asJsonObject.get("image_url").asString
+                model.systemInfo.urlEvent = element.asJsonObject.get("event_popup_url")?.asString
+                model.systemInfo.versionMinOS = element.asJsonObject.get("android_min_version")?.asString
+                model.systemInfo.eventNoBard = element.asJsonObject.get("board_no")?.asInt
+
+//                model.systemInfo.eventNoBard = element.asJsonObject.get("board_no").isJsonNull asInt
+                model.systemInfo.eventNoBoardArticle = element.asJsonObject.get("board_article_no")?.asInt
+                model.systemInfo.eventTitle = element.asJsonObject.get("popup_title")?.asString
+                model.systemInfo.eventNoPopup = element.asJsonObject.get("popup_no")?.asInt
+                model.systemInfo.eventUrlImage = element.asJsonObject.get("image_url")?.asString
 
                 model.systemInfo.category.add(Category(0, "전체"))
                 val cate = element.asJsonObject.get("data_list").asJsonArray
@@ -156,8 +158,7 @@ class Binder {
                                     title = it.asJsonObject.get("title").asString,
                                     urlThumb = it.asJsonObject.get("thumbnail_url").asString))}
 
-//                        model.dataHome = gson.fromJson(json, DataHome::class.java)
-                        log(json)
+
 
                         body()
                     }

@@ -18,6 +18,6 @@ class MoviesPagerAdapter(fragmentManager: FragmentManager, private val albums: A
     }
 
     override fun getPageTitle(position: Int): CharSequence {
-        return albums[position % albums.size].title
+        return albums[position % albums.size].title?: "untitled"
     }
 }

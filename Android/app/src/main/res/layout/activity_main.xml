@@ -22,7 +22,19 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            
+            <ImageButton
+                android:id="@+id/serach"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:background="#00000000"
+                android:src="@drawable/ic_icon_search"/>
+
+            <!--http://sharp57dev.tistory.com/13-->
+
+        </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
@@ -31,7 +43,7 @@
             android:background="#ffffff"
             app:tabMode="fixed"
             app:tabSelectedTextColor="#000"
-            app:tabTextColor="#fff" />
+            app:tabTextColor="#fff"/>
 
     </android.support.design.widget.AppBarLayout>
 
