@@ -26,7 +26,14 @@
         <service
             android:name=".DiagnosisService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity
+            android:name=".CourseDetailActivity"/>
+        <activity
+            android:name=".CourseOverviewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            />
     </application>
 
 </manifest>

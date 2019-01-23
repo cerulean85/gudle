@@ -1,7 +1,9 @@
 package net.techpda.gudle
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
@@ -13,6 +15,9 @@ import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.image
 import net.techpda.gudle.MainActivity
 import org.jetbrains.anko.textColor
+import android.widget.Toast
+
+
 
 class AlbumAdapter  (val context: Context, var list: ArrayList<Album> = arrayListOf()): RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
 
@@ -37,6 +42,22 @@ class AlbumAdapter  (val context: Context, var list: ArrayList<Album> = arrayLis
                 //.transform(BlurTransformation(context, 25))
             .into(holder.ivThumb)
 
+        holder.view!!.setOnClickListener {
+
+            val i: Intent = Intent(context, CourseOverviewActivity::class.java)
+            var noCourse = album.noCourse
+            i.putExtra("course_no", noCourse)
+
+            startActivity(context, i, null)
+
+            //                val intent = Intent(applicationContext, MyService::class.java)
+//
+//                startService(Intent(applicationContext, MyService::class.java))
+
+
+        }
+
+
 
 //        Picasso.get().load("https://post-phinf.pstatic.net/MjAxODA1MzBfNDkg/MDAxNTI3NjY3MzE3Nzc1.JGkOAHkv6UUS_4tqnD6irtAcztUHhYhmwP5xwME9H04g.SixBN61IDWoFV3gSwlgSUsSxtOtzcp2H_TQZzJmho3kg.JPEG/메인후보1.jpg?type=w1200").transform(BlurTransformation(context, 25)).into(holder.ivThumb)
         //blur도 된다 -_-;;
@@ -54,11 +75,13 @@ class AlbumAdapter  (val context: Context, var list: ArrayList<Album> = arrayLis
         var tvTitle: TextView
         var tvViewCount: TextView
         var ivThumb: ImageView
+        var view: View? = null
 
         init {
             tvTitle = itemView.findViewById(MovieUI.idTVTitle)
             tvViewCount = itemView.findViewById(MovieUI.idTVCountView)
             ivThumb = itemView.findViewById(MovieUI.idIVImage)
+            view = itemView
 
         }
 

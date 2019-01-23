@@ -32,8 +32,6 @@ class MovieUI : AnkoComponent<ViewGroup>{
 
             lparams(matchParent, wrapContent) //(App.displayWidth * (640.0f/1242.0f)).toInt())
 
-
-
             linearLayout {
                 lparams(matchParent, matchParent)
 

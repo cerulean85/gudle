@@ -7,4 +7,6 @@
     <string name="one">one</string>
     <string name="two">two</string>
     <string name="three">three</string>
+    <string name="title_activity_course_detail">CourseDetailActivity</string>
+    <string name="title_activity_course_overview">CourseOverviewActivity</string>
 </resources>
