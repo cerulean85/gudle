@@ -1,12 +1,15 @@
 package net.techpda.gudle
 
+import android.annotation.TargetApi
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.os.*
+import android.provider.Settings
 import android.support.v7.app.AppCompatActivity
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
@@ -127,12 +130,41 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-
+        checkPermission()
 
 //        setContentView(R.layout.activity_main)
     //        webView.loadUrl("http://220.68.94.74")
 //        loadWebView("http://220.68.94.74")
 //        loadWebView("http://220.68.94.74/2.mp4")
+    }
+
+    fun checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {   // 마시멜로우 이상일 경우
+            if (!Settings.canDrawOverlays(this)) {              // 체크
+                val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:$packageName"))
+                this.startActivityForResult(intent, 1)
+            } else {
+                val intent = Intent(applicationContext, DiagnosisService::class.java)
+
+                startService(Intent(applicationContext, DiagnosisService::class.java))
+            }
+        } else {
+            startService(Intent(this@MainActivity, DiagnosisService::class.java))
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 1) {
+            if (!Settings.canDrawOverlays(this)) {
+                // TODO 동의를 얻지 못했을 경우의 처리
+
+            } else {
+                startService(Intent(this@MainActivity, DiagnosisService::class.java))
+            }
+        }
     }
 
 
