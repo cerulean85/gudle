@@ -35,12 +35,17 @@ class AlbumAdapter  (val context: Context, var list: ArrayList<Album> = arrayLis
 //        holder.ivThumb.setBackgroundColor(movie.color)
 
 
-        Picasso.get()
-            .load(album.urlThumb)
-            .placeholder(R.drawable.ic_launcher_foreground)
-            .error(R.drawable.ic_launcher_background)
-                //.transform(BlurTransformation(context, 25))
-            .into(holder.ivThumb)
+        album.urlThumb.let {
+
+            if(!album.urlThumb.isNullOrEmpty()) {
+                Picasso.get()
+                        .load(album.urlThumb)
+                        .placeholder(R.drawable.ic_launcher_foreground)
+                        .error(R.drawable.ic_launcher_background)
+                        //.transform(BlurTransformation(context, 25))
+                        .into(holder.ivThumb)
+            }
+        }
 
         holder.view!!.setOnClickListener {
 

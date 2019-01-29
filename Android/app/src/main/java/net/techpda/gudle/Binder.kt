@@ -14,7 +14,7 @@ import com.google.gson.JsonParser
 
 class Binder {
 
-    private val prefixAddr: String = "http://mobile01.e-koreatech.ac.kr/"
+    private val prefixAddr: String = "http://mobile02.e-koreatech.ac.kr/"
 
     private var model: JCModel = JCModel
     private var gson: Gson = Gson()
@@ -73,7 +73,7 @@ class Binder {
 
 //        FuelManager.instance.basePath = "https://mobile01.e-koreatech.ac.kr/"
 
-        val addr = "http://mobile01.e-koreatech.ac.kr/getSystemInfo"
+        val addr = prefixAddr + "getSystemInfo"
 
         var r: String = "Never...."
         try {
@@ -127,7 +127,7 @@ class Binder {
 
     fun getMain(page: String, category: String, body:()->Unit = {}) {
 
-        val addr = "http://mobile01.e-koreatech.ac.kr/getMain"
+        val addr = prefixAddr + "getMain"
 
         val list: List<Pair<String, String>>? = listOf(Pair("now_page", page), Pair("category_no", category))
 
@@ -144,12 +144,14 @@ class Binder {
 
                         val d1 = element.asJsonObject.get("data_list1").asJsonArray
                         d1.forEach {
+
+                            var urlThumbCourseImage = it.asJsonObject.get("course_image_thumbnail_url")
                             model.dataHome.course.add(Album(
                                     noCourse = it.asJsonObject.get("course_no").asInt,
                                     noContent = it.asJsonObject.get("course_content_no").asInt,
                                     title = it.asJsonObject.get("service_title").asString,
                                     nameCategory = it.asJsonObject.get("category_title").asString,
-                                    urlThumb = it.asJsonObject.get("course_image_thumbnail_url").asString,
+                                    urlThumb = if(urlThumbCourseImage.isJsonNull) "" else urlThumbCourseImage.asString,
                                     countView = it.asJsonObject.get("view_count").asInt)) }
 
                         val d2 = element.asJsonObject.get("data_list2").asJsonArray
@@ -172,7 +174,7 @@ class Binder {
     }
 
     fun getCourseByCategory(category: String, body:()->Unit = {}) {
-        val addr = "http://mobile01.e-koreatech.ac.kr/getMain"
+        val addr = prefixAddr + "getMain"
 
         val list: List<Pair<String, String>>? = listOf(Pair("now_page", "1"), Pair("category_no", category))
 

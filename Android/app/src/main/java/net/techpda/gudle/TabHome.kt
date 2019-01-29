@@ -13,6 +13,8 @@ import com.nshmura.recyclertablayout.RecyclerTabLayout
 import kotlinx.android.synthetic.main.fragment_tab_home.*
 import kotlinx.android.synthetic.main.fragment_tab_home.view.*
 import org.jetbrains.anko.support.v4.viewPager
+import java.util.*
+import kotlin.concurrent.schedule
 
 class TabHome : Fragment() {
 
@@ -26,6 +28,8 @@ class TabHome : Fragment() {
 
     private var viewContens: View? = null
 
+    private var timer: TimerTask? = null
+
     override fun onCreateView(inf: LayoutInflater, c: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -36,6 +40,13 @@ class TabHome : Fragment() {
             viewContens = createView()
 
         return viewContens
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        timer.let { timer!!.cancel() }
+
     }
 
     fun createView() : View
@@ -52,6 +63,18 @@ class TabHome : Fragment() {
             viewPager!!.adapter = pagerAdapter
             tabLayout!!.setUpWithViewPager(viewPager!!)
             marketingPaper!!.adapter = CustomPagerAdapter(context!!, JCModel.dataHome.banner)
+
+            marketingPaper!!.post { marketingPaper!!.currentItem = 1 }
+
+            timer = Timer().schedule(3000, 3000) {
+
+                var indexCurrent: Int = marketingPaper!!.currentItem
+                val indexLast: Int = JCModel.dataHome.banner.size - 1
+                indexCurrent = if(indexCurrent == indexLast) 0 else (indexCurrent+1)
+                marketingPaper!!.setCurrentItem(indexCurrent, true)
+                marketingPaper!!.setPageTransformer()
+
+            }
         }
 
         viewPager!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
