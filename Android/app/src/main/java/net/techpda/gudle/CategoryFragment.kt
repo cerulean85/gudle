@@ -1,40 +1,55 @@
 package net.techpda.gudle
 
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.android.extension.responseJson
-import com.github.kittinunf.fuel.core.FuelManager
-import com.google.gson.Gson
 
-import com.squareup.picasso.Picasso
+import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.UI
-import org.jetbrains.anko.verticalLayout
+import org.jetbrains.anko.support.v4.ctx
 
-class MovieFragment : Fragment() {
+class CategoryFragment : Fragment() {
 
 
+    private lateinit var view: AnkoContext<Fragment>
+    private var rv: RecyclerView? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState:
     Bundle?): View? {
 
-        return UI {
 
-            var rv = recyclerView { }
-            rv.layoutManager = LinearLayoutManager(this.ctx)
-            rv.addItemDecoration(DividerItemDecoration(this.ctx, LinearLayoutManager(this.ctx).orientation))
+        view = UI {
+            rv = recyclerView { }
+            rv!!.layoutManager = LinearLayoutManager(this.ctx)
+            rv!!.addItemDecoration(DividerItemDecoration(this.ctx, LinearLayoutManager(this.ctx).orientation))
+        }
+
+
+        var noCategory = arguments!!.getInt(MovieHelper.KEY_NO_CATEGORY)
+        if (noCategory > 0) {
+            App.binder.getCourseByCategory(noCategory.toString()) {
+                rv!!.adapter = AlbumAdapter(this.ctx, JCModel.mapCourse[noCategory.toString()]!!)
+            }
+        } else {
+            rv!!.adapter = AlbumAdapter(this.ctx, JCModel.dataHome.course)
+        }
+
+        return view.view
+/*        return UI {
+            rv = recyclerView { }
+
+            rv!!.layoutManager = LinearLayoutManager(this.ctx)
+            rv!!.addItemDecoration(DividerItemDecoration(this.ctx, LinearLayoutManager(this.ctx).orientation))
 //            rv.adapter = AlbumAdapter(this.ctx, JCModel.dummySet!!.list, JCModel.imageSet!!.list)
-            rv.adapter = AlbumAdapter(this.ctx, JCModel.dummySet!!.list, JCModel.imageSet!!.list)
+//            rv.adapter = AlbumAdapter(this.ctx, JCModel.dataHome.course)
 
-        }.view
+        }.view*/
+
 
         // Creates the view controlled by the fragment
 //        val view = inflater.inflate(R.layout.fragment_movie, container, false)
@@ -62,21 +77,24 @@ class MovieFragment : Fragment() {
     companion object {
 
         // Method for creating new instances of the fragment
-        fun newInstance(movie: Movie): MovieFragment {
+        fun newInstance(category: Category): CategoryFragment {
 
             // Store the movie data in a Bundle object
             val args = Bundle()
-            args.putString(MovieHelper.KEY_TITLE, movie.title)
-            args.putInt(MovieHelper.KEY_RATING, movie.year)
-            args.putString(MovieHelper.KEY_POSTER_URI, movie.image)
-            args.putString(MovieHelper.KEY_OVERVIEW, movie.title)
+            val noCategory: Int = category.noCategory?: 0
+            args.putInt(MovieHelper.KEY_NO_CATEGORY, noCategory)
+            args.putString(MovieHelper.KEY_NAME_CATEGORY, category.title)
 
-            // Create a new MovieFragment and set the Bundle as the arguments
+//            args.putString(MovieHelper.KEY_TITLE, album.title)
+//            args.putInt(MovieHelper.KEY_RATING, album.year)
+//            args.putString(MovieHelper.KEY_POSTER_URI, album.image)
+//            args.putString(MovieHelper.KEY_OVERVIEW, album.title)
+
+            // Create a new CategoryFragment and set the Bundle as the arguments
             // to be retrieved and displayed when the view is created
-            val fragment = MovieFragment()
+            val fragment = CategoryFragment()
             fragment.arguments = args
             return fragment
         }
     }
-
 }

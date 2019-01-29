@@ -3,7 +3,6 @@
     package="net.techpda.gudle">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:name=".App"
@@ -27,13 +26,14 @@
         <service
             android:name=".DiagnosisService"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true" />
 
-            <intent-filter>
-                <action android:name="android.intent.action.DianosisService"/>
-            </intent-filter>
-
-        </service>
+        <activity
+            android:name=".CourseDetailActivity"/>
+        <activity
+            android:name=".CourseOverviewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            />
     </application>
 
 </manifest>

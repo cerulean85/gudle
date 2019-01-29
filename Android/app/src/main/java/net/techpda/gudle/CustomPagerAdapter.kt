@@ -8,15 +8,17 @@ import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.layout_one.view.*
 
-class CustomPagerAdapter(private val mContext: Context, var list: ArrayList<Movie> = arrayListOf()) : PagerAdapter() {
+class CustomPagerAdapter(private val mContext: Context, var list: ArrayList<Article> = arrayListOf()) : PagerAdapter() {
 
     override fun instantiateItem(collection: ViewGroup, position: Int): Any {
-        val modelObject = list[position]
+
         val inflater = LayoutInflater.from(mContext)
-        val layout = inflater.inflate(modelObject.layoutResId, collection, false) as ViewGroup
+        val layout = inflater.inflate(R.layout.layout_one, collection, false) as ViewGroup
+
+
 
         Picasso.get()
-                .load(list[position].image)
+                .load(list[position].urlThumb)
 //                .transform(BlurTransformation(context, 25))
                 .into(layout.marketingIV)
 

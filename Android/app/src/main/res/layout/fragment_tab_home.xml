@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TabHome">
+
+    <RelativeLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/marketingPager"
+            android:layout_height="@dimen/top_view_pager_height"
+            android:layout_width="match_parent" />
+
+        <com.nshmura.recyclertablayout.RecyclerTabLayout
+            android:id="@+id/recyclerTabLayout"
+            android:layout_height="@dimen/tabs_height"
+            android:layout_width="match_parent"
+            android:layout_below="@id/marketingPager"
+            rtl_tabIndicatorColor="@color/colorPrimaryDark"
+            rtl_tabIndicatorHeight="2dp"
+            rtl_tabSelectedTextColor="@color/colorPrimary"
+            rtl_tabMinWidth="72dp"
+            rtl_tabMaxWidth="264dp"
+            rtl_tabPaddingStart="12dp"
+            rtl_tabPaddingTop="0dp"
+            rtl_tabPaddingEnd="12dp"
+            rtl_tabPaddingBottom="0dp"
+            rtl_tabPadding="0dp"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_below="@id/recyclerTabLayout"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent" />
+
+        <!--<WebView-->
+        <!--android:id="@+id/webView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"/>-->
+
+    </RelativeLayout>
+
+</FrameLayout>

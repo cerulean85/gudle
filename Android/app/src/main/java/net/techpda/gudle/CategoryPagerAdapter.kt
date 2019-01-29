@@ -4,20 +4,20 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 
-class MoviesPagerAdapter(fragmentManager: FragmentManager, private val movies: ArrayList<Movie>) :
+class CategoryPagerAdapter(fragmentManager: FragmentManager, private val albums: ArrayList<Category>) :
         FragmentStatePagerAdapter(fragmentManager) {
 
     // 2
     override fun getItem(position: Int): Fragment {
-        return MovieFragment.newInstance(movies[position]) // (movies[position])
+        return CategoryFragment.newInstance(albums[position]) // (movies[position])
     }
 
     // 3
     override fun getCount(): Int {
-        return movies.size
+        return albums.size
     }
 
     override fun getPageTitle(position: Int): CharSequence {
-        return movies[position % movies.size].title
+        return albums[position % albums.size].title?: "untitled"
     }
 }
