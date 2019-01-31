@@ -61,15 +61,15 @@ class TabHome : Fragment() {
 
             marketingPaper!!.post { marketingPaper!!.currentItem = 1 }
 
-            timer = Timer().schedule(3000, 3000) {
-
-                var indexCurrent: Int = marketingPaper!!.currentItem
-                val indexLast: Int = JCModel.dataHome.banner.size - 1
-                indexCurrent = if(indexCurrent == indexLast) 0 else (indexCurrent+1)
-                marketingPaper!!.setCurrentItem(indexCurrent, true)
-//                marketingPaper!!.setPageTransformer()
-
-            }
+//            timer = Timer().schedule(3000, 3000) {
+//
+//                var indexCurrent: Int = marketingPaper!!.currentItem
+//                val indexLast: Int = JCModel.dataHome.banner.size - 1
+//                indexCurrent = if(indexCurrent == indexLast) 0 else (indexCurrent+1)
+//                marketingPaper!!.setCurrentItem(indexCurrent, true)
+////                marketingPaper!!.setPageTransformer()
+//
+//            }
         }
 
         viewPager!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {

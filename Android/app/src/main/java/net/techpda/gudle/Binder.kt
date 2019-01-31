@@ -11,7 +11,7 @@ import com.google.gson.*
 
 class Binder {
 
-    private val prefixAddr: String = "https://mobile02.e-koreatech.ac.kr/"
+    private val prefixAddr: String = "https://mobile01.e-koreatech.ac.kr/"
 
     private var model: JCModel = JCModel
     private var gson: Gson = Gson()

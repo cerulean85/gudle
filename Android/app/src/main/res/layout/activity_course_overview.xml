@@ -39,6 +39,146 @@
         android:scrollbars="none"
         android:descendantFocusability="blocksDescendants">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <net.techpda.gudle.ScaledImageView
+                android:id="@+id/marketingIV"
+                android:scaleType="centerCrop"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:src="@drawable/p1" />
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="16dp">
+
+                <android.support.design.button.MaterialButton
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:id="@+id/btnContents"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:text="강의목록"
+                    android:textColor="#FFFFFF"
+                    android:background="@color/colorPrimary"
+                    app:cornerRadius="8dp"
+                    app:rippleColor="#ff0000"
+                    app:strokeColor="#000000"
+                    app:strokeWidth="1dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+
+                <android.support.design.button.MaterialButton
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:id="@+id/btnQuestions"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:background="#ffffff"
+                    android:text="질문하기"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    app:cornerRadius="8dp"
+                    app:rippleColor="#ff0000"
+                    app:strokeColor="#000000"
+                    app:strokeWidth="1dp"
+                    app:backgroundTint="#FFFFFFFF"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btnContents" />
+
+                <LinearLayout
+                    android:id="@+id/titleArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btnQuestions">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="2"
+                        android:background="@color/colorPrimary"
+                        android:layout_gravity="center_vertical" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="강의소개"
+                        android:textAlignment="center"
+                        android:layout_gravity="center_vertical"
+                        />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="2"
+                        android:background="@color/colorPrimary"
+                        android:layout_gravity="center_vertical" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Laugh, and the world laughs with you;
+Weep, and you weep alone.
+For the sad old earth must borrow it's mirth,
+But has trouble enough of it's own.
+Sing, and the hills will answer;
+Sigh, it is lost on the air.
+The echoes bound to a joyful sound,
+But shrink from voicing care.
+
+Rejoice, and men will seek you;
+Grieve, and they turn and go.
+They want full measure of all your pleasure,
+But they do not need your woe.
+Be glad, and your friends are many;
+Be sad, and you lose them all.
+There are none to decline your nectared wine,
+But alone you must drink life's gall.
+
+Feast, and your halls are crowded;
+Fast, and the world goes by.
+Succeed and give, and it helps you live,
+But no man can help you die.
+There is room in the halls of pleasure
+For a long and lordly train,
+But one by one we must all file on
+Through the narrow aisles of pain."
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:maxLines="5"
+                    android:ellipsize="end"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/titleArea"
+                    />
+                
+
+
+            </android.support.constraint.ConstraintLayout>
+
+
+
+
+        </LinearLayout>
+
 
     </android.support.v4.widget.NestedScrollView>
 
