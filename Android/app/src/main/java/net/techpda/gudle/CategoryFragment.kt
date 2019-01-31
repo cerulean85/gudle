@@ -33,10 +33,10 @@ class CategoryFragment : Fragment() {
         var noCategory = arguments!!.getInt(MovieHelper.KEY_NO_CATEGORY)
         if (noCategory > 0) {
             App.binder.getCourseByCategory(noCategory.toString()) {
-                rv!!.adapter = AlbumAdapter(this.ctx, JCModel.mapCourse[noCategory.toString()]!!)
+                rv!!.adapter = HomeContentsListAdapter(this.ctx, JCModel.mapCourse[noCategory.toString()]!!)
             }
         } else {
-            rv!!.adapter = AlbumAdapter(this.ctx, JCModel.dataHome.course)
+            rv!!.adapter = HomeContentsListAdapter(this.ctx, JCModel.dataHome.course)
         }
 
         return view.view
@@ -45,8 +45,8 @@ class CategoryFragment : Fragment() {
 
             rv!!.layoutManager = LinearLayoutManager(this.ctx)
             rv!!.addItemDecoration(DividerItemDecoration(this.ctx, LinearLayoutManager(this.ctx).orientation))
-//            rv.adapter = AlbumAdapter(this.ctx, JCModel.dummySet!!.list, JCModel.imageSet!!.list)
-//            rv.adapter = AlbumAdapter(this.ctx, JCModel.dataHome.course)
+//            rv.adapter = HomeContentsListAdapter(this.ctx, JCModel.dummySet!!.list, JCModel.imageSet!!.list)
+//            rv.adapter = HomeContentsListAdapter(this.ctx, JCModel.dataHome.course)
 
         }.view*/
 

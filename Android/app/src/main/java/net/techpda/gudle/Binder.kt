@@ -7,14 +7,11 @@ import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.fuel.httpPost
-import com.google.gson.Gson
-import com.google.gson.JsonArray
-import com.google.gson.JsonElement
-import com.google.gson.JsonParser
+import com.google.gson.*
 
 class Binder {
 
-    private val prefixAddr: String = "http://mobile02.e-koreatech.ac.kr/"
+    private val prefixAddr: String = "https://mobile02.e-koreatech.ac.kr/"
 
     private var model: JCModel = JCModel
     private var gson: Gson = Gson()
@@ -223,18 +220,20 @@ class Binder {
                         model.detailCourse.noCourse = element.asJsonObject.get("course_no").asInt
                         model.detailCourse.title = element.asJsonObject.get("service_title").asString
                         model.detailCourse.noCourseContent = element.asJsonObject.get("course_content_no").asInt
-                        model.detailCourse.studyGoal = element.asJsonObject.get("study_goal").asString
-                        model.detailCourse.studyTarget = element.asJsonObject.get("study_target").asString
-                        model.detailCourse.studyRef = element.asJsonObject.get("study_ref").asString
-                        model.detailCourse.studyComplete = element.asJsonObject.get("study_complete").asString
-                        model.detailCourse.teacherInfo = element.asJsonObject.get("teacher_info").asString
-                        model.detailCourse.studyNcs = element.asJsonObject.get("study_ncs").asString
-                        model.detailCourse.urlImage01 = element.asJsonObject.get("course_info_image_url").asString
-                        model.detailCourse.urlImage01 = element.asJsonObject.get("course_image_url").asString
-                        model.detailCourse.urlImage01 = element.asJsonObject.get("course_image_thumbnail_url").asString
+
+                        var obj = element.asJsonObject
+                        model.detailCourse.studyGoal = checkValidAndGet( obj,"study_goal")
+                        model.detailCourse.studyTarget = checkValidAndGet( obj,"study_target")
+                        model.detailCourse.studyRef = checkValidAndGet( obj,"study_ref")
+                        model.detailCourse.studyComplete = checkValidAndGet( obj,"study_complete")
+                        model.detailCourse.teacherInfo = checkValidAndGet( obj,"teacher_info")
+                        model.detailCourse.studyNcs = checkValidAndGet( obj,"study_ncs")
+                        model.detailCourse.urlImage01 = checkValidAndGet( obj,"course_info_image_url")
+                        model.detailCourse.urlImage02 = checkValidAndGet( obj,"course_image_url")
+                        model.detailCourse.urlImage03 = checkValidAndGet( obj,"course_image_thumbnail_url")
                         model.detailCourse.countView = element.asJsonObject.get("view_count").asInt
-                        model.detailCourse.description  = element.asJsonObject.get("short_description").asString
-                        model.detailCourse.introduce  = element.asJsonObject.get("course_introduce").asString
+                        model.detailCourse.description  = checkValidAndGet( obj,"short_description")
+                        model.detailCourse.introduce  = checkValidAndGet( obj,"course_introduce")
 
                         body()
                     }
@@ -246,6 +245,8 @@ class Binder {
     }
 
     private fun log(message: String) { App.log("[From Binder]  $message") }
+
+    private  fun checkValidAndGet(obj: JsonObject, name: String): String = if(obj.get(name).isJsonNull) "" else obj.get(name).asString
 
 
 }

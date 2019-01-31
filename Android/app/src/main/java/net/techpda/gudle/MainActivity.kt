@@ -230,7 +230,7 @@ class MainActivity : AppCompatActivity() {
 //
 //        })
 //
-//        marketingPager.adapter = CustomPagerAdapter(this, JCModel.marketSet!!.list)
+//        marketingPager.adapter = HomeBannerListAdapter(this, JCModel.marketSet!!.list)
 //        marketingPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 //
 //            override fun onPageScrollStateChanged(state: Int) {
@@ -396,7 +396,7 @@ class MainActivity : AppCompatActivity() {
                     val json: String  = result.get().content;
                     val albumArr: AlbumArray = gson.fromJson(json, AlbumArray::class.java)
 
-                    rv.adapter = AlbumAdapter(context, albumArr.list, imageSet!!.list)
+                    rv.adapter = HomeContentsListAdapter(context, albumArr.list, imageSet!!.list)
                 }
             } catch (e: Exception) {
             } finally {
@@ -424,7 +424,7 @@ class MainActivity : AppCompatActivity() {
         pages.add(Model(R.string.three, R.layout.layout_three))
 
 //        val viewPager = findViewById<View>(R.id.viewpager) as ViewPager
-//        viewPager.adapter = CustomPagerAdapter(this, pages)
+//        viewPager.adapter = HomeBannerListAdapter(this, pages)
 
         // ListView Test
 
@@ -460,7 +460,7 @@ class MainActivity : AppCompatActivity() {
             var vp = viewPager {
                 layoutParams = LinearLayout.LayoutParams(matchParent, dip(300))
             }
-            vp.adapter = CustomPagerAdapter(this@MainActivity, pages)
+            vp.adapter = HomeBannerListAdapter(this@MainActivity, pages)
 
             scrollView {
 

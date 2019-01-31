@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.layout_one.view.*
 
-class CustomPagerAdapter(private val mContext: Context, var list: ArrayList<Article> = arrayListOf()) : PagerAdapter() {
+class HomeBannerListAdapter(private val mContext: Context, var list: ArrayList<Article> = arrayListOf()) : PagerAdapter() {
 
     override fun instantiateItem(collection: ViewGroup, position: Int): Any {
 

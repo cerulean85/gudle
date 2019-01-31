@@ -2,24 +2,17 @@ package net.techpda.gudle
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.RecyclerView
-import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.AnkoContext
-import org.jetbrains.anko.image
-import net.techpda.gudle.MainActivity
-import org.jetbrains.anko.textColor
-import android.widget.Toast
 
 
-
-class AlbumAdapter  (val context: Context, var list: ArrayList<Album> = arrayListOf()): RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
+class HomeContentsListAdapter  (val context: Context, var list: ArrayList<Album> = arrayListOf()): RecyclerView.Adapter<HomeContentsListAdapter.AlbumViewHolder>() {
 
 
 
