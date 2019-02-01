@@ -22,6 +22,9 @@ object JCModel {
 
     var course2: ArrayList<Album> = arrayListOf()
 
+    var clipSet: ArrayList<Clip> = arrayListOf()
+    var attendanceSet: ArrayList<Attendance> = arrayListOf()
+
     var mapCourse:MutableMap<String, ArrayList<Album>> = mutableMapOf()
 
     var detailCourse: Detail = Detail()
@@ -121,5 +124,24 @@ data class Detail(
        var urlImage03: String = "",
        var countView: Int = 0,
        var description: String = "",
-       var introduce: String = ""
+       var introduce: String = "",
+       var flagDelivery: Int = 0
+)
+
+data class Clip(
+        var noCourse: Int = 0,
+        var noContent: Int = 0,
+        var title: String = "",
+        var titleContent: String = "",
+        var timeFinished: Int = 0,
+        var order: Int = 0,
+        var urlImage01: String = "",
+        var urlImage02: String = "",
+        var countLike: Int = 0,
+        var countView: Int = 0
+)
+
+data class Attendance(
+        var noContent: Int = 0,
+        var codeAttendance: Int = 0
 )

@@ -244,9 +244,61 @@ class Binder {
         }
     }
 
+    fun getClipList(noCourse: String, body:()->Unit = {}) {
+        val addr = prefixAddr + "getClipList"
+
+        val list: List<Pair<String, String>>? = listOf(Pair("no_course", noCourse))
+
+        try {
+            addr.httpPost(list).header("Content-Type" to "application/x-www-form-urlencoded")
+                    .responseJson{ request, response, result ->
+
+                        val json:String = result.get().content
+                        var element = JsonParser().parse(json)
+
+                        var list: ArrayList<Clip> = arrayListOf()
+
+                        model.detailCourse.flagDelivery = checkValidAndGet_Int(element.asJsonObject,"delivery_flag")
+
+                        val d1 = element.asJsonObject.get("data_list1").asJsonArray
+                        d1.forEach {
+                            list.add(Clip(
+                                noCourse = it.asJsonObject.get("course_no").asInt,
+                                noContent = it.asJsonObject.get("lesson_subitem_no").asInt,
+                                title = it.asJsonObject.get("title").asString,
+                                titleContent = it.asJsonObject.get("lesson_title").asString,
+                                timeFinished = it.asJsonObject.get("required_learning_time_in_secondes").asInt,
+                                order = it.asJsonObject.get("display_order").asInt,
+                                urlImage01 = it.asJsonObject.get("image_url").asString,
+                                urlImage02 = it.asJsonObject.get("thumbnail_url").asString,
+                                countLike = it.asJsonObject.get("like_count").asInt,
+                                countView = it.asJsonObject.get("view_count").asInt))}
+
+                        model.clipSet = list
+
+                        var list2: ArrayList<Attendance> = arrayListOf()
+
+                        val d2 = element.asJsonObject.get("data_list2").asJsonArray
+                        d2.forEach {
+                            list2.add(Attendance(
+                                noContent = it.asJsonObject.get("lesson_subitem_no").asInt,
+                                codeAttendance = it.asJsonObject.get("attendance_code_code").asInt))}
+
+                        model.attendanceSet = list2
+
+                        body()
+                    }
+        } catch(e: Exception) {
+
+        } finally {
+
+        }
+    }
+
     private fun log(message: String) { App.log("[From Binder]  $message") }
 
     private  fun checkValidAndGet(obj: JsonObject, name: String): String = if(obj.get(name).isJsonNull) "" else obj.get(name).asString
+    private  fun checkValidAndGet_Int(obj: JsonObject, name: String): Int = if(obj.get(name).isJsonNull) 0 else obj.get(name).asInt
 
 
 }

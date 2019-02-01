@@ -28,12 +28,11 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity
-            android:name=".CourseDetailActivity"/>
+        <activity android:name=".CourseDetailActivity" />
         <activity
             android:name=".CourseOverviewActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            />
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity android:name=".ClipSetActivity"></activity>
     </application>
 
 </manifest>
