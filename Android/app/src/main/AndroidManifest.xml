@@ -32,7 +32,8 @@
         <activity
             android:name=".CourseOverviewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity android:name=".ClipSetActivity"></activity>
+        <activity android:name=".ClipSetActivity" />
+        <activity android:name=".ClipViewerActivity"></activity>
     </application>
 
 </manifest>

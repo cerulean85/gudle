@@ -16,6 +16,8 @@ class Binder {
     private var model: JCModel = JCModel
     private var gson: Gson = Gson()
 
+    constructor()
+
     init {
         FuelManager.instance.basePath = "http://favorite.cafe24app.com";
 
@@ -247,7 +249,7 @@ class Binder {
     fun getClipList(noCourse: String, body:()->Unit = {}) {
         val addr = prefixAddr + "getClipList"
 
-        val list: List<Pair<String, String>>? = listOf(Pair("no_course", noCourse))
+        val list: List<Pair<String, String>>? = listOf(Pair("course_no", noCourse))
 
         try {
             addr.httpPost(list).header("Content-Type" to "application/x-www-form-urlencoded")
@@ -295,10 +297,136 @@ class Binder {
         }
     }
 
+    fun getClipRepleList(noContent: String, filter: String, nowPage: String, body:()->Unit = {}) {
+        val addr = prefixAddr + "getClipRepleList"
+
+        val list: List<Pair<String, String>>? = listOf(Pair("lesson_subitem_no", noContent),
+                Pair("filter_type", filter), Pair("now_page", nowPage))
+
+        try {
+            addr.httpPost(list).header("Content-Type" to "application/x-www-form-urlencoded")
+                    .responseJson{ request, response, result ->
+
+                        val json:String = result.get().content
+                        var element = JsonParser().parse(json)
+
+                        var list: ArrayList<Comment> = arrayListOf()
+
+
+
+                        element.asJsonObject.get("data_list")?.let {
+                            checkValidAndGet_Array(element.asJsonObject, "data_list")?.let {
+
+                                it?.forEach { e ->
+
+                                    val o = e.asJsonObject
+                                    list.add(Comment(
+                                        noBoardArticle = checkValidAndGet_Int(o, "board_article_no"),
+                                        noBoard = checkValidAndGet_Int(o, "board_no"),
+                                        nickname = checkValidAndGet(o, "nickname"),
+                                        contents = checkValidAndGet(o, "contents"),
+                                        countLike = checkValidAndGet_Int(o, "like_count"),
+                                        countView = checkValidAndGet_Int(o, "view_count"),
+                                        countReple = checkValidAndGet_Int(o, "reple_count"),
+                                        countReport = checkValidAndGet_Int(o, "report_count"),
+                                        dateUpdate = checkValidAndGet(o, "update_date"),
+                                        good = checkValidAndGet_Int(o, "is_good"),
+                                        noUser = checkValidAndGet_Int(o, "user_no"),
+                                        like = checkValidAndGet_Int(o, "user_likes"),
+                                        urlImage01 = checkValidAndGet(o, "profile_image"),
+                                        urlImage02 = checkValidAndGet(o, "profile_thumbnail_url"),
+                                        title = checkValidAndGet(o, "clip_name"),
+                                        file = File(name = checkValidAndGet(o, "unit_attach_file_name"),
+                                        url = checkValidAndGet(o, "unit_attach_image_url"),
+                                        thumbnail = checkValidAndGet(o, "unit_attach_thumbnail_url"))))
+                                }
+
+                                model.commentSet = list
+                            }
+                        }
+
+                        body()
+                    }
+        } catch(e: Exception) {
+
+        } finally {
+
+        }
+    }
+
+    fun getClipDetail(noContent:String, noCourse: String, body:()->Unit = {}) {
+
+        var clip: Clip? = null
+        model.clipSet.forEach {
+
+            if(it.noContent.toString() == noContent && it.noCourse.toString() == noCourse) {
+                clip = it
+                return@forEach
+            }
+        }
+        if(clip == null) return
+
+        val addr = prefixAddr + "getClipDetail"
+
+        val list: List<Pair<String, String>>? = listOf(Pair("lesson_subitem_no", noContent), Pair("course_no", noCourse))
+
+        try {
+            addr.httpPost(list).header("Content-Type" to "application/x-www-form-urlencoded")
+                .responseJson{ request, response, result ->
+
+                    val json:String = result.get().content
+                    var element = JsonParser().parse(json)
+
+                    clip!!.urlLink = checkValidAndGet(element.asJsonObject, "url")
+                    clip!!.countReple = checkValidAndGet_Int(element.asJsonObject, "reple_count")
+                    clip!!.favorite =  checkValidAndGet_Int(element.asJsonObject, "is_clip_like")
+                    clip!!.vertical = checkValidAndGet_Int(element.asJsonObject, "is_vertical_video")
+
+                    checkValidAndGet_Array(element.asJsonObject, "data_list")?.let {
+
+                        if(it.size() > 0) {
+
+                            for (i in 0..(it.size()-1)) {
+
+                                if(i == 0) {
+                                    clip!!.quiz.no = checkValidAndGet_Int(it[i].asJsonObject, "quiz_no")
+                                    clip!!.quiz.type = checkValidAndGet_Int(it[i].asJsonObject, "quiz_type")
+                                    clip!!.quiz.text = checkValidAndGet(it[i].asJsonObject, "quiz_text")
+                                    clip!!.quiz.urlFile = checkValidAndGet(it[i].asJsonObject, "quiz_text_file_url")
+                                    clip!!.quiz.score = checkValidAndGet_Int(it[i].asJsonObject, "quiz_score")
+                                    clip!!.quiz.level = checkValidAndGet_Int(it[i].asJsonObject, "difficulty")
+                                    clip!!.quiz.description = checkValidAndGet(it[i].asJsonObject, "description")
+                                }
+
+                                val noExample: Int = checkValidAndGet_Int(it[i].asJsonObject, "example_no")
+                                var noCorrect: Int = checkValidAndGet_Int(it[i].asJsonObject, "correct_example_no")
+
+                                clip!!.quiz.exampleSet.add(Example(
+                                        no = noExample,
+                                        order = checkValidAndGet_Int(it[i].asJsonObject, "display_order"),
+                                        type = checkValidAndGet_Int(it[i].asJsonObject, "example_type"),
+                                        text = checkValidAndGet(it[i].asJsonObject, "examples"),
+                                        isAnswer = if(noExample == noCorrect) 1 else 0
+                                ))
+                            }
+                        }
+                    }
+                }
+
+            body()
+
+        } catch(e: Exception) {
+
+        } finally {
+
+        }
+
+    }
+
     private fun log(message: String) { App.log("[From Binder]  $message") }
 
-    private  fun checkValidAndGet(obj: JsonObject, name: String): String = if(obj.get(name).isJsonNull) "" else obj.get(name).asString
-    private  fun checkValidAndGet_Int(obj: JsonObject, name: String): Int = if(obj.get(name).isJsonNull) 0 else obj.get(name).asInt
-
+    private fun checkValidAndGet(obj: JsonObject, name: String): String = if(obj.get(name).isJsonNull) "" else obj.get(name).asString
+    private fun checkValidAndGet_Int(obj: JsonObject, name: String): Int = if(obj.get(name).isJsonNull) 0 else obj.get(name).asInt
+    private fun checkValidAndGet_Array(obj: JsonObject, name: String): JsonArray? = if(obj.get(name).isJsonNull) null else obj.get(name).asJsonArray
 
 }

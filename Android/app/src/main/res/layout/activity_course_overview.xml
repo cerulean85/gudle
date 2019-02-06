@@ -46,7 +46,7 @@
                     android:layout_height="match_parent"
                     android:textSize="14sp"
                     android:scrollbars="horizontal"
-                    android:text="구름이 가려워 보이지 않을 때도, 널널, 내가 더 나빠, 나빠, 나빠, 너보다 더 나빠, 나빠, 니가 아파, 아파, 아파했을 것이란 걸 이제서야 알아 저 별도 나를 피해가고 있을까"
+                    android:text="title_content_14sp"
                     android:maxLines="3"
                     android:ellipsize="end"
                     android:textColor="#ffffff"
@@ -88,44 +88,6 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="16dp">
 
-                <android.support.design.button.MaterialButton
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:id="@+id/btnContents"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:text="강의목록"
-                    android:textColor="#FFFFFF"
-                    android:background="@color/colorPrimary"
-                    app:cornerRadius="8dp"
-                    app:rippleColor="#ff0000"
-                    app:strokeColor="#000000"
-                    app:strokeWidth="1dp"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent" />
-
-
-                <android.support.design.button.MaterialButton
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:id="@+id/btnQuestions"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:background="#ffffff"
-                    android:text="질문하기"
-                    android:textColor="#000000"
-                    android:textSize="12sp"
-                    app:cornerRadius="8dp"
-                    app:rippleColor="#ff0000"
-                    app:strokeColor="#000000"
-                    app:strokeWidth="1dp"
-                    app:backgroundTint="#FFFFFFFF"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/btnContents" />
-
                 <LinearLayout
                     android:id="@+id/titleArea"
                     android:layout_width="match_parent"
@@ -134,36 +96,28 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/btnQuestions">
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_weight="2"
-                        android:background="@color/colorPrimary"
-                        android:layout_gravity="center_vertical" />
+                    app:layout_constraintRight_toRightOf="parent">
 
                     <TextView
-                        android:id="@+id/tvContentDesc"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="강의소개"
-                        android:textAlignment="center"
                         android:layout_gravity="center_vertical"
+                        android:textColor="@color/colorPrimary"
                         />
 
                     <View
                         android:layout_width="0dp"
                         android:layout_height="1dp"
-                        android:layout_weight="2"
+                        android:layout_weight="5"
                         android:background="@color/colorPrimary"
                         android:layout_gravity="center_vertical" />
 
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tvContentDesc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -201,18 +155,83 @@ Through the narrow aisles of pain."
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/titleArea"
                     />
-                
 
+                <LinearLayout
+                    android:id="@+id/contentsArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvContentDesc">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="강의목록"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/colorPrimary"
+                        />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="5"
+                        android:background="@color/colorPrimary"
+                        android:layout_gravity="center_vertical" />
+
+                </LinearLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/listClip"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/contentsArea" />
 
             </android.support.constraint.ConstraintLayout>
-
-
-
 
         </LinearLayout>
 
 
     </android.support.v4.widget.NestedScrollView>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnQuestions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/ic_dialog_email" />
+
 
 </android.support.design.widget.CoordinatorLayout>
+
+
+
+<!--<android.support.design.button.MaterialButton-->
+<!--style="@style/Widget.AppCompat.Button.Borderless"-->
+<!--android:id="@+id/btnQuestions"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="60dp"-->
+<!--android:layout_marginLeft="16dp"-->
+<!--android:layout_marginRight="16dp"-->
+<!--android:background="@color/colorPrimary"-->
+<!--android:text="질문하기"-->
+<!--android:textColor="#ffffff"-->
+<!--android:textSize="12sp"-->
+<!--app:cornerRadius="8dp"-->
+<!--app:rippleColor="#ff0000"-->
+<!--app:strokeColor="#000000"-->
+<!--app:strokeWidth="1dp"-->
+<!--app:backgroundTint="@color/colorPrimary"-->
+<!--app:layout_constraintLeft_toLeftOf="parent"-->
+<!--app:layout_constraintRight_toRightOf="parent" />-->

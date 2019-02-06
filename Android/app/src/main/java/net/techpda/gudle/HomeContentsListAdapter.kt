@@ -14,8 +14,6 @@ import org.jetbrains.anko.AnkoContext
 
 class HomeContentsListAdapter  (val context: Context, var list: ArrayList<Album> = arrayListOf()): RecyclerView.Adapter<HomeContentsListAdapter.AlbumViewHolder>() {
 
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder {
         return AlbumViewHolder(MovieUI().createView(AnkoContext.create(parent.context, parent)))
     }
@@ -43,7 +41,10 @@ class HomeContentsListAdapter  (val context: Context, var list: ArrayList<Album>
         holder.view!!.setOnClickListener {
 
             App.binder.getCourseDetail(album.noCourse.toString()) {
-                startActivity(context, Intent(context, CourseOverviewActivity::class.java), null)
+
+                App.binder.getClipList(album.noCourse.toString()) {
+                    startActivity(context, Intent(context, CourseOverviewActivity::class.java), null)
+                }
             }
         }
 

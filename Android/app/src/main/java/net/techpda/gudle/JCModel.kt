@@ -28,6 +28,8 @@ object JCModel {
     var mapCourse:MutableMap<String, ArrayList<Album>> = mutableMapOf()
 
     var detailCourse: Detail = Detail()
+
+    var commentSet: ArrayList<Comment> = arrayListOf()
 }
 
 data class MovieArray(val list: ArrayList<Movie> = arrayListOf())
@@ -138,10 +140,62 @@ data class Clip(
         var urlImage01: String = "",
         var urlImage02: String = "",
         var countLike: Int = 0,
-        var countView: Int = 0
+        var countView: Int = 0,
+
+        var urlLink: String = "",
+        var countReple: Int = 0,
+        var favorite: Int = 0,
+        var vertical: Int = 0,
+
+        var quiz: Quiz = Quiz()
+)
+
+data class Quiz(
+        var no: Int = 0,
+        var type: Int = 0,
+        var text: String = "",
+        var urlFile: String = "",
+        var score: Int = 0,
+        var level: Int = 0,
+        var description: String = "",
+        var exampleSet: ArrayList<Example> = arrayListOf()
+)
+
+data class Example(
+        var no: Int = 0,
+        var type: Int = 0,
+        var order: Int = 0,
+        var text: String = "",
+        var isAnswer: Int = 0
 )
 
 data class Attendance(
         var noContent: Int = 0,
         var codeAttendance: Int = 0
+)
+
+data class File(
+        var name: String = "",
+        var url: String = "",
+        var thumbnail: String = ""
+)
+
+data class Comment(
+        var noBoardArticle: Int = 0,
+        var noBoard: Int = 0,
+        var nickname: String = "",
+        var contents: String = "",
+        var countView: Int = 0,
+        var countLike: Int = 0,
+        var countReple: Int = 0,
+        var countReport: Int = 0,
+        var dateUpdate: String = "",
+        var good: Int = 0,
+        var noUser: Int = 0,
+        var like: Int = 0,
+        var urlImage01: String = "",
+        var urlImage02: String = "",
+        var title: String = "",
+
+        var file:File? = null
 )

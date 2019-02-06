@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
 import android.widget.Toast
 import com.squareup.picasso.Picasso
 
@@ -17,6 +19,10 @@ class CourseOverviewActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        context = applicationContext
+
+
         setContentView(R.layout.activity_course_overview)
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayShowTitleEnabled(false)
@@ -26,9 +32,9 @@ class CourseOverviewActivity : AppCompatActivity() {
         var desc = JCModel.detailCourse.description
         Toast.makeText(this, "No: $noCourse, Title: $title, desc: $desc", Toast.LENGTH_SHORT).show()
 
-        JCModel.detailCourse.urlImage01.let {
+        JCModel.detailCourse.urlImage02.let {
 
-            val url = JCModel.detailCourse.urlImage01
+            val url = JCModel.detailCourse.urlImage02
             if(!url.isNullOrEmpty()) {
                 Picasso.get()
                         .load(url)
@@ -43,16 +49,19 @@ class CourseOverviewActivity : AppCompatActivity() {
         tvContentDesc.text = JCModel.detailCourse.description
 
 
-        context = applicationContext
+        listClip.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager(this@CourseOverviewActivity).orientation))
 
-        btnContents.setOnClickListener {
+        listClip.adapter = AdapterClipSet(context!!, JCModel.clipSet)
 
-            App.binder.getClipList(JCModel.detailCourse.noCourse.toString()) {
 
-                startActivity(Intent(context, ClipSetActivity::class.java), null)
-
-            }
-        }
+//        btnContents.setOnClickListener {
+//
+//            App.binder.getClipList(JCModel.detailCourse.noCourse.toString()) {
+//
+//                startActivity(Intent(context, ClipSetActivity::class.java), null)
+//
+//            }
+//        }
 
 
         btnBack.setOnClickListener {
