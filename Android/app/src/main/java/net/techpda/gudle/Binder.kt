@@ -377,10 +377,10 @@ class Binder {
                     val json:String = result.get().content
                     var element = JsonParser().parse(json)
 
-                    clip!!.urlLink = checkValidAndGet(element.asJsonObject, "url")
-                    clip!!.countReple = checkValidAndGet_Int(element.asJsonObject, "reple_count")
-                    clip!!.favorite =  checkValidAndGet_Int(element.asJsonObject, "is_clip_like")
-                    clip!!.vertical = checkValidAndGet_Int(element.asJsonObject, "is_vertical_video")
+                    model.clipCurrent.urlLink = checkValidAndGet(element.asJsonObject, "url")
+                    model.clipCurrent.countReple = checkValidAndGet_Int(element.asJsonObject, "reple_count")
+                    model.clipCurrent.favorite =  checkValidAndGet_Int(element.asJsonObject, "is_clip_like")
+                    model.clipCurrent.vertical = checkValidAndGet_Int(element.asJsonObject, "is_vertical_video")
 
                     checkValidAndGet_Array(element.asJsonObject, "data_list")?.let {
 
@@ -389,19 +389,19 @@ class Binder {
                             for (i in 0..(it.size()-1)) {
 
                                 if(i == 0) {
-                                    clip!!.quiz.no = checkValidAndGet_Int(it[i].asJsonObject, "quiz_no")
-                                    clip!!.quiz.type = checkValidAndGet_Int(it[i].asJsonObject, "quiz_type")
-                                    clip!!.quiz.text = checkValidAndGet(it[i].asJsonObject, "quiz_text")
-                                    clip!!.quiz.urlFile = checkValidAndGet(it[i].asJsonObject, "quiz_text_file_url")
-                                    clip!!.quiz.score = checkValidAndGet_Int(it[i].asJsonObject, "quiz_score")
-                                    clip!!.quiz.level = checkValidAndGet_Int(it[i].asJsonObject, "difficulty")
-                                    clip!!.quiz.description = checkValidAndGet(it[i].asJsonObject, "description")
+                                    model.clipCurrent.quiz.no = checkValidAndGet_Int(it[i].asJsonObject, "quiz_no")
+                                    model.clipCurrent.quiz.type = checkValidAndGet_Int(it[i].asJsonObject, "quiz_type")
+                                    model.clipCurrent.quiz.text = checkValidAndGet(it[i].asJsonObject, "quiz_text")
+                                    model.clipCurrent.quiz.urlFile = checkValidAndGet(it[i].asJsonObject, "quiz_text_file_url")
+                                    model.clipCurrent.quiz.score = checkValidAndGet_Int(it[i].asJsonObject, "quiz_score")
+                                    model.clipCurrent.quiz.level = checkValidAndGet_Int(it[i].asJsonObject, "difficulty")
+                                    model.clipCurrent.quiz.description = checkValidAndGet(it[i].asJsonObject, "description")
                                 }
 
                                 val noExample: Int = checkValidAndGet_Int(it[i].asJsonObject, "example_no")
                                 var noCorrect: Int = checkValidAndGet_Int(it[i].asJsonObject, "correct_example_no")
 
-                                clip!!.quiz.exampleSet.add(Example(
+                                model.clipCurrent.quiz.exampleSet.add(Example(
                                         no = noExample,
                                         order = checkValidAndGet_Int(it[i].asJsonObject, "display_order"),
                                         type = checkValidAndGet_Int(it[i].asJsonObject, "example_type"),

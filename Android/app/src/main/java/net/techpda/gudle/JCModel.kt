@@ -22,6 +22,7 @@ object JCModel {
 
     var course2: ArrayList<Album> = arrayListOf()
 
+    var clipCurrent: Clip = Clip()
     var clipSet: ArrayList<Clip> = arrayListOf()
     var attendanceSet: ArrayList<Attendance> = arrayListOf()
 

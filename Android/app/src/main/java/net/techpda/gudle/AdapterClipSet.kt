@@ -34,8 +34,6 @@ class AdapterClipSet(val context: Context, var list: ArrayList<Clip> = arrayList
                     startActivity(context, Intent(context, ClipViewerActivity::class.java), null)
                 }
             }
-
-
         }
     }
 

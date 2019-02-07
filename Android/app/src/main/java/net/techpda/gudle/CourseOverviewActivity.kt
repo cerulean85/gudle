@@ -27,11 +27,6 @@ class CourseOverviewActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 
-        val noCourse = JCModel.detailCourse.noCourse
-        var title = JCModel.detailCourse.title
-        var desc = JCModel.detailCourse.description
-        Toast.makeText(this, "No: $noCourse, Title: $title, desc: $desc", Toast.LENGTH_SHORT).show()
-
         JCModel.detailCourse.urlImage02.let {
 
             val url = JCModel.detailCourse.urlImage02

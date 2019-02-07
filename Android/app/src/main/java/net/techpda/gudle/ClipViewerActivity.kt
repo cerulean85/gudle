@@ -23,7 +23,7 @@ class ClipViewerActivity : AppCompatActivity() {
 
         }
 
-        loadWebView("http://naver.com")
+        loadWebView(JCModel.clipCurrent.urlLink)
     }
 
 
