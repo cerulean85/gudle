@@ -48,16 +48,17 @@ class TabHome : Fragment() {
     {
         var view: View = inflater!!.inflate(R.layout.fragment_tab_home, container, false)
 
-        categoryPagerAdapter = CategoryPagerAdapter(fragmentManager!!, JCModel.systemInfo.category)
+        categoryPagerAdapter = CategoryPagerAdapter(fragmentManager!!, JCModel.systemInfo.collectionCategory!!)
 
         viewPager = view.viewPager
         tabLayout = view.recyclerTabLayout
         marketingPaper = view.marketingPager
 
-        App.binder.getMain("1", "") {
+        App.binder.getMain("1", "", {
+
             viewPager!!.adapter = categoryPagerAdapter
             tabLayout!!.setUpWithViewPager(viewPager!!)
-            marketingPaper!!.adapter = HomeBannerListAdapter(context!!, JCModel.dataHome.banner)
+            marketingPaper!!.adapter = HomeBannerListAdapter(context!!, JCModel.main.collectionBanner!!)
 
             marketingPaper!!.post { marketingPaper!!.currentItem = 1 }
 
@@ -70,7 +71,8 @@ class TabHome : Fragment() {
 ////                marketingPaper!!.setPageTransformer()
 //
 //            }
-        }
+
+        })
 
         viewPager!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {

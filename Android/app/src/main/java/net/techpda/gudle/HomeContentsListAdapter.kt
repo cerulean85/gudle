@@ -12,7 +12,7 @@ import com.squareup.picasso.Picasso
 import org.jetbrains.anko.AnkoContext
 
 
-class HomeContentsListAdapter  (val context: Context, var list: ArrayList<Album> = arrayListOf()): RecyclerView.Adapter<HomeContentsListAdapter.AlbumViewHolder>() {
+class HomeContentsListAdapter  (val context: Context, var list: ArrayList<Course> = arrayListOf()): RecyclerView.Adapter<HomeContentsListAdapter.AlbumViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder {
         return AlbumViewHolder(MovieUI().createView(AnkoContext.create(parent.context, parent)))
@@ -40,9 +40,9 @@ class HomeContentsListAdapter  (val context: Context, var list: ArrayList<Album>
 
         holder.view!!.setOnClickListener {
 
-            App.binder.getCourseDetail(album.noCourse.toString()) {
+            App.binder.getCourseDetail(album.no.toString()) {
 
-                App.binder.getClipList(album.noCourse.toString()) {
+                App.binder.getClipList(album.no.toString()) {
                     startActivity(context, Intent(context, CourseOverviewActivity::class.java), null)
                 }
             }

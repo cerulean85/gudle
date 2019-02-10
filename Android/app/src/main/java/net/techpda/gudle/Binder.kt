@@ -3,11 +3,14 @@ package net.techpda.gudle
 import android.graphics.Color
 import android.os.Handler
 import android.os.Message
+import android.util.Log
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.fuel.httpPost
 import com.google.gson.*
+import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlin.system.exitProcess
 
 class Binder {
 
@@ -68,46 +71,46 @@ class Binder {
 //            JCModel.marketSet!!.list.add(Movie("The Shawshank Redemption",1994, hyoUrl+"22.jpg", Color.LTGRAY))
 //    }
 
-    fun getSystemInfo(body:()->Unit = {}) {
-
-//        FuelManager.instance.basePath = "https://mobile01.e-koreatech.ac.kr/"
-
-        val addr = prefixAddr + "getSystemInfo"
-
-        var r: String = "Never...."
-        try {
-            addr.httpPost().header("Content-Type" to "application/x-www-form-urlencoded")
-            .responseJson{ request, response, result ->
-                log(result.get().content)
-
-                val json:String = result.get().content
-                var element = JsonParser().parse(json)
-
-                model.systemInfo.urlEvent = element.asJsonObject.get("event_popup_url")?.asString
-                model.systemInfo.versionMinOS = element.asJsonObject.get("android_min_version")?.asString
-                model.systemInfo.eventNoBard = element.asJsonObject.get("board_no")?.asInt
-
-//                model.systemInfo.eventNoBard = element.asJsonObject.get("board_no").isJsonNull asInt
-                model.systemInfo.eventNoBoardArticle = element.asJsonObject.get("board_article_no")?.asInt
-                model.systemInfo.eventTitle = element.asJsonObject.get("popup_title")?.asString
-                model.systemInfo.eventNoPopup = element.asJsonObject.get("popup_no")?.asInt
-                model.systemInfo.eventUrlImage = element.asJsonObject.get("image_url")?.asString
-
-                model.systemInfo.category.add(Category(0, "전체"))
-                val cate = element.asJsonObject.get("data_list").asJsonArray
-                cate.forEach {
-                    model.systemInfo.category.add(Category(
-                            noCategory = it.asJsonObject.get("category_no").asInt,
-                            title = it.asJsonObject.get("title").asString))}
-            }
-
-            body()
-
-        } catch (e: Exception) {
-        } finally {
-
-
-        }
+//    fun getSystemInfo(body:()->Unit = {}) {
+//
+////        FuelManager.instance.basePath = "https://mobile01.e-koreatech.ac.kr/"
+//
+//        val addr = prefixAddr + "getSystemInfo"
+//
+//        var r: String = "Never...."
+//        try {
+//            addr.httpPost().header("Content-Type" to "application/x-www-form-urlencoded")
+//            .responseJson{ request, response, result ->
+//                log(result.get().content)
+//
+//                val json:String = result.get().content
+//                var element = JsonParser().parse(json)
+//
+//                model.systemInfo.urlEvent = element.asJsonObject.get("event_popup_url")?.asString
+//                model.systemInfo.versionMinOS = element.asJsonObject.get("android_min_version")?.asString
+//                model.systemInfo.eventNoBard = element.asJsonObject.get("board_no")?.asInt
+//
+////                model.systemInfo.eventNoBard = element.asJsonObject.get("board_no").isJsonNull asInt
+//                model.systemInfo.eventNoBoardArticle = element.asJsonObject.get("board_article_no")?.asInt
+//                model.systemInfo.eventTitle = element.asJsonObject.get("popup_title")?.asString
+//                model.systemInfo.eventNoPopup = element.asJsonObject.get("popup_no")?.asInt
+//                model.systemInfo.eventUrlImage = element.asJsonObject.get("image_url")?.asString
+//
+//                model.systemInfo.category.add(Category(0, "전체"))
+//                val cate = element.asJsonObject.get("data_list").asJsonArray
+//                cate.forEach {
+//                    model.systemInfo.category.add(Category(
+//                            noCategory = it.asJsonObject.get("category_no").asInt,
+//                            title = it.asJsonObject.get("title").asString))}
+//            }
+//
+//            body()
+//
+//        } catch (e: Exception) {
+//        } finally {
+//
+//
+//        }
 
 //        cs.print(pref.getString("TEST"))
 
@@ -122,54 +125,130 @@ class Binder {
 //        } catch (e: Exception) {
 //        } finally {
 //        }
+//    }
+
+    fun getSystemInfo(
+        onSucess:()->Unit={}, onFail:()->Unit={}, onSubscribe:()->Unit={}, onTerminate:()->Unit={})
+    {
+        App.disposable.add(App.apiService.getSystemInfo()
+
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { onSubscribe() }
+                .doOnTerminate { onTerminate() }
+                .subscribe({ it ->
+
+                    if(it.isOpen && it.isSuccess)
+                    {
+                        JCModel.systemInfo = it
+                        JCModel.systemInfo.collectionCategory!!.add(0, Category(0, "전체"))
+                        onSucess()
+                    } else {
+                        onFail(); exitProcess(0)
+                    }
+
+                })  {
+                    Log.e("Fail", "${it.message}")
+                }
+
+        )
     }
 
-    fun getMain(page: String, category: String, body:()->Unit = {}) {
+    fun getMain( nowPage:String, noCategory:String,
+        onSucess:()->Unit={}, onFail:()->Unit={}, onSubscribe:()->Unit={}, onTerminate:()->Unit={})
+    {
+        App.disposable.add(App.apiService.getMain(nowPage, noCategory)
 
-        val addr = prefixAddr + "getMain"
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { onSubscribe() }
+                .doOnTerminate { onTerminate() }
+                .subscribe({ it ->
 
-        val list: List<Pair<String, String>>? = listOf(Pair("now_page", page), Pair("category_no", category))
-
-        try {
-            addr.httpPost(list).header("Content-Type" to "application/x-www-form-urlencoded")
-                    .responseJson{ request, response, result ->
-
-                        val json:String = result.get().content
-                        var element = JsonParser().parse(json)
-
-                        model.dataHome.countBanner = element.asJsonObject.get("banner_count").asInt
-                        model.dataHome.countCourse = element.asJsonObject.get("total_course_count").asInt
-                        model.dataHome.isNewAlarm = element.asJsonObject.get("exists_new_alarm").asInt
-
-                        val d1 = element.asJsonObject.get("data_list1").asJsonArray
-                        d1.forEach {
-
-                            var urlThumbCourseImage = it.asJsonObject.get("course_image_thumbnail_url")
-                            model.dataHome.course.add(Album(
-                                    noCourse = it.asJsonObject.get("course_no").asInt,
-                                    noContent = it.asJsonObject.get("course_content_no").asInt,
-                                    title = it.asJsonObject.get("service_title").asString,
-                                    nameCategory = it.asJsonObject.get("category_title").asString,
-                                    urlThumb = if(urlThumbCourseImage.isJsonNull) "" else urlThumbCourseImage.asString,
-                                    countView = it.asJsonObject.get("view_count").asInt)) }
-
-                        val d2 = element.asJsonObject.get("data_list2").asJsonArray
-                        d2.forEach {
-                            model.dataHome.banner.add(Article(
-                                    no = it.asJsonObject.get("board_article_no").asInt,
-                                    noBoard = it.asJsonObject.get("board_no").asInt,
-                                    title = it.asJsonObject.get("title").asString,
-                                    urlThumb = it.asJsonObject.get("thumbnail_url").asString))}
-
-
-
-                        body()
+                    if(it.isOpen && it.isSuccess)
+                    {
+                        JCModel.main = it
+                        onSucess()
+                    } else {
+                        onFail()
                     }
-        } catch(e: Exception) {
 
-        } finally {
+                })  {
+                    Log.e("Fail", "${it.message}")
+                }
 
-        }
+        )
+    }
+
+//    fun getMain(page: String, category: String, body:()->Unit = {}) {
+//
+//        val addr = prefixAddr + "getMain"
+//
+//        val list: List<Pair<String, String>>? = listOf(Pair("now_page", page), Pair("category_no", category))
+//
+//        try {
+//            addr.httpPost(list).header("Content-Type" to "application/x-www-form-urlencoded")
+//                    .responseJson{ request, response, result ->
+//
+//                        val json:String = result.get().content
+//                        var element = JsonParser().parse(json)
+//
+//                        model.dataHome.countBanner = element.asJsonObject.get("banner_count").asInt
+//                        model.dataHome.countCourse = element.asJsonObject.get("total_course_count").asInt
+//                        model.dataHome.isNewAlarm = element.asJsonObject.get("exists_new_alarm").asInt
+//
+//                        val d1 = element.asJsonObject.get("data_list1").asJsonArray
+//                        d1.forEach {
+//
+//                            var urlThumbCourseImage = it.asJsonObject.get("course_image_thumbnail_url")
+//                            model.dataHome.course.add(Album(
+//                                    noCourse = it.asJsonObject.get("course_no").asInt,
+//                                    noContent = it.asJsonObject.get("course_content_no").asInt,
+//                                    title = it.asJsonObject.get("service_title").asString,
+//                                    nameCategory = it.asJsonObject.get("category_title").asString,
+//                                    urlThumb = if(urlThumbCourseImage.isJsonNull) "" else urlThumbCourseImage.asString,
+//                                    countView = it.asJsonObject.get("view_count").asInt)) }
+//
+//                        val d2 = element.asJsonObject.get("data_list2").asJsonArray
+//                        d2.forEach {
+//                            model.dataHome.banner.add(Article(
+//                                    no = it.asJsonObject.get("board_article_no").asInt,
+//                                    noBoard = it.asJsonObject.get("board_no").asInt,
+//                                    title = it.asJsonObject.get("title").asString,
+//                                    urlThumb = it.asJsonObject.get("thumbnail_url").asString))}
+//
+//
+//
+//                        body()
+//                    }
+//        } catch(e: Exception) {
+//
+//        } finally {
+//
+//        }
+//    }
+
+    fun getCourseCollectionClassfiedByCategory( noCategory:String,
+        onSucess:()->Unit={}, onFail:()->Unit={}, onSubscribe:()->Unit={}, onTerminate:()->Unit={})
+    {
+        App.disposable.add(App.apiService.getMain("1", noCategory)
+
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { onSubscribe() }
+                .doOnTerminate { onTerminate() }
+                .subscribe({ it ->
+
+                    if(it.isOpen && it.isSuccess)
+                    {
+                        JCModel.collectionCoruseClassifiedByCategory[noCategory] = it.collectionCourse?.let{ it } ?: arrayListOf()
+                        onSucess()
+                    } else {
+                        onFail()
+                    }
+
+                })  {
+                    Log.e("Fail", "${it.message}")
+                }
+
+        )
     }
 
     fun getCourseByCategory(category: String, body:()->Unit = {}) {

@@ -1,6 +1,7 @@
 package net.techpda.gudle
 
 import android.app.Application
+import io.reactivex.disposables.CompositeDisposable
 
 class App : Application() {
 
@@ -9,6 +10,9 @@ class App : Application() {
         lateinit var binder: Binder
         lateinit var mService: DiagnosisService
         lateinit var util: Util
+
+        val apiService by lazy { provideApiService() }
+        val disposable = CompositeDisposable()
 
         val DEVELOPING: Boolean = true
         fun log(message: String) {

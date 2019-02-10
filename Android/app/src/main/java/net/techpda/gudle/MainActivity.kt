@@ -25,6 +25,7 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.ImageSpan
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.Display
 import android.view.View
 import android.view.Window
@@ -46,6 +47,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.nshmura.recyclertablayout.RecyclerTabLayout
 import com.squareup.picasso.Picasso
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 //import kotlinx.coroutines.experimental.*
@@ -55,6 +57,7 @@ import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.viewPager
 import org.json.JSONArray
 import org.json.JSONObject
+import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
@@ -95,6 +98,7 @@ class MainActivity : AppCompatActivity() {
                 bindService(Intent(this, DiagnosisService::class.java), mServiceConn, Context.BIND_AUTO_CREATE)
             }
         }
+
     }
     override fun onStop() {
         super.onStop()
@@ -157,11 +161,10 @@ class MainActivity : AppCompatActivity() {
 
 
         App.pref.test = "test"
-        App.binder.getSystemInfo()
+//        App.binder.getSystemInfo()
 
 
         setContentView(R.layout.activity_main)
-
         viewPager = findViewById(R.id.viewpager) as ViewPager
         viewPager!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
@@ -193,19 +196,17 @@ class MainActivity : AppCompatActivity() {
 
         tabLayout = findViewById(R.id.tabs) as TabLayout
 
-//        App.binder.getMain("1", "") {
+
+        App.binder.getSystemInfo({
+
             setupViewPager(viewPager!!)
             tabLayout!!.setupWithViewPager(viewPager!!)
-
-
-
             tabLayout!!.getTabAt(0)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
             tabLayout!!.getTabAt(1)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
             tabLayout!!.getTabAt(2)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
             tabLayout!!.getTabAt(3)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
 
-//        }
-
+        })
 
 //        actionBar.setDisplayShowHomeEnabled(true)
 //        actionBar.setIcon(R.drawable.ic_icon_search)
