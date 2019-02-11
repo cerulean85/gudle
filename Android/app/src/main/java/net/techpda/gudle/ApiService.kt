@@ -15,4 +15,21 @@ interface ApiService {
     @POST("getMain")
     fun getMain(@Field("now_page") nowPage: String, @Field("category_no") noCategory: String): Observable<Main>
 
+    @FormUrlEncoded
+    @POST("getCourseDetail")
+    fun getCourseDetail(@Field("course_no") noCourse: String): Observable<Course>
+
+    @FormUrlEncoded
+    @POST("getClipList")
+    fun getClipList(@Field("course_no") noCourse: String): Observable<ClipSet>
+
+    @FormUrlEncoded
+    @POST("getClipDetail")
+    fun getClipDetail(@Field("lesson_subitem_no") noContent: String, @Field("course_no") noCourse: String): Observable<Clip>
+
+    @FormUrlEncoded
+    @POST("getClipDetail")
+    fun getClipRepleList(@Field("lesson_subitem_no") noContent: String, @Field("filter") filter: String, @Field("now_page") nowPage:String): Observable<CommentSet>
+
+
 }

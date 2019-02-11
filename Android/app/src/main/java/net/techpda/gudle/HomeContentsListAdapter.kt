@@ -19,18 +19,18 @@ class HomeContentsListAdapter  (val context: Context, var list: ArrayList<Course
     }
 
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
-        val album = list[position]
-        holder.tvTitle.text = album.title
-        holder.tvViewCount.text = "조회수 " + album.countView//"${movie.year}"
+        val course = list[position]
+        holder.tvTitle.text = course.title
+        holder.tvViewCount.text = "조회수 " + course.countView//"${movie.year}"
 //        holder.ivThumb.setImageDrawable(movie.image)
 //        holder.ivThumb.setBackgroundColor(movie.color)
 
 
-        album.urlThumb.let {
+        course.urlThumb.let {
 
-            if(!album.urlThumb.isNullOrEmpty()) {
+            if(!course.urlThumb.isNullOrEmpty()) {
                 Picasso.get()
-                        .load(album.urlThumb)
+                        .load(course.urlThumb)
                         .placeholder(R.drawable.ic_launcher_foreground)
                         .error(R.drawable.ic_launcher_background)
                         //.transform(BlurTransformation(context, 25))
@@ -39,13 +39,11 @@ class HomeContentsListAdapter  (val context: Context, var list: ArrayList<Course
         }
 
         holder.view!!.setOnClickListener {
-
-            App.binder.getCourseDetail(album.no.toString()) {
-
-                App.binder.getClipList(album.no.toString()) {
-                    startActivity(context, Intent(context, CourseOverviewActivity::class.java), null)
-                }
-            }
+            App.binder.getCourseDetail(course.no.toString())
+            App.binder.getClipList(course.no.toString(),
+            {
+                startActivity(context, Intent(context, CourseOverviewActivity::class.java), null)
+            })
         }
 
 

@@ -175,12 +175,7 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onPageSelected(position: Int) {
                 print("onPageSelected")
-
-
 //                if(position == 0) {
-//
-//
-//
 //                    setupViewPager(viewPager!!)
 //                    tabLayout!!.setupWithViewPager(viewPager!!)
 //

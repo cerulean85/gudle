@@ -29,10 +29,11 @@ class AdapterClipSet(val context: Context, var list: ArrayList<Clip> = arrayList
 
         holder.view.setOnClickListener {
 
-            App.binder.getClipDetail(item.noContent.toString(), item.noCourse.toString()) {
-                App.binder.getClipRepleList(item.noContent.toString(), "0", "1") {
-                    startActivity(context, Intent(context, ClipViewerActivity::class.java), null)
-                }
+            App.binder.getClipDetail(item.noContent.toString(), item.noCourse.toString()){
+                startActivity(context, Intent(context, ClipViewerActivity::class.java), null)
+            }
+            App.binder.getClipRepleList(item.noContent.toString(), "0", "1") {
+
             }
         }
     }

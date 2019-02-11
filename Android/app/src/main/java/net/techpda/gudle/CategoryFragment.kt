@@ -17,6 +17,7 @@ import org.jetbrains.anko.support.v4.ctx
 class CategoryFragment : Fragment() {
 
 
+
     private lateinit var view: AnkoContext<Fragment>
     private var rv: RecyclerView? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState:
@@ -30,7 +31,7 @@ class CategoryFragment : Fragment() {
         }
 
 
-        var noCategory = arguments!!.getInt(MovieHelper.KEY_NO_CATEGORY)
+        var noCategory = arguments!!.getInt("no_category")
         if (noCategory > 0) {
 
             App.binder.getCourseCollectionClassfiedByCategory(noCategory.toString(), {
@@ -89,8 +90,8 @@ class CategoryFragment : Fragment() {
             // Store the movie data in a Bundle object
             val args = Bundle()
             val noCategory: Int = category.noCategory.toInt()
-            args.putInt(MovieHelper.KEY_NO_CATEGORY, noCategory)
-            args.putString(MovieHelper.KEY_NAME_CATEGORY, category.title)
+            args.putInt("전체", noCategory)
+            args.putString("no_category", category.title)
 
 //            args.putString(MovieHelper.KEY_TITLE, album.title)
 //            args.putInt(MovieHelper.KEY_RATING, album.year)

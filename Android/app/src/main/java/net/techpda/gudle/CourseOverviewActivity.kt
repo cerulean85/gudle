@@ -1,17 +1,13 @@
 package net.techpda.gudle
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.widget.Toast
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.activity_course_overview.*
-import org.jetbrains.anko.startActivity
 
 class CourseOverviewActivity : AppCompatActivity() {
 
@@ -27,9 +23,8 @@ class CourseOverviewActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 
-        JCModel.detailCourse.urlImage02.let {
-
-            val url = JCModel.detailCourse.urlImage02
+        JCModel.detailCourse.urlImage.let{
+            val url = JCModel.detailCourse.urlImage
             if(!url.isNullOrEmpty()) {
                 Picasso.get()
                         .load(url)
@@ -41,12 +36,12 @@ class CourseOverviewActivity : AppCompatActivity() {
         }
 
         tvContentTittle.text = JCModel.detailCourse.title
-        tvContentDesc.text = JCModel.detailCourse.description
+        tvContentDesc.text = JCModel.detailCourse.shortDescription
 
 
         listClip.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager(this@CourseOverviewActivity).orientation))
 
-        listClip.adapter = AdapterClipSet(context!!, JCModel.clipSet)
+        listClip.adapter = AdapterClipSet(context!!, JCModel.clipSet.collectionClip!!)
 
 
 //        btnContents.setOnClickListener {
