@@ -40,11 +40,11 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:background="#ffffff"
             app:tabMode="fixed"
             app:tabSelectedTextColor="#000"
-            app:tabTextColor="#fff"/>
+            app:tabTextColor="#fff" />
 
     </android.support.design.widget.AppBarLayout>
 

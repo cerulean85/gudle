@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.*
 import android.provider.Settings
+import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
@@ -27,10 +28,12 @@ import android.text.style.ImageSpan
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Display
+import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -53,6 +56,7 @@ import kotlinx.coroutines.*
 //import kotlinx.coroutines.experimental.*
 import net.techpda.gudle.R.id.async
 import org.jetbrains.anko.*
+import org.jetbrains.anko.custom.customView
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.viewPager
 import org.json.JSONArray
@@ -175,15 +179,41 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onPageSelected(position: Int) {
                 print("onPageSelected")
-//                if(position == 0) {
-//                    setupViewPager(viewPager!!)
-//                    tabLayout!!.setupWithViewPager(viewPager!!)
-//
-//                    tabLayout!!.getTabAt(0)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
-//                    tabLayout!!.getTabAt(1)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
-//                    tabLayout!!.getTabAt(2)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
-//                    tabLayout!!.getTabAt(3)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
-//                }
+
+                when(position) {
+                    0 -> {
+                        ((tabLayout!!.getTabAt(0)!!.customView as ConstraintLayout).getChildAt(0)
+                                as ImageView).setImageResource(R.drawable.ic_tap_home_selected)
+
+                        tabLayout!!.getTabAt(1)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
+                        tabLayout!!.getTabAt(2)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
+                        tabLayout!!.getTabAt(3)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
+                    }
+
+                    1 -> {
+                        ((tabLayout!!.getTabAt(0)!!.customView as ConstraintLayout).getChildAt(0)
+                                as ImageView).setImageResource(R.drawable.ic_tap_home_released)
+
+
+                        tabLayout!!.getTabAt(1)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
+                        tabLayout!!.getTabAt(2)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
+                        tabLayout!!.getTabAt(3)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
+                    }
+
+                    2 -> {
+                        tabLayout!!.getTabAt(0)!!.setIcon(R.drawable.ic_tap_home_released)
+                        tabLayout!!.getTabAt(1)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
+                        tabLayout!!.getTabAt(2)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
+                        tabLayout!!.getTabAt(3)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
+                    }
+
+                    3 -> {
+                        tabLayout!!.getTabAt(0)!!.setIcon(R.drawable.ic_tap_home_released)
+                        tabLayout!!.getTabAt(1)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
+                        tabLayout!!.getTabAt(2)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
+                        tabLayout!!.getTabAt(3)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
+                    }
+                }
 
             }
 
@@ -196,7 +226,17 @@ class MainActivity : AppCompatActivity() {
 
             setupViewPager(viewPager!!)
             tabLayout!!.setupWithViewPager(viewPager!!)
-            tabLayout!!.getTabAt(0)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
+
+//            tabLayout!!.tabWidget().getChildAt(0).setPadding(0, 0, 0, 0)
+//            tabLayout!!.tabWidget().getChildAt(1).setPadding(0, 0, 0, 0)
+//            tabLayout!!.tabWidget().getChildAt(2).setPadding(0, 0, 0, 0)
+//            tabLayout!!.tabWidget().getChildAt(3).setPadding(0, 0, 0, 0)
+
+
+            var tabChild0: ConstraintLayout = LayoutInflater.from(tabLayout!!.context).inflate(R.layout.tab_icon, null) as ConstraintLayout
+            (tabChild0.getChildAt(0) as ImageView).setImageResource(R.drawable.ic_tap_home_selected)
+            tabLayout!!.getTabAt(0)!!.customView = tabChild0
+
             tabLayout!!.getTabAt(1)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
             tabLayout!!.getTabAt(2)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
             tabLayout!!.getTabAt(3)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)

@@ -46,7 +46,7 @@ class TabHome : Fragment() {
 
     fun createView() : View
     {
-        var view: View = inflater!!.inflate(R.layout.fragment_tab_home, container, false)
+        val view = inflater!!.inflate(R.layout.fragment_tab_home, container, false)
 
         categoryPagerAdapter = CategoryPagerAdapter(fragmentManager!!, JCModel.systemInfo.collectionCategory!!)
 
@@ -62,7 +62,12 @@ class TabHome : Fragment() {
 
             marketingPaper!!.post { marketingPaper!!.currentItem = 1 }
 
-//            timer = Timer().schedule(3000, 3000) {
+
+
+            timer = Timer().schedule(3000, 3000) {
+
+                (inflater!!.inflate(R.layout.fragment_tab_home, container, false)).
+                        animate().translationY((-marketingPaper!!.height).toFloat()).withLayer()
 //
 //                var indexCurrent: Int = marketingPaper!!.currentItem
 //                val indexLast: Int = JCModel.dataHome.banner.size - 1
@@ -70,7 +75,7 @@ class TabHome : Fragment() {
 //                marketingPaper!!.setCurrentItem(indexCurrent, true)
 ////                marketingPaper!!.setPageTransformer()
 //
-//            }
+            }
 
         })
 
