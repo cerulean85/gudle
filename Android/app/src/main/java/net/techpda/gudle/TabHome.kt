@@ -44,30 +44,43 @@ class TabHome : Fragment() {
 
     }
 
-    fun createView() : View
+    private var homeView: View? = null //inflater!!.inflate(R.layout.fragment_tab_home, container, false)
+    private fun createView() : View?
     {
-        val view = inflater!!.inflate(R.layout.fragment_tab_home, container, false)
+
+
+        homeView = inflater!!.inflate(R.layout.fragment_tab_home, container, false)
+        if(homeView == null)
+            return null
 
         categoryPagerAdapter = CategoryPagerAdapter(fragmentManager!!, JCModel.systemInfo.collectionCategory!!)
 
-        viewPager = view.viewPager
-        tabLayout = view.recyclerTabLayout
-        marketingPaper = view.marketingPager
+        viewPager = homeView!!.viewPager
+        tabLayout = homeView!!.recyclerTabLayout
+        marketingPaper = homeView!!.marketingPager
 
         App.binder.getMain("1", "", {
+
+            JCModel.onScrolledHomeChanged = { oldValue, newValue ->
+
+                if(!oldValue && newValue) {
+                    val height = resources.getDimension(R.dimen.top_view_pager_height)
+                    homeView!!.animate().translationY(-height).withLayer()
+                }
+
+            }
 
             viewPager!!.adapter = categoryPagerAdapter
             tabLayout!!.setUpWithViewPager(viewPager!!)
             marketingPaper!!.adapter = HomeBannerListAdapter(context!!, JCModel.main.collectionBanner!!)
-
             marketingPaper!!.post { marketingPaper!!.currentItem = 1 }
 
-
-
             timer = Timer().schedule(3000, 3000) {
+//
 
-                (inflater!!.inflate(R.layout.fragment_tab_home, container, false)).
-                        animate().translationY((-marketingPaper!!.height).toFloat()).withLayer()
+//                var homeView: View = (inflater!!.inflate(R.layout.fragment_tab_home, container, false))
+//                homeView.marketingPager.animate().translationY((-marketingPaper!!.height).toFloat()).withLayer()
+
 //
 //                var indexCurrent: Int = marketingPaper!!.currentItem
 //                val indexLast: Int = JCModel.dataHome.banner.size - 1
@@ -105,7 +118,7 @@ class TabHome : Fragment() {
             }
         })
 
-        return view
+        return homeView!!
     }
 
 }

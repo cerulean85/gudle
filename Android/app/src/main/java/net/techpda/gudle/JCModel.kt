@@ -1,6 +1,7 @@
 package net.techpda.gudle
 
 import com.google.gson.annotations.SerializedName
+import kotlin.properties.Delegates
 
 //enum class Model private constructor(val titleResId: Int, val layoutResId: Int) {
 //    RED(R.string.one, R.layout.layout_one),
@@ -16,6 +17,12 @@ object JCModel {
     var clipSet: ClipSet = ClipSet()
     var collectionCoruseClassifiedByCategory: MutableMap<String, ArrayList<Course>> = mutableMapOf()
     var commentSet: CommentSet = CommentSet()
+
+    var scrolledHome: Boolean by Delegates.observable(false) { _, oldValue, newValue ->
+        onScrolledHomeChanged?.invoke(oldValue, newValue)
+    }
+
+    var onScrolledHomeChanged: ((Boolean, Boolean) -> Unit)? = null
 }
 
 open class Base

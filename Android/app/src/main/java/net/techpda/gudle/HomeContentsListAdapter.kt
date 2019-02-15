@@ -14,6 +14,13 @@ import org.jetbrains.anko.AnkoContext
 
 class HomeContentsListAdapter  (val context: Context, var list: ArrayList<Course> = arrayListOf()): RecyclerView.Adapter<HomeContentsListAdapter.AlbumViewHolder>() {
 
+
+//    lateinit var onBottomReachedListener: OnBottomReachedListener
+    fun setOnBottomReachedListener(onBottomReachedListener: OnBottomReachedListener) {
+//
+    }
+
+    
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder {
         return AlbumViewHolder(MovieUI().createView(AnkoContext.create(parent.context, parent)))
     }

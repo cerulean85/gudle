@@ -1,11 +1,13 @@
 package net.techpda.gudle
 
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 
@@ -20,6 +22,8 @@ class CategoryFragment : Fragment() {
 
     private lateinit var view: AnkoContext<Fragment>
     private var rv: RecyclerView? = null
+    private var currentScrolledPosition = 0
+    private var scrolled: Boolean = false
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState:
     Bundle?): View? {
 
@@ -45,6 +49,67 @@ class CategoryFragment : Fragment() {
 //            }
         } else {
             rv!!.adapter = HomeContentsListAdapter(this.ctx, JCModel.main.collectionCourse!!)
+
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+                rv!!.addOnItemTouchListener(object: RecyclerView.OnItemTouchListener{
+                    override fun onInterceptTouchEvent(p0: RecyclerView, p1: MotionEvent): Boolean {
+
+                        return false
+                    }
+
+                    override fun onRequestDisallowInterceptTouchEvent(p0: Boolean) {
+
+                    }
+
+                    override fun onTouchEvent(p0: RecyclerView, p1: MotionEvent) {
+                        println("touched Event")
+                    }
+
+                })
+                rv!!.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+
+
+
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                        println("scrollDy: $dy" )
+                        currentScrolledPosition += dy
+                        println("scrolled dY: $currentScrolledPosition")
+                        if(currentScrolledPosition==0 && scrolled) {
+                            JCModel.scrolledHome = true
+                        }
+                        scrolled = true
+                    }
+
+                    override fun onScrollStateChanged(view: RecyclerView, newState: Int) {
+                        super.onScrollStateChanged(view, newState)
+
+//                        scrolled = true
+//                        println("scrolled: $scrolledState")
+
+//var ccc = view.layoutManager!!.itemCount
+//                        var dd = view.layoutManager!!.off
+//                        println("scrollDy: $dd" )
+                    }
+
+
+                })
+
+
+//                rv!!.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+//
+//                    var xxx = v.y
+//
+//                    println("v.x: $xxx, oldScrollY: $oldScrollY, scrollY : $scrollY" )
+//                    if(oldScrollY == 0 && scrollY > 0) {
+//                        JCModel.scrolledHome = true
+//                    }
+//                }
+
+
+
+            }
         }
 
         return view.view
