@@ -10,15 +10,30 @@
         android:layout_width="match_parent">
 
         <android.support.v4.view.ViewPager
-            android:id="@+id/marketingPager"
+            android:id="@+id/tabHomeMarketingFrameViewPager"
             android:layout_height="@dimen/top_view_pager_height"
             android:layout_width="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/tabHomeIndicatorBannerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@android:color/transparent"
+            android:layout_alignRight="@id/tabHomeMarketingFrameViewPager"
+            android:layout_alignBottom="@id/tabHomeMarketingFrameViewPager"
+            android:layout_alignLeft="@id/tabHomeMarketingFrameViewPager"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="0dp"
+            android:orientation="horizontal"
+            android:gravity="right"
+            />
 
         <com.nshmura.recyclertablayout.RecyclerTabLayout
             android:id="@+id/recyclerTabLayout"
             android:layout_height="@dimen/tabs_height"
             android:layout_width="match_parent"
-            android:layout_below="@id/marketingPager"
+            android:layout_below="@id/tabHomeMarketingFrameViewPager"
             rtl_tabIndicatorColor="@color/colorPrimaryDark"
             rtl_tabIndicatorHeight="2dp"
             rtl_tabSelectedTextColor="@color/colorPrimary"
@@ -31,10 +46,11 @@
             rtl_tabPadding="0dp"/>
 
         <android.support.v4.view.ViewPager
-            android:id="@+id/viewPager"
+            android:id="@+id/tabHomeContentsFrameViewPager"
             android:layout_below="@id/recyclerTabLayout"
             android:layout_height="wrap_content"
             android:layout_width="match_parent" />
+
 
         <!--<WebView-->
         <!--android:id="@+id/webView"-->

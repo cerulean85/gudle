@@ -15,8 +15,6 @@ class HomeBannerListAdapter(private val mContext: Context, var list: ArrayList<B
         val inflater = LayoutInflater.from(mContext)
         val layout = inflater.inflate(R.layout.layout_one, collection, false) as ViewGroup
 
-
-
         Picasso.get()
                 .load(list[position].urlThumb)
 //                .transform(BlurTransformation(context, 25))

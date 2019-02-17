@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.RecyclerView
+import android.text.Layout
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -20,12 +22,19 @@ class HomeContentsListAdapter  (val context: Context, var list: ArrayList<Course
 //
     }
 
-    
+
+    var itemTag = ""
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder {
-        return AlbumViewHolder(MovieUI().createView(AnkoContext.create(parent.context, parent)))
+
+//        return AlbumViewHolder(MovieUI().createView(AnkoContext.create(parent.context, parent)))
+        return AlbumViewHolder(LayoutInflater.from(context).inflate(R.layout.recycler_view_item_tab_home, parent, false))
     }
 
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
+
+
+        if(position==0) itemTag = "firstItem"
+
         val course = list[position]
         holder.tvTitle.text = course.title
         holder.tvViewCount.text = "조회수 " + course.countView//"${movie.year}"
@@ -74,9 +83,12 @@ class HomeContentsListAdapter  (val context: Context, var list: ArrayList<Course
         var view: View? = null
 
         init {
-            tvTitle = itemView.findViewById(MovieUI.idTVTitle)
-            tvViewCount = itemView.findViewById(MovieUI.idTVCountView)
-            ivThumb = itemView.findViewById(MovieUI.idIVImage)
+
+//             LayoutInflater.from(context).inflate(R.layout.recycler_view_item_tab_home, null)
+
+            tvTitle = itemView.findViewById(R.id.idTVTitle)
+            tvViewCount = itemView.findViewById(R.id.idTVCountView)
+            ivThumb = itemView.findViewById(R.id.idIVImage)
             view = itemView
 
         }

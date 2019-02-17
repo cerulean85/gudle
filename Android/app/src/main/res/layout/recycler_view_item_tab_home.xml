@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <net.techpda.gudle.ScaledImageView
+        android:id="@+id/idIVImage"
+        android:scaleType="centerCrop"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:paddingTop="10dp"
+        android:src="@drawable/ic_launcher_foreground"
+        />
+
+    <TextView
+        android:id="@+id/idTVCountView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/idIVImage"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="16dp"
+        android:textSize="12sp"
+        android:textColor="@color/gray_87"
+        android:text="조회수 10000"
+        />
+
+
+    <TextView
+        android:id="@+id/idTVTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/idIVImage"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/idTVCountView"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="14sp"
+        android:text="Laugh, and the world laughs with you. Weep, and you weep alone."
+
+        />
+
+
+
+
+</android.support.constraint.ConstraintLayout>

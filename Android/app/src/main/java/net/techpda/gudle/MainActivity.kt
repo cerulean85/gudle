@@ -1,13 +1,9 @@
 package net.techpda.gudle
 
-import android.app.ProgressDialog
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.content.res.Configuration
-import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.*
@@ -19,49 +15,15 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.ImageSpan
 import android.util.DisplayMetrics
-import android.util.Log
-import android.view.Display
 import android.view.LayoutInflater
-import android.view.View
-import android.view.Window
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.Toast
-import com.github.kittinunf.fuel.core.FuelManager
 
-import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.android.extension.responseJson
-import com.google.gson.Gson
-import com.google.gson.JsonParser
-import com.google.gson.reflect.TypeToken
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
-import com.nshmura.recyclertablayout.RecyclerTabLayout
-import com.squareup.picasso.Picasso
-import io.reactivex.android.schedulers.AndroidSchedulers
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.*
 //import kotlinx.coroutines.experimental.*
-import net.techpda.gudle.R.id.async
-import org.jetbrains.anko.*
-import org.jetbrains.anko.custom.customView
-import org.jetbrains.anko.recyclerview.v7.recyclerView
-import org.jetbrains.anko.support.v4.viewPager
-import org.json.JSONArray
-import org.json.JSONObject
-import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
@@ -169,7 +131,7 @@ class MainActivity : AppCompatActivity() {
 
 
         setContentView(R.layout.activity_main)
-        viewPager = findViewById(R.id.viewpager) as ViewPager
+        viewPager = findViewById(R.id.mainFrameViewPager) as ViewPager
         viewPager!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
                 print("onPageScrollStateChanged")

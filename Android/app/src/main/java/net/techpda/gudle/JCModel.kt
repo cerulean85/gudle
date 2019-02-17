@@ -23,6 +23,11 @@ object JCModel {
     }
 
     var onScrolledHomeChanged: ((Boolean, Boolean) -> Unit)? = null
+
+    var scrollY: Float = 0F
+    var m: () -> Unit = {
+
+    }
 }
 
 open class Base

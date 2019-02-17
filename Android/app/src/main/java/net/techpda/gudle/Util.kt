@@ -24,4 +24,9 @@ class Util {
         }
     }
 
+    fun dp(context: Context, value: Int): Int {
+        val density: Float = context.resources.displayMetrics.density
+        return Math.round(value.toFloat() * density)
+    }
+
 }
