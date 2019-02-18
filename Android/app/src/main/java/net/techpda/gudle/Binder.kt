@@ -1,11 +1,6 @@
 package net.techpda.gudle
 
 import android.util.Log
-import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.android.extension.responseJson
-import com.github.kittinunf.fuel.core.FuelManager
-import com.github.kittinunf.fuel.httpPost
-import com.google.gson.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlin.system.exitProcess
 
@@ -13,7 +8,7 @@ class Binder {
 
     private var model: JCModel = JCModel
 
-    constructor()
+
 
     fun getSystemInfo(
             onSucess: () -> Unit = {}, onFail: () -> Unit = {}, onSubscribe: () -> Unit = {}, onTerminate: () -> Unit = {}) {
@@ -39,9 +34,18 @@ class Binder {
         )
     }
 
+
+    var noCurrentPage: Int = 0
     fun getMain(nowPage: String, noCategory: String,
                 onSucess: () -> Unit = {}, onFail: () -> Unit = {}, onSubscribe: () -> Unit = {}, onTerminate: () -> Unit = {}) {
-        App.disposable.add(App.apiService.getMain(nowPage, noCategory)
+
+        noCurrentPage = when (nowPage) {
+            Status.CALL_PAGE_FIRST.value -> 1       //첫번째 페이지 호출
+            Status.CALL_PAGE_NEXT_AUTO.value -> noCurrentPage+1 //다음 페이지 자동 호출
+            else -> nowPage.toInt() //입력한 파라미터에 대한 페이지 호출
+        }
+
+        App.disposable.add(App.apiService.getMain(noCurrentPage.toString(), noCategory)
 
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { onSubscribe() }
@@ -49,7 +53,11 @@ class Binder {
                 .subscribe({ it ->
 
                     if (it.isOpen && it.isSuccess) {
-                        JCModel.main = it
+                        if(noCurrentPage==1) JCModel.main = it
+                        else {
+                            it.collectionCourse!!.forEach { e-> JCModel.main.collectionCourse!!.add(e) }
+                            JCModel.main.countCourse = it.countCourse
+                        }
                         onSucess()
                     } else {
                         onFail()
@@ -110,9 +118,17 @@ class Binder {
 //        }
 //    }
 
-    fun getCourseCollectionClassfiedByCategory(noCategory: String,
+    var noCategoryCurrentNo: Int = 0
+    fun getCourseCollectionClassfiedByCategory(nowPage: String, noCategory: String,
                                                onSucess: () -> Unit = {}, onFail: () -> Unit = {}, onSubscribe: () -> Unit = {}, onTerminate: () -> Unit = {}) {
-        App.disposable.add(App.apiService.getMain("1", noCategory)
+
+        noCategoryCurrentNo = when (nowPage) {
+            Status.CALL_PAGE_FIRST.value -> 1       //첫번째 페이지 호출
+            Status.CALL_PAGE_NEXT_AUTO.value -> noCategoryCurrentNo+1 //다음 페이지 자동 호출
+            else -> nowPage.toInt() //입력한 파라미터에 대한 페이지 호출
+        }
+
+        App.disposable.add(App.apiService.getMain(noCategoryCurrentNo.toString(), noCategory)
 
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { onSubscribe() }
@@ -120,7 +136,13 @@ class Binder {
                 .subscribe({ it ->
 
                     if (it.isOpen && it.isSuccess) {
-                        JCModel.collectionCoruseClassifiedByCategory[noCategory] = it.collectionCourse?.let { it } ?: arrayListOf()
+
+                        if(noCategoryCurrentNo==1)
+                            JCModel.collectionCoruseClassifiedByCategory[noCategory] = it.collectionCourse?.let { it } ?: arrayListOf()
+                        else {
+                            it.collectionCourse!!.forEach { e-> JCModel.collectionCoruseClassifiedByCategory[noCategory]!!.add(e) }
+                        }
+
                         onSucess()
                     } else {
                         onFail()

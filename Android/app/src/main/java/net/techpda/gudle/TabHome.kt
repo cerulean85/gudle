@@ -59,13 +59,18 @@ class TabHome : Fragment() {
         tabLayout = homeView!!.recyclerTabLayout
         marketingPaper = homeView!!.tabHomeMarketingFrameViewPager
 
-        App.binder.getMain("1", "", {
+        App.binder.getMain(Status.CALL_PAGE_FIRST.value, "", {
 
 //
 //            JCModel.m = {
 //////                val height = resources.getDimension(R.dimen.top_view_pager_height)
 ////                homeView!!.animate().translationY(JCModel.scrollY).withLayer()
 ////            }
+
+
+            ViewBehavior.heightMainActivity = ViewBehavior.heightInitMainActivity
+            ViewBehavior.adjustMainActivityHeight()
+
 
             ViewBehavior.moveTabHomeBannerTo = {
                 homeView!!.animate().translationY(ViewBehavior.yPosTabHomeBanner).withLayer()
@@ -99,7 +104,7 @@ class TabHome : Fragment() {
 
                 var circle = View(this.context)
                 var drawableBG: Int = R.drawable.view_style_circle_tab_home_banner_released
-                circle.layoutParams = ViewGroup.LayoutParams(App.util.dp(this.context!!,8), App.util.dp(this.context!!, 8))
+                circle.layoutParams = ViewGroup.LayoutParams(Util.dp(8), Util.dp(8))
                 if(marketingPaper!!.currentItem == i)
                     drawableBG = R.drawable.view_style_circle_tab_home_banner_selected
 
@@ -107,12 +112,10 @@ class TabHome : Fragment() {
                 circle.id = i
                 homeView!!.tabHomeIndicatorBannerLayout.addView(circle)
 
-
-
                 if(i != childCount - 1) {
                     var interval = View(this.context)
                     interval.id = i*10
-                    interval.layoutParams = ViewGroup.LayoutParams(App.util.dp(this.context!!, 4), App.util.dp(this.context!!, 1))
+                    interval.layoutParams = ViewGroup.LayoutParams(Util.dp(4), Util.dp(1))
                     interval.setBackgroundColor(Color.TRANSPARENT)
                     homeView!!.tabHomeIndicatorBannerLayout.addView(interval)
 

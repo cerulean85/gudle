@@ -9,7 +9,6 @@ class App : Application() {
         lateinit var pref : SharedPref
         lateinit var binder: Binder
         lateinit var mService: DiagnosisService
-        lateinit var util: Util
 
         val apiService by lazy { provideApiService() }
         val disposable = CompositeDisposable()
@@ -28,7 +27,6 @@ class App : Application() {
     override fun onCreate() {
         pref= SharedPref(applicationContext)
         binder = Binder()
-        util = Util()
         super.onCreate()
     }
 

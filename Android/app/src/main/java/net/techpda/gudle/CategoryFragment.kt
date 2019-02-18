@@ -14,6 +14,24 @@ class CategoryFragment : Fragment() {
 
     private var rv: RecyclerView? = null
 
+    private fun initMainContents() { rv!!.adapter = HomeContentsListAdapter(context!!, JCModel.main.collectionCourse!!) }
+    private fun initCategoryContents(noCategory: Int) {
+        App.binder.getCourseCollectionClassfiedByCategory(Status.CALL_PAGE_FIRST.value, noCategory.toString(), {
+            rv!!.adapter = HomeContentsListAdapter(context!!, JCModel.collectionCoruseClassifiedByCategory[noCategory.toString()]!!)
+        })
+    }
+
+    fun addMainContents() {
+        App.binder.getMain(Status.CALL_PAGE_NEXT_AUTO.value, "", {
+            rv!!.adapter!!.notifyDataSetChanged()
+        })
+    }
+    fun addCategoryContents(noCategory: Int) {
+        App.binder.getCourseCollectionClassfiedByCategory(Status.CALL_PAGE_NEXT_AUTO.value, noCategory.toString(), {
+            rv!!.adapter!!.notifyDataSetChanged()
+        })
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState:
     Bundle?): View? {
 
@@ -22,38 +40,42 @@ class CategoryFragment : Fragment() {
 
 
         var noCategory = arguments!!.getInt("no_category")
-        if (noCategory > 0) {
-            App.binder.getCourseCollectionClassfiedByCategory(noCategory.toString(), {
-                rv!!.adapter = HomeContentsListAdapter(context!!, JCModel.collectionCoruseClassifiedByCategory[noCategory.toString()]!!)
-            })
-        } else {
-            rv!!.adapter = HomeContentsListAdapter(context!!, JCModel.main.collectionCourse!!)
+        if (noCategory > 0) initCategoryContents(noCategory)
+        else initMainContents()
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-                rv!!.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            rv!!.addOnScrollListener(object: RecyclerView.OnScrollListener() {
 
-                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
-                        val firstItemIndex:Int = (rv!!.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-                        if(firstItemIndex == 0)
-                        {
-                            ViewBehavior.yPosTabHomeBanner = resources.getDimension(R.dimen.top_view_pager_height) * (if(dy < 0) 0F else -1F)
+                    val firstItemIndex:Int = (rv!!.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                    if(firstItemIndex == 0)
+                    {
+                        val yPosTarget = resources.getDimension(R.dimen.top_view_pager_height) * (if(dy < 0) 0F else -1F)
+                        ViewBehavior.yPosTabHomeBanner = yPosTarget
 
-                            val movingAllowed: Boolean = if(dy==0) false else true
-                            if(movingAllowed)
-                                ViewBehavior.moveTabHomeBannerTo()
-                        }
-
-
-                        val lastItemIndex:Int = (rv!!.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
-                        if(lastItemIndex == (JCModel.main.collectionCourse!!.count()-1)) {
-                            println("Get Item.")
+                        val movingAllowed: Boolean = if(dy==0) false else true
+                        if(movingAllowed) {
+                            ViewBehavior.moveTabHomeBannerTo()
                         }
                     }
-                })
-            }
+
+                    val lastItemIndex:Int = (rv!!.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+
+                    if(noCategory > 0 ) {
+
+                        if (lastItemIndex == (JCModel.collectionCoruseClassifiedByCategory[noCategory.toString()]!!.count() - 1))
+                            addCategoryContents(noCategory)
+
+                    } else {
+                        if (lastItemIndex == (JCModel.main.collectionCourse!!.count() - 1))
+                            addMainContents()
+                    }
+                }
+            })
         }
+
         return rv
     }
 
@@ -64,9 +86,9 @@ class CategoryFragment : Fragment() {
 
             // Store the movie data in a Bundle object
             val args = Bundle()
-            val noCategory: Int = category.noCategory.toInt()
-            args.putInt("전체", noCategory)
-            args.putString("no_category", category.title)
+            val noCategory: Int = category.noCategory
+            args.putInt("no_category", noCategory)
+            args.putString("name_category", category.title)
 
 //            args.putString(MovieHelper.KEY_TITLE, album.title)
 //            args.putInt(MovieHelper.KEY_RATING, album.year)

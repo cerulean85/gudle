@@ -20,8 +20,10 @@ import android.text.Spanned
 import android.text.style.ImageSpan
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import org.jetbrains.anko.contentView
 
 //import kotlinx.coroutines.experimental.*
 
@@ -99,10 +101,18 @@ class MainActivity : AppCompatActivity() {
 
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
-        App.displayWidth = displayMetrics.widthPixels
-        App.heightHomeCourse = (App.displayWidth * (460.0f/1242.0f)).toInt()
+//        App.displayWidth = displayMetrics.widthPixels
+//        App.heightHomeCourse = (App.displayWidth * (460.0f/1242.0f)).toInt()
+
+
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        Util.heightStatusBar = resources.getDimensionPixelSize(resourceId)
+
 
         context = applicationContext
+        Util.density = context!!.resources.displayMetrics.density
+        Util.heightDisplay = displayMetrics.heightPixels
+
 
 //        if (BuildConfig.DEBUG) {
 //            StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder()
@@ -183,6 +193,15 @@ class MainActivity : AppCompatActivity() {
 
         tabLayout = findViewById(R.id.tabs) as TabLayout
 
+
+
+
+        ViewBehavior.heightInitMainActivity = Util.heightDisplay
+        ViewBehavior.adjustMainActivityHeight = {
+            val param:ViewGroup.LayoutParams = contentView!!.layoutParams
+            param.height = ViewBehavior.heightMainActivity + Util.dp(150) + Util.heightStatusBar
+            contentView!!.layoutParams = param
+        }
 
         App.binder.getSystemInfo({
 
@@ -286,9 +305,9 @@ class MainActivity : AppCompatActivity() {
             return ""
 
             var sb: SpannableStringBuilder? = SpannableStringBuilder(" ")
-            var span: ImageSpan? =  ImageSpan(App.util.getDrawable(context!!, R.drawable.ic_icon_search))
+            var span: ImageSpan? =  ImageSpan(Util.getDrawable(context!!, R.drawable.ic_icon_search))
 
-            var d: Drawable = App.util.getDrawable(context!!, R.drawable.ic_mtrl_chip_checked_black)
+            var d: Drawable = Util.getDrawable(context!!, R.drawable.ic_mtrl_chip_checked_black)
             d.setBounds(0, 0, d.intrinsicWidth, d.intrinsicHeight)
             span = ImageSpan(d, ImageSpan.ALIGN_BASELINE)
             sb!!.setSpan(span, 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)

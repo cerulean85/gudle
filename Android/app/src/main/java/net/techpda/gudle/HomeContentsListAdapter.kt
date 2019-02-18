@@ -16,14 +16,6 @@ import org.jetbrains.anko.AnkoContext
 
 class HomeContentsListAdapter  (val context: Context, var list: ArrayList<Course> = arrayListOf()): RecyclerView.Adapter<HomeContentsListAdapter.AlbumViewHolder>() {
 
-
-//    lateinit var onBottomReachedListener: OnBottomReachedListener
-    fun setOnBottomReachedListener(onBottomReachedListener: OnBottomReachedListener) {
-//
-    }
-
-
-    var itemTag = ""
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder {
 
 //        return AlbumViewHolder(MovieUI().createView(AnkoContext.create(parent.context, parent)))
@@ -31,9 +23,6 @@ class HomeContentsListAdapter  (val context: Context, var list: ArrayList<Course
     }
 
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
-
-
-        if(position==0) itemTag = "firstItem"
 
         val course = list[position]
         holder.tvTitle.text = course.title
@@ -90,6 +79,8 @@ class HomeContentsListAdapter  (val context: Context, var list: ArrayList<Course
             tvViewCount = itemView.findViewById(R.id.idTVCountView)
             ivThumb = itemView.findViewById(R.id.idIVImage)
             view = itemView
+
+            ViewBehavior.heightTabHomeContentItem = itemView.layoutParams.height
 
         }
 

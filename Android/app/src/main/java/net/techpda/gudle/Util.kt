@@ -5,9 +5,12 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.support.annotation.RequiresApi
 
-class Util {
+object Util {
 
     val version = Build.VERSION.SDK_INT
+    var density: Float = 0F
+    var heightDisplay: Int = 0
+    var heightStatusBar: Int = 0
 
     @RequiresApi(Build.VERSION_CODES.M)
     fun getColor(context: Context, id: Int): Int {
@@ -24,9 +27,6 @@ class Util {
         }
     }
 
-    fun dp(context: Context, value: Int): Int {
-        val density: Float = context.resources.displayMetrics.density
-        return Math.round(value.toFloat() * density)
-    }
+    fun dp(value: Int): Int { return Math.round(value.toFloat() * density) }
 
 }
