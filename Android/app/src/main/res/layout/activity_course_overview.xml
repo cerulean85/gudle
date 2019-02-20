@@ -73,14 +73,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
             android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                />
 
             <net.techpda.gudle.ScaledImageView
                 android:id="@+id/ivContentThumb"
                 android:scaleType="centerCrop"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:src="@drawable/p1" />
+                android:src="@drawable/ic_launcher_foreground" />
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"

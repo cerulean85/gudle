@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.widget.ScrollView
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.activity_course_overview.*
+import org.jetbrains.anko.contentView
 
 class CourseOverviewActivity : AppCompatActivity() {
 
@@ -44,20 +46,26 @@ class CourseOverviewActivity : AppCompatActivity() {
         listClip.adapter = AdapterClipSet(context!!, JCModel.clipSet.collectionClip!!)
 
 
-//        btnContents.setOnClickListener {
+        btnQuestions.setOnClickListener {
+
+            nestedScrollView.fullScroll(ScrollView.FOCUS_UP)
 //
 //            App.binder.getClipList(JCModel.detailCourse.noCourse.toString()) {
 //
 //                startActivity(Intent(context, ClipSetActivity::class.java), null)
 //
 //            }
-//        }
-
+        }
 
         btnBack.setOnClickListener {
-
             onBackPressed()
-
         }
+
+        contentView!!.post {
+            nestedScrollView.fullScroll(ScrollView.FOCUS_UP)
+        }
+
+
+
     }
 }

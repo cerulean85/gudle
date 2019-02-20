@@ -268,6 +268,8 @@ class MainActivity : AppCompatActivity() {
     //        webView.loadUrl("http://220.68.94.74")
 //        loadWebView("http://220.68.94.74")
 //        loadWebView("http://220.68.94.74/2.mp4")
+
+        dataBi
     }
 
     private fun setupViewPager(viewPager: ViewPager) {
