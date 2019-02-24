@@ -2,8 +2,11 @@ package net.techpda.mvvmtest3
 
 import android.content.Context
 import android.net.ConnectivityManager
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class NetManager(private var applicationContext: Context) {
+@Singleton
+class NetManager @Inject constructor(var applicationContext: Context) {
     private var status: Boolean? = false
 
     val isConnectedToInternet: Boolean?
