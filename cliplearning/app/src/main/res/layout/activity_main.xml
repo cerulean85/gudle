@@ -1,33 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+    <data>
+        <import type="android.view.View"/>
 
+        <variable
+                name="vm"
+                type="techpda.net.cliplearning.viewmodels.MainViewModel" />
+    </data>
 
-        <TextView android:id="@+id/tvUserInfo"
+    <LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@{vm.text}" />
+
+        <EditText android:id="@+id/editText"
                   android:layout_width="match_parent"
-                  android:layout_height="wrap_content"/>
+                  android:layout_height="50dp"
+                  android:text="@{vm.text}"
+                  android:addTextChangedListener="@{vm.textWatcher}"/>
 
-        <Button android:id="@+id/btnDisconnectKakao"
+        <Button android:id="@+id/refresh_button"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="카카오톡 연결해제"/>
+                android:onClick="@{() -> vm.loadRepository()}"
+                android:clickable="@{vm.isLoading ? false : true}"
+                android:text="Refresh"/>
 
-        <Button android:id="@+id/btnLoginKakao"
+        <ProgressBar android:id="@+id/loading"
+                     android:layout_width="48dp"
+                     android:layout_height="48dp"
+                     android:indeterminate="true"
+                     android:visibility="@{vm.isLoading ? View.VISIBLE : View.GONE}" />
+
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/repository_rv"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="카카오톡 로그인"/>
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="@{vm.isLoading ? View.GONE : View.VISIBLE}"
+                tools:listitem="@layout/rv_item_repository" />
 
     </LinearLayout>
-
-
-</android.support.constraint.ConstraintLayout>
+</layout>

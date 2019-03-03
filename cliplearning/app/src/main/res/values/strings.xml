@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">cliplearning</string>
-    <string name="kakao_app_key">5cb9e32cb4558c87f07b5020637cfc95</string>
-    <string name="kakao_scheme">kakao5cb9e32cb4558c87f07b5020637cfc95</string>
-    <string name="kakaolink_host">kakaolink</string>
-    <string name="title_activity_join">JoinActivity</string>
-    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_splash">SplashActivity</string>
 </resources>

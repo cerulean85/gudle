@@ -1,13 +1,15 @@
-package net.techpda.mvvmtest3
+package techpda.net.cliplearning.views
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.AdapterView
-import net.techpda.mvvmtest3.databinding.RvItemRepositoryBinding
+import techpda.net.cliplearning.models.MainModel
+import techpda.net.cliplearning.databinding.RvItemRepositoryBinding
 
-class RepositoryRecyclerViewAdapter(private var items: ArrayList<Repository>,
-                                    private var listener: OnItemClickListener)
+class RepositoryRecyclerViewAdapter(private var items: ArrayList<MainModel>,
+                                    private var listener: OnItemClickListener
+)
     : RecyclerView.Adapter<RepositoryRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RepositoryRecyclerViewAdapter.ViewHolder {
@@ -24,15 +26,15 @@ class RepositoryRecyclerViewAdapter(private var items: ArrayList<Repository>,
         fun onItemClick(position: Int)
     }
 
-    fun replaceData(data: ArrayList<Repository> ) {
+    fun replaceData(data: ArrayList<MainModel> ) {
         items = data
         notifyDataSetChanged()
     }
 
     class ViewHolder(private var binding: RvItemRepositoryBinding) :
-            RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(repo: Repository, listener: OnItemClickListener?) {
+        fun bind(repo: MainModel, listener: OnItemClickListener?) {
             binding.repository = repo
             if(listener != null) {
                 binding.root.setOnClickListener { listener.onItemClick(layoutPosition) }
@@ -41,5 +43,4 @@ class RepositoryRecyclerViewAdapter(private var items: ArrayList<Repository>,
             binding.executePendingBindings()
         }
     }
-
 }
