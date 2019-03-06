@@ -3,6 +3,7 @@ package techpda.net.cliplearning
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
+import techpda.net.cliplearning.networks.NetworkModule
 import techpda.net.cliplearning.viewmodels.ViewModelBuilder
 import techpda.net.cliplearning.views.OverviewActivityModule
 import techpda.net.cliplearning.views.MainActivityModule
@@ -17,7 +18,8 @@ import javax.inject.Singleton
         ViewModelBuilder::class,
         OverviewActivityModule::class,
         MainActivityModule::class,
-        SplashActivityModule::class
+        SplashActivityModule::class,
+        NetworkModule::class
     ])
 
 interface AppComponent: AndroidInjector<ModernApplication> {

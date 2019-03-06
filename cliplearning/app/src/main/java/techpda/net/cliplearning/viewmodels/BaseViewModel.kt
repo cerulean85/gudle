@@ -3,6 +3,7 @@ package techpda.net.cliplearning.viewmodels
 import android.arch.lifecycle.ViewModel
 import android.content.Intent
 import techpda.net.cliplearning.networks.NetworkModule
+import techpda.net.cliplearning.repositories.Repository
 
 
 abstract class BaseViewModel(var _repo: Repository): ViewModel()  {

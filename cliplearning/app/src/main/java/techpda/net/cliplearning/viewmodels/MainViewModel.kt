@@ -12,17 +12,23 @@ import techpda.net.cliplearning.extensions.TextWatcherAdapter
 import techpda.net.cliplearning.extensions.plusAssign
 import techpda.net.cliplearning.models.Main
 import techpda.net.cliplearning.models.MainModel
-import techpda.net.cliplearning.networks.provideAPIService
+import techpda.net.cliplearning.networks.APIService
+//import techpda.net.cliplearning.networks.provideAPIService
 import techpda.net.cliplearning.repositories.Repository
+import java.util.*
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(var repo: Repository): BaseViewModel(repo) {
 
-    private val apiService by lazy { provideAPIService() }
+    @Inject lateinit var apiService: APIService //by lazy { provideAPIService() }
 
     private lateinit var subscription: Disposable
 
     lateinit var main: ObservableField<Main>
+
+//    init {
+
+//    }
 
     private fun getMain() {
         subscription = apiService.getMain("1", "")
