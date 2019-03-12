@@ -1,21 +1,32 @@
 package techpda.net.cliplearning.repositories
 
+import dagger.Binds
+import dagger.Module
+import dagger.Provides
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import techpda.net.cliplearning.Status
-import techpda.net.cliplearning.networks.provideAPIService
+//import techpda.net.cliplearning.networks.provideAPIService
 import techpda.net.cliplearning.models.Main
 import techpda.net.cliplearning.models.MainModel
+import techpda.net.cliplearning.networks.APIService
+import techpda.net.cliplearning.networks.NetworkModule
 import techpda.net.cliplearning.repositories.Repository.Companion.main
 import java.util.ArrayList
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class RemoteRepository {
+@Module
+abstract class RemoteRepository @Inject constructor(var apiService: APIService){
 
     val disposable by lazy { CompositeDisposable() }
-    val apiService by lazy { provideAPIService() }
+//    val apiService by lazy { NetworkModule.provideRetrofit() }
+
+    @Binds
+    abstract fun bindRepository(repo: RemoteRepository): RemoteRepository
 
     fun getRepository() : Observable<ArrayList<MainModel>> {
         var arr = ArrayList<MainModel>()

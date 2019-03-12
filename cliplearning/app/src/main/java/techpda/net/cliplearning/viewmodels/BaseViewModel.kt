@@ -10,7 +10,7 @@ abstract class BaseViewModel(var _repo: Repository): ViewModel()  {
 
     private val injector: ViewModelInjector = DaggerViewModelInjector
         .builder()
-        .networkModule(NetworkModule)
+//        .networkModule(NetworkModule)
         .build()
 
     init {

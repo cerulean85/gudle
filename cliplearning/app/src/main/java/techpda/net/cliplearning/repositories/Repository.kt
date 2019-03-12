@@ -8,12 +8,13 @@ import techpda.net.cliplearning.models.MainModel
 
 import javax.inject.Inject
 import javax.inject.Singleton
+import javax.sql.CommonDataSource
 
 @Singleton
-class Repository @Inject constructor (var netManager: NetManager) {
+class Repository @Inject constructor (var netManager: NetManager, var localDataSource: LocalRepository, var remoteDataSource: RemoteRepository) {
 
-    val localDataSource = LocalRepository()
-    val remoteDataSource = RemoteRepository()
+//    val localDataSource = LocalRepository()
+//    val remoteDataSource = RemoteRepository()
 
 //    fun refreshData(onDataReadyCallback: OnDataReadyCallback) {
 //        Handler().postDelayed({ onDataReadyCallback.onDataReady("new data:") }, 2000)

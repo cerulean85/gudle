@@ -1,5 +1,6 @@
 package techpda.net.cliplearning.networks
 
+import android.arch.lifecycle.ViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -10,6 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
+import techpda.net.cliplearning.viewmodels.ViewModelBuilder
 import javax.inject.Singleton
 
 //@Module
@@ -50,15 +52,14 @@ import javax.inject.Singleton
 //    }
 //}
 
-
-@Module
+//@Singleton
+@Module(includes = arrayOf(ViewModelBuilder::class))
 class NetworkModule {
-
     private val BASE_URL = "https://api.github.com/"
 
     @Singleton
     @Provides
-    fun provideRetrofit(): Retrofit {
+    internal fun provideRetrofit(): Retrofit {
         return Retrofit.Builder().baseUrl(BASE_URL)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
@@ -67,7 +68,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofitService(retrofit: Retrofit): APIService {
+    internal fun provideRetrofitService(retrofit: Retrofit): APIService {
         return retrofit.create<APIService>(APIService::class.java!!)
     }
 }

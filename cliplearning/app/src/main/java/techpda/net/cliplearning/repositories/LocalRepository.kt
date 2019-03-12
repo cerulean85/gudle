@@ -1,13 +1,18 @@
 package techpda.net.cliplearning.repositories
 
+import dagger.Binds
+import dagger.Module
+import dagger.Provides
 import io.reactivex.Observable
 import techpda.net.cliplearning.models.MainModel
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
-class LocalRepository {
+@Module
+abstract class LocalRepository {
 
-
-
+    @Binds
+    abstract fun bindRepository(repo: LocalRepository): LocalRepository
 
     fun getRepository(): Observable<ArrayList<MainModel>> {
         var arr = ArrayList<MainModel>()

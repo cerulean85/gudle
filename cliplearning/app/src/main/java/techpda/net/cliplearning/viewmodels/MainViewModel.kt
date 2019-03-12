@@ -13,6 +13,7 @@ import techpda.net.cliplearning.extensions.plusAssign
 import techpda.net.cliplearning.models.Main
 import techpda.net.cliplearning.models.MainModel
 import techpda.net.cliplearning.networks.APIService
+import techpda.net.cliplearning.networks.NetworkModule
 //import techpda.net.cliplearning.networks.provideAPIService
 import techpda.net.cliplearning.repositories.Repository
 import java.util.*
