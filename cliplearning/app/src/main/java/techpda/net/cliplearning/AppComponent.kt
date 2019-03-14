@@ -18,8 +18,7 @@ import javax.inject.Singleton
         ViewModelBuilder::class,
         OverviewActivityModule::class,
         MainActivityModule::class,
-        SplashActivityModule::class,
-        NetworkModule::class
+        SplashActivityModule::class
     ])
 
 interface AppComponent: AndroidInjector<ModernApplication> {

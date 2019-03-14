@@ -30,6 +30,11 @@
         android:textSize="12sp"
         android:textColor="@color/gray_87"
         android:text="조회수 10000"
+
+        android:textStyle="normal"
+        android:fontFamily="@font/font_family"
+
+
         />
 
 
@@ -49,6 +54,10 @@
         android:ellipsize="end"
         android:textSize="14sp"
         android:text="Laugh, and the world laughs with you. Weep, and you weep alone."
+
+
+        android:textStyle="normal"
+        android:fontFamily="@font/font_family"
 
         />
 

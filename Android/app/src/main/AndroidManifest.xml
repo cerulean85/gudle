@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -28,12 +28,12 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".CourseDetailActivity" />
+        <activity android:name=".activities.CourseDetailActivity" />
         <activity
-            android:name=".CourseOverviewActivity"
+            android:name=".activities.CourseOverviewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity android:name=".ClipSetActivity" />
-        <activity android:name=".ClipViewerActivity"></activity>
+        <activity android:name=".activities.ClipSetActivity" />
+        <activity android:name=".activities.ClipViewerActivity"></activity>
     </application>
 
 </manifest>

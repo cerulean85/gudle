@@ -5,7 +5,7 @@ import techpda.net.cliplearning.networks.NetworkModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [(NetworkModule::class)])
+@Component
 interface ViewModelInjector {
     /**
      * Injects required dependencies into the specified PostListViewModel.
@@ -16,7 +16,5 @@ interface ViewModelInjector {
     @Component.Builder
     interface Builder {
         fun build(): ViewModelInjector
-
-        fun networkModule(networkModule: NetworkModule): Builder
     }
 }

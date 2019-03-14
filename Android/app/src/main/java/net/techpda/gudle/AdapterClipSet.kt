@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
+import net.techpda.gudle.activities.ClipViewerActivity
 
 class AdapterClipSet(val context: Context, var list: ArrayList<Clip> = arrayListOf()): RecyclerView.Adapter<AdapterClipSet.HolderClipSet>() {
 
