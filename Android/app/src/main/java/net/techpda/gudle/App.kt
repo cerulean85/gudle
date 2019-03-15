@@ -22,13 +22,30 @@ class App : Application() {
         val useDiagnois: Boolean = false
         var displayWidth: Int = 0
         var heightHomeCourse: Int = 0
+
+        var mCurrentCourseNo: Int = 0
+        fun setCurrentCourseNo(no: Int)
+        {
+            mCurrentCourseNo = no
+        }
+
+        fun currentCourseNo(): Int {
+            val tmp: Int = mCurrentCourseNo
+            mCurrentCourseNo = 0
+            return tmp
+        }
+
+
     }
+
+
 
     override fun onCreate() {
         pref= SharedPref(applicationContext)
         binder = Binder()
         super.onCreate()
     }
+
 
 
 
