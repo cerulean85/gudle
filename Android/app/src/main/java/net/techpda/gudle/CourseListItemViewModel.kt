@@ -1,13 +1,16 @@
 package net.techpda.gudle
 
-import android.databinding.ObservableArrayList
+import android.databinding.BaseObservable
+import android.databinding.Bindable
 import android.databinding.ObservableField
 
-class CourseListItemViewModel(title: String) {
+class CourseListItemViewModel(private val clip: Clip): BaseObservable() {
 
-    var title: ObservableField<String> = ObservableField()
-
-    init {
-        this.title.set(title)
-    }
+    var title: String?
+        @Bindable
+        get() = clip.title
+        set(title) {
+            clip.title = title!!
+            notifyPropertyChanged(BR.title)
+        }
 }

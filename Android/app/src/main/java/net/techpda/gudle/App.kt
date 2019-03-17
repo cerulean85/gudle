@@ -30,9 +30,7 @@ class App : Application() {
         }
 
         fun currentCourseNo(): Int {
-            val tmp: Int = mCurrentCourseNo
-            mCurrentCourseNo = 0
-            return tmp
+            return mCurrentCourseNo
         }
 
 

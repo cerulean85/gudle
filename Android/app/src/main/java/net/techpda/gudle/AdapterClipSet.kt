@@ -16,69 +16,27 @@ import android.databinding.DataBindingUtil
 import net.techpda.gudle.databinding.ItemClipSetBinding
 
 
-class AdapterClipSet: RecyclerView.Adapter<AdapterClipSet.HolderClipSet<ItemClipSetBinding>>() {
+class AdapterClipSet(private val items: ArrayList<Clip>) : RecyclerView.Adapter<AdapterClipSet.BindingHolder>() {
 
-    var items:ArrayList<CourseListItemViewModel> = ArrayList()
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder {
 
-    fun add(items: ArrayList<CourseListItemViewModel>) {
-
-        for (item in items) {
-            if (!this.items.contains(item)) {
-                this.items.add(item)
-                notifyItemInserted(this.itemCount - 1)
-            }
-        }
+        val binding = DataBindingUtil.inflate<ItemClipSetBinding>(
+                LayoutInflater.from(parent.context),
+                R.layout.item_clip_set, parent, false)
+        return BindingHolder(binding)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HolderClipSet<ItemClipSetBinding> {
+    override fun onBindViewHolder(holder: BindingHolder, position: Int) {
 
-        val v: View = LayoutInflater.from(parent.context).inflate(R.layout.item_clip_set, parent,false)
-
-        return HolderClipSet(v)
-    }
-
-
-    override fun onBindViewHolder(holder: HolderClipSet<ItemClipSetBinding>, position: Int) {
-
-        holder.binding().item = items[position]
-
-//        val item = list[position]
-//        holder.tvTitle.text = item.title
-//
-//        Picasso.get().load(item.urlImage01).into(holder.ivContent)
-//
-//        holder.view.setOnClickListener {
-//
-//            App.binder.getClipDetail(item.noContent.toString(), item.noCourse.toString()){
-//                startActivity(context, Intent(context, ClipViewerActivity::class.java), null)
-//            }
-//            App.binder.getClipRepleList(item.noContent.toString(), "0", "1") {
-//
-//            }
-//        }
+        var binding = holder.binding
+        binding.model = CourseListItemViewModel(items[position])
+        Picasso.get().load(items[position].urlImage01).into(binding.ivContent)
     }
 
     override fun getItemCount(): Int {
         return items.size
     }
 
-//    inner class HolderClipSet(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//
-//        val tvTitle: TextView = itemView.findViewById(R.id.tvTitle)
-//        val ivContent: ImageView = itemView.findViewById(R.id.ivContent)
-//        val view: View = itemView
-//
-//    }
+    class BindingHolder(val binding: ItemClipSetBinding) : RecyclerView.ViewHolder(binding.mainLayout)
 
-    inner class HolderClipSet<T : ViewDataBinding>(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val binding: T
-
-        init {
-            this.binding = DataBindingUtil.bind<ViewDataBinding>(itemView) as T
-        }
-
-        fun binding(): T {
-            return binding
-        }
-    }
 }

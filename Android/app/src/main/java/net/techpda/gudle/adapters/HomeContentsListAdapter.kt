@@ -49,10 +49,12 @@ class HomeContentsListAdapter  (val context: Context, var list: ArrayList<Course
         holder.view!!.setOnClickListener {
             App.setCurrentCourseNo(course.no)
 //            App.binder.getCourseDetail(course.no.toString())
-            App.binder.getClipList(course.no.toString(),
-            {
-                startActivity(context, Intent(context, CourseOverviewActivity::class.java), null)
-            })
+
+            startActivity(context, Intent(context, CourseOverviewActivity::class.java), null)
+//            App.binder.getClipList(course.no.toString(),
+//            {
+//                startActivity(context, Intent(context, CourseOverviewActivity::class.java), null)
+//            })
         }
 
 
