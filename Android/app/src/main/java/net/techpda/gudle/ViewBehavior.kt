@@ -1,5 +1,7 @@
 package net.techpda.gudle
 
+import android.view.View
+
 object ViewBehavior {
     var yPosTabHomeBanner: Float = 0F
     var moveTabHomeBannerTo: () -> Unit = { }
@@ -9,5 +11,7 @@ object ViewBehavior {
 
     var heightMainActivity: Int = 0
     var adjustMainActivityHeight: () -> Unit = { }
+
+    var decoView: View? = null
 
 }

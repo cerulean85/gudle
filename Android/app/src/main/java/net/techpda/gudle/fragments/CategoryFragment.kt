@@ -9,7 +9,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.fragment_tab_home.*
 import net.techpda.gudle.*
+import net.techpda.gudle.activities.MainActivity
 import net.techpda.gudle.adapters.HomeContentsListAdapter
 
 class CategoryFragment : Fragment() {
@@ -41,7 +43,6 @@ class CategoryFragment : Fragment() {
         rv = inflater.inflate(R.layout.recycler_view_tab_home, container, false) as RecyclerView
         rv!!.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager(this.context).orientation))
 
-
         var noCategory = arguments!!.getInt("no_category")
         if (noCategory > 0) initCategoryContents(noCategory)
         else initMainContents()
@@ -68,12 +69,15 @@ class CategoryFragment : Fragment() {
 
                     if(noCategory > 0 ) {
 
-                        if (lastItemIndex == (JCModel.collectionCoruseClassifiedByCategory[noCategory.toString()]!!.count() - 1))
+                        if (lastItemIndex == (JCModel.collectionCoruseClassifiedByCategory[noCategory.toString()]!!.count() - 1)) {
                             addCategoryContents(noCategory)
+                        }
+
 
                     } else {
-                        if (lastItemIndex == (JCModel.main.collectionCourse!!.count() - 1))
+                        if (lastItemIndex == (JCModel.main.collectionCourse!!.count() - 1)) {
                             addMainContents()
+                        }
                     }
                 }
             })

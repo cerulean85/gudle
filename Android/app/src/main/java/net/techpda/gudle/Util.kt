@@ -12,6 +12,9 @@ object Util {
     var heightDisplay: Int = 0
     var heightStatusBar: Int = 0
 
+    var heightNavigationBar: Int = 0
+    var heightRealContentArea: Int = 0
+
     @RequiresApi(Build.VERSION_CODES.M)
     fun getColor(context: Context, id: Int): Int {
         return when {

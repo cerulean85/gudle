@@ -17,6 +17,7 @@ import kotlin.concurrent.schedule
 
 class TabHome : Fragment() {
 
+
     private var categoryPagerAdapter: CategoryPagerAdapter? = null
     private var tabLayout: RecyclerTabLayout? = null
     private var viewPager: ViewPager? = null
@@ -81,6 +82,7 @@ class TabHome : Fragment() {
             JCModel.onScrolledHomeChanged = { oldValue, newValue ->
 
                 val height = resources.getDimension(R.dimen.top_view_pager_height)
+
 //                if(newValue) {
 //                    homeView!!.animate().translationY(-height).withLayer()
 //                }
@@ -148,24 +150,24 @@ class TabHome : Fragment() {
 
         viewPager!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
-                print("onPageScrollStateChanged")
+//                print("onPageScrollStateChanged")
             }
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                print("onPageScrolled")
+//                print("onPageScrolled")
             }
             override fun onPageSelected(position: Int) {
-                print("onPageSelected")
+//                print("onPageSelected")
             }
         })
 
         marketingPaper!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
             override fun onPageScrollStateChanged(state: Int) {
-                print("onPageScrollStateChanged")
+//                print("onPageScrollStateChanged")
             }
 
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                print("onPageScrolled")
+//                print("onPageScrolled")
 
                 val indexPrev: Int = marketingPaper!!.currentItem
                 val indexLast: Int = JCModel.main.collectionBanner!!.size - 1

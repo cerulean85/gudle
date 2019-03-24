@@ -20,14 +20,18 @@ import android.text.Spanned
 import android.text.style.ImageSpan
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_tab_home.*
 import net.techpda.gudle.*
 import net.techpda.gudle.fragments.TabFavorite
 import net.techpda.gudle.fragments.TabHome
 import net.techpda.gudle.fragments.TabMore
 import org.jetbrains.anko.contentView
+import java.util.*
+import kotlin.concurrent.schedule
 
 //import kotlinx.coroutines.experimental.*
 
@@ -48,6 +52,14 @@ class MainActivity : AppCompatActivity() {
 //        viewPager.adapter = pagerAdapter
 //        recyclerTabLayout.setUpWithViewPager(viewPager)
 //    }
+
+    //액티비티가 가려지거나 드러날 때
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+
+
+
+    }
 
     override fun onStart() {
         super.onStart()
@@ -103,20 +115,33 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+        ViewBehavior.decoView = window.decorView
+        window.decorView.setOnSystemUiVisibilityChangeListener { visibility ->
+
+            var p = naviCushion.layoutParams
+            if((visibility and View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)==0) {
+                //네비게이션이 나타났을 때
+                p.height = Util.heightNavigationBar
+            } else {
+                p.height = 0
+            }
+            naviCushion.layoutParams = p
+        }
+
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
-//        App.displayWidth = displayMetrics.widthPixels
-//        App.heightHomeCourse = (App.displayWidth * (460.0f/1242.0f)).toInt()
 
-
-        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        var resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
         Util.heightStatusBar = resources.getDimensionPixelSize(resourceId)
 
+        resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
+        Util.heightNavigationBar = resources.getDimensionPixelSize(resourceId)
 
         context = applicationContext
         Util.density = context!!.resources.displayMetrics.density
         Util.heightDisplay = displayMetrics.heightPixels
-
+        Util.heightRealContentArea = Util.heightDisplay
 
 //        if (BuildConfig.DEBUG) {
 //            StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder()
@@ -145,6 +170,10 @@ class MainActivity : AppCompatActivity() {
 
 
         setContentView(R.layout.activity_main)
+
+
+
+
         viewPager = findViewById(R.id.mainFrameViewPager) as ViewPager
         viewPager!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
@@ -177,14 +206,18 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     2 -> {
-                        tabLayout!!.getTabAt(0)!!.setIcon(R.drawable.ic_tap_home_released)
+                        ((tabLayout!!.getTabAt(0)!!.customView as ConstraintLayout).getChildAt(0)
+                                as ImageView).setImageResource(R.drawable.ic_tap_home_released)
+
                         tabLayout!!.getTabAt(1)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
                         tabLayout!!.getTabAt(2)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
                         tabLayout!!.getTabAt(3)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
                     }
 
                     3 -> {
-                        tabLayout!!.getTabAt(0)!!.setIcon(R.drawable.ic_tap_home_released)
+                        ((tabLayout!!.getTabAt(0)!!.customView as ConstraintLayout).getChildAt(0)
+                                as ImageView).setImageResource(R.drawable.ic_tap_home_released)
+
                         tabLayout!!.getTabAt(1)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
                         tabLayout!!.getTabAt(2)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
                         tabLayout!!.getTabAt(3)!!.setIcon(R.drawable.ic_mtrl_chip_checked_black)
@@ -276,7 +309,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
     private fun setupViewPager(viewPager: ViewPager) {
+
         val adapter = ViewPagerAdapter(applicationContext, supportFragmentManager)
 
         tabHome = TabHome()
@@ -287,6 +322,47 @@ class MainActivity : AppCompatActivity() {
 
 
         viewPager.adapter = adapter
+
+
+
+
+    }
+
+    var mHandler:Handler? = Handler()
+    override fun onResume() {
+        super.onResume()
+
+        var resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
+        val hh = resources.getDimensionPixelSize(resourceId)
+        //var p = naviCushion.layoutParams
+
+
+        val id = resources.getIdentifier("config_showNavigationBar", "bool", "android")
+        val result = id > 0 && resources.getBoolean(id)
+        if((window.decorView.visibility and View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)==0)
+        {
+            //네비게이션이 나타났을 때
+            //    p.height = Util.heightNavigationBar
+        } else
+        {
+            //    p.height = 0
+        }
+        //naviCushion.layoutParams = p
+
+
+//                timer = Timer().schedule(3000, 0) {
+//
+//            var p = naviCushion.layoutParams
+//            if((window.decorView.visibility and View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)==0) {
+//                //네비게이션이 나타났을 때
+//                p.height = Util.heightNavigationBar
+//            } else {
+//                p.height = 0
+//            }
+//            naviCushion.layoutParams = p
+//            timer!!.cancel()
+//        }
+
     }
 
     internal inner class ViewPagerAdapter(context: Context?, manager: FragmentManager) : FragmentPagerAdapter(manager) {

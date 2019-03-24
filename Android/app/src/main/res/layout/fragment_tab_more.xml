@@ -70,6 +70,7 @@
             android:layout_height="100dp"
             app:symbol="@drawable/lego"
             app:text="프로필8888"/>
+
         <net.techpda.gudle.MainView
             android:layout_width="match_parent"
             android:layout_height="100dp"
